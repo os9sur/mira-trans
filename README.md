@@ -18,13 +18,13 @@ Mira Translator 是一款追求极致美学与性能的翻译工具。体积仅 
 ## 📸 Features & Gallery
 
 ### 1. Immersive Video Learning
-![YouTube Learning](./assets/bird_screenshot.jpg)
+![YouTube Learning](bird_screenshot.png)
 *Enhance your YouTube experience with elegant bilingual subtitles and instant lookup.*
 
 ### 2. Precision Visual Picker
-![Caddy Documentation](./assets/caddy_screenshot.jpg)
+![Caddy Documentation](caddy_screenshot.png)
 *Control your reading flow. Define translation areas on any website with one click.*
 
 ### 3. Smart Engine & Private Sync
-![Settings and Sync](./assets/settings_screenshot.jpg)
+![Settings and Sync](settings_screenshot.png)
 *Powerful engine management with persistent AI cache and private Google Drive sync.*
