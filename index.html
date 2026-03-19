@@ -3,10 +3,62 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="google-site-verification" content="WY1WIX9OHud3kC1U-EwW61ek9uXKG21Z6Q0PZyn8YlU" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Mira Translator | 米拉翻譯器</title>
+
+    <title>Mira Translator | 沉浸式翻译 | YouTube 翻譯 | Web Translation | 翻訳</title>
+
+    <meta name="description"
+        content="Mira Translator: Free, open-source, 0.3MB lightweight translation extension. 免费开源的沉浸式网页与 YouTube 双语字幕翻译插件，内建生词本/單字本，代码透明，保障数据主权。オープンソースのウェブ・YouTube翻訳。">
+    <meta name="keywords"
+        content="Mira Translator, 沉浸式翻译, 沉浸式翻譯, YouTube 翻译, 双语字幕, 雙語字幕, 网页翻译, Chrome 扩展, Chrome 擴充功能, 翻訳拡張機能, オープンソース, YouTube字幕翻訳, 2ヶ国語字幕, Open source translation, Immersive Translate, 生词本, 单词本, 词汇积累, vocabulary book, 単語帳">
+    <meta name="author" content="David Bai">
+    <meta name="google-site-verification" content="WY1WIX9OHud3kC1U-EwW61ek9uXKG21Z6Q0PZyn8YlU" />
+    <link rel="canonical" href="https://os9sur.github.io/mira-trans/" />
+
+    <link rel="alternate" hreflang="zh-Hans" href="https://os9sur.github.io/mira-trans/" />
+    <link rel="alternate" hreflang="zh-Hant" href="https://os9sur.github.io/mira-trans/" />
+    <link rel="alternate" hreflang="en" href="https://os9sur.github.io/mira-trans/" />
+    <link rel="alternate" hreflang="ja" href="https://os9sur.github.io/mira-trans/" />
+    <link rel="alternate" hreflang="x-default" href="https://os9sur.github.io/mira-trans/" />
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="zh_CN">
+    <meta property="og:locale:alternate" content="zh_TW">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:locale:alternate" content="ja_JP">
+    <meta property="og:title" content="Mira Translator | 沉浸式翻译 & YouTube 双语字幕">
+    <meta property="og:description" content="0.3MB 极致轻量的开源翻译插件。免费、无服务器、无追踪。支持网页全文与 YouTube 视频翻译，内建生词本，数据完全属于你。">
+    <meta property="og:image" content="https://os9sur.github.io/mira-trans/og-image.png">
+
     <link rel="icon" href="logo.png" type="image/png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mira Translator | Immersive YouTube & Web Translation">
+    <meta name="twitter:description" content="0.3MB 极致轻量的开源翻译插件。支持网页与 YouTube 双语字幕，内置生词本。Free & Open-source.">
+    <meta name="twitter:image" content="https://os9sur.github.io/mira-trans/og-image.png">
+
+    <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Mira Translator",
+    "operatingSystem": "Chrome OS, Windows, macOS, Linux",
+    "applicationCategory": "BrowserExtension",
+    "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+    },
+    "description": "An ultra-lightweight (0.3MB), open-source immersive translation extension for YouTube and web pages. 免费开源的沉浸式翻译与 YouTube 双语字幕插件。",
+    "author": {
+        "@type": "Person",
+        "name": "David Bai",
+        "url": "https://github.com/os9sur"
+    },
+    "downloadUrl": "https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn"
+    }
+    </script>
+
     <style>
         :root {
             --bg-color: #0d1117;
@@ -17,11 +69,15 @@
             --border-color: #30363d;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+            line-height: 1.7;
             margin: 0;
             display: flex;
             justify-content: center;
@@ -33,83 +89,231 @@
             width: 100%;
         }
 
-        /* Hero 区域样式优化 */
+        /* ── Hero ── */
         .hero {
             text-align: center;
             margin-bottom: 50px;
         }
 
-        /* 让 Logo 和 标题的链接容器具备感应 */
-        .hero-link {
+        .logo-link {
             display: inline-block;
             text-decoration: none;
-            transition: transform 0.2s ease, opacity 0.2s ease;
-            cursor: pointer;
+            transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
         }
 
-        .hero-link:hover {
-            transform: scale(1.02); /* 轻微放大感应 */
-        }
-
-        .hero-link:active {
-            transform: scale(0.98); /* 点击时的物理反馈 */
-        }
-
-        .hero img {
+        .hero img.main-logo {
             max-width: 90px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             border: none;
+            border-radius: 20px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
 
+        .logo-link:hover {
+            transform: scale(1.08);
+        }
+
+        .logo-link:hover img.main-logo {
+            box-shadow: 0 12px 32px rgba(88, 166, 255, 0.2);
+        }
+
+        /* ── Featured badge ── */
+        .featured-badge-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 22px;
+        }
+
+        .featured-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(88, 166, 255, 0.08), rgba(88, 166, 255, 0.04));
+            border: 1px solid rgba(88, 166, 255, 0.25);
+            padding: 7px 22px;
+            border-radius: 50px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+            letter-spacing: 0.02em;
+            cursor: default;
+            box-shadow: 0 0 16px rgba(88, 166, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .featured-badge svg {
+            width: 17px;
+            height: 17px;
+            color: #34d399;
+            stroke-width: 3.5;
+            filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.4));
+        }
+
+        .featured-badge:hover {
+            background: linear-gradient(135deg, rgba(88, 166, 255, 0.15), rgba(88, 166, 255, 0.08));
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.12);
+        }
+
+        /* ── Headings ── */
         h1 {
             margin-top: 10px;
-            margin-bottom: 15px;
-            color: white;
-
-        }
-
-        h1 a {
+            margin-bottom: 8px;
             color: var(--text-bright);
-            text-decoration: none;
-            font-size: 2.2rem;
-            transition: color 0.3s ease;
+            font-size: 1.9rem;
         }
 
-        /* 悬停时标题变色 */
-        .hero-link:hover h1 a {
-            color: var(--accent-blue);
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.4rem;
+            }
         }
 
+        .sub-tagline {
+            color: #8b949e;
+            font-size: 1.05rem;
+            margin-bottom: 28px;
+        }
+
+        /* ── Blockquote ── */
         blockquote {
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
+            padding: 24px;
+            border-radius: 12px;
             color: #8b949e;
             text-align: center;
             margin: 20px auto;
-            border: 1px solid var(--border-color);
+            line-height: 1.8;
+            max-width: 550px;
+            border: none;
+            box-shadow:
+                0 0 12px rgba(88, 166, 255, 0.08) inset,
+                0 0 20px rgba(0, 0, 0, 0.2),
+                0 0 60px rgba(88, 166, 255, 0.04);
+
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        blockquote:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 0 16px rgba(88, 166, 255, 0.12) inset,
+                0 5px 25px rgba(0, 0, 0, 0.3),
+                0 0 80px rgba(88, 166, 255, 0.07);
+        }
+
+        .highlight-os {
+            color: var(--accent-blue);
+            font-weight: 600;
+            text-shadow: 0 0 8px rgba(88, 166, 255, 0.3);
+        }
+
+        /* ── CTA ── */
+        .cta-wrapper {
+            text-align: center;
+            margin: 22px 0 10px;
+        }
+
+        .download-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--accent-blue);
+            color: #0d1117 !important;
+            padding: 14px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+            box-shadow: 0 4px 20px rgba(88, 166, 255, 0.3);
+        }
+
+        .download-button:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+            box-shadow: 0 10px 30px rgba(88, 166, 255, 0.4);
+        }
+
+        /* ── Story ── */
+        .story-container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 35px;
+            background: rgba(22, 27, 34, 0.6);
+
+            /* border: 1px solid rgba(88, 166, 255, 0.2);   */
+            border-radius: 16px;
+            box-shadow: 0 0 40px rgba(88, 166, 255, 0.2),
+                0 0 60px rgba(88, 166, 255, 0.1);
+
+            text-align: left;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .story-container:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(88, 166, 255, 0.15),
+                0 0 50px rgba(88, 166, 255, 0.08);
+            border-color: rgba(88, 166, 255, 0.3);
+        }
+
+        .story-zh {
+            color: var(--text-bright);
+            font-size: 1.15rem;
+            font-weight: 500;
+            line-height: 1.8;
+        }
+
+        .story-link {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom 0.2s;
+        }
+
+        .story-link:hover {
+            border-bottom: 1px solid var(--accent-blue);
+        }
+
+        .story-en,
+        .story-jp {
+            margin-top: 20px;
+            color: #8b949e;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            border-top: 1px solid rgba(48, 54, 61, 0.5);
+            padding-top: 20px;
+        }
+
+        .story-jp {
+            font-size: 0.88rem;
+            opacity: 0.8;
+        }
+
+        /* ── h2 ── */
         h2 {
             color: var(--text-bright);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-top: 50px;
+            border-bottom: 1px solid transparent;
+            padding-bottom: 12px;
+            margin-top: 60px;
         }
 
+        /* ── Features ── */
         .feature-item {
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         .feature-item strong {
             color: var(--accent-blue);
-            font-size: 1.15rem;
+            font-size: 1.2rem;
             display: block;
             margin-bottom: 8px;
         }
 
-        img {
+        /* ── Gallery ── */
+        .gallery-img {
             max-width: 100%;
             border-radius: 12px;
             margin: 25px 0;
@@ -117,181 +321,268 @@
             border: 1px solid var(--border-color);
         }
 
-        .gallery-item {
-            margin-top: 45px;
-        }
-
-        .gallery-item h3 {
-            color: var(--text-bright);
-            font-size: 1.3rem;
-            margin-bottom: 8px;
-        }
-
-        .gallery-item p {
-            font-style: italic;
-            color: #8b949e;
-            font-size: 0.95rem;
-            margin-top: 8px;
-        }
-
-        hr {
-            border: 0;
-            border-top: 1px solid var(--border-color);
-            margin: 45px 0;
-        }
-
-        footer a {
+        /* ── Links ── */
+        a.text-link {
             color: var(--accent-blue);
             text-decoration: none;
             transition: opacity 0.2s;
         }
 
-        footer a:hover {
+        a.text-link:hover {
             text-decoration: underline;
             opacity: 0.8;
         }
-        /* 下载按钮容器 */
-.cta-wrapper {
-    text-align: center;
-    margin: 30px 0 40px;
-}
 
-/* 仿 Chrome 商店风格的按钮 */
-.download-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--accent-blue);
-    color: #0d1117 !important; /* 确保在亮色背景下使用深色文字 */
-    padding: 5px 36px;        /* 增加内边距，让按钮更有“呼吸感” */
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;          /* 加粗文字 */
-    font-size: 1.1rem;
-    transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
-    box-shadow: 0 4px 20px rgba(88, 166, 255, 0.4); /* 让光晕更柔和 */
-}
+        /* ── HR ── */
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(201, 209, 217, 0.15), transparent);
+            margin: 50px 0;
+        }
 
-.download-button:hover {
-    transform: translateY(-2px);
-    filter: brightness(1.05);  /* 悬停时微微增亮，而不是变色 */
-    box-shadow: 0 8px 25px rgba(88, 166, 255, 0.5);
-}
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 0 20px 80px;
+            color: #8b949e;
+            font-size: 0.85rem;
+        }
 
-.download-button img {
-    /* 稍微调大一点点，让它和文字视觉权重一致 */
-    width: 26px;
-    height: 26px;
-    margin-right: 12px;
-    position: relative;
-    top: -7px;
-}
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
 
+        .trademark-notice {
+            font-size: 0.75rem;
+            color: #484f58;
+            margin-top: 20px;
+            line-height: 1.5;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
-/* 针对页脚也给一个次级链接说明 */
-.footer-link {
-    display: inline-block;
-    margin-top: 10px;
-    font-size: 0.9rem;
-}
+        .lang-jp {
+            font-size: 0.92rem;
+            display: block;
+            margin-top: 4px;
+            opacity: 0.8;
+        }
+
+        .lang-en {
+            margin-top: 15px;
+            display: block;
+        }
+
+        .os-link {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--accent-blue);
+            transition: opacity 0.2s;
+            gap: 6px;
+        }
+
+        .os-link:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+
+        .github-icon {
+            filter: invert(1);
+            opacity: 0.9;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
+
+        <!-- Hero -->
         <div class="hero">
-            <a href="https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn" 
-               target="_blank" class="hero-link" title="Visit Chrome Web Store">
-                <img src="logo.png" alt="Mira Translator Logo">
-                <h1>Mira Translator | 米拉翻譯器</h1>
+            <a href="https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn" target="_blank"
+                class="logo-link">
+                <img src="logo.png" alt="Mira Translator Logo" class="main-logo">
             </a>
-            
+
+            <div class="featured-badge-container">
+                <div class="featured-badge">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Chrome Web Store Featured
+                </div>
+            </div>
+
+            <h1>Mira Translator | 沉浸式 YouTube 翻譯</h1>
+
+            <div class="sub-tagline">
+                沉浸式網頁全文翻譯与 YouTube™ 雙語字幕增強工具<br>
+                <span class="lang-jp">ウェブサイト翻訳と YouTube™ 2ヶ国語字幕表示ツール</span>
+            </div>
+
             <blockquote>
-    <strong>Open Source | Ultra-lightweight (0.3MB) | Privacy-First</strong><br>
-    <strong>開源項目 | 極致輕量 (0.3MB) | 隱私至上</strong>
-</blockquote>
+                <a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer"
+                    class="os-link">
+                    <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" width="16" height="16"
+                        class="github-icon">
+                    <span class="highlight-os">Open Source</span>
+                </a>
+                | Ultra-lightweight (0.3MB) | Privacy-First<br>
+
+                <span class="highlight-os">開源項目</span> | 極致輕量 (0.3MB) | 隱私至上<br>
+
+                <span class="lang-jp"><span class="highlight-os">オープンソース</span> | 超軽量 (0.3MB) | プライバシー重視</span>
+            </blockquote>
+
             <div class="cta-wrapper">
-    <a href="https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn" 
-       target="_blank" class="download-button">
-        <img src="https://www.vectorlogo.zone/logos/google_chrome/google_chrome-icon.svg" width="24" height="24" style="margin-right:10px; vertical-align:middle;">
-        Add to Chrome | 免費添加至 Chrome
-    </a>
-</div>
+                <a href="https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn" target="_blank"
+                    class="download-button">
+                    <img src="https://www.vectorlogo.zone/logos/google_chrome/google_chrome-icon.svg" width="22"
+                        height="22" style="margin-right:12px; vertical-align:middle;">
+                    Add to Chrome | 免費安裝 | 無料でインストール
+                </a>
+            </div>
         </div>
 
-        <p><strong>Mira Translator</strong> is a translation tool that pursues ultimate aesthetics and performance. With
-            a tiny footprint of only 0.3MB, it remains completely free, without memberships, advertisements, or any
-            registration required.</p>
-        <p><strong>Mira Translator</strong> 是一款追求極致美學與性能的翻譯工具。體積僅 0.3MB，堅持完全免費、無會員、無廣告。<strong>代碼完全開源，確保翻譯過程透明、安全。</strong></p>
-<p><strong>Mira Translator</strong> is an open-source project dedicated to aesthetics and performance. At just 0.3MB, it is free, ad-free, and requires no registration. <strong>Fully open-source for total transparency and security.</strong></p>
+        <!-- 创作故事 -->
+        <div class="story-container">
+            <div class="story-zh">
+                我厭倦了那些臃腫、需要註冊、到處追蹤數據的翻譯插件，更厭倦了那些把「開始使用」變成一場<span class="highlight-text">設定噩夢</span>的工具——於是自己動手做了
+                Mira。<br>
+                這裡沒有伺服器，沒有會員牆。代碼<strong><a href="https://github.com/os9sur/MiraTranslator" target="_blank"
+                        rel="noopener noreferrer" class="story-link">完全開源</a></strong>，支持自定義 API 密鑰。打開即用，你的數據只屬於你。
+            </div>
 
-        <hr>
+            <div class="story-en">
+                I was tired of bloated, account-gated tools that treat your data as their product. So I built Mira: a
+                0.3MB, serverless, and <strong><a href="https://github.com/os9sur/MiraTranslator" target="_blank"
+                        rel="noopener noreferrer" class="story-link">open-source</a></strong> translator. No setup
+                nightmares, no tracking. Your words, your keys, your privacy.
+            </div>
 
-        <h2>🌟 Core Features (核心亮點)</h2>
-
-        <div class="feature-item">
-            <strong>Visual Element Picker (可視化拾取)</strong>
-            <p>Precisely define translation areas with a single click for a truly "What You See Is What You Get" experience.</p>
-            <p>通過直覺的點擊，定義網頁翻譯區域，實現「所見即所得」的定制。</p>
-        </div>
-
-        <div class="feature-item">
-            <strong>Innovative Learning Flow (創新學習流)</strong>
-            <p>Instant word lookup on YouTube subtitles, seamlessly synced with your Google Drive vocabulary book.</p>
-            <p>YouTube 場景下，雙擊字幕單詞瞬間查詞並存入 Google Drive 同步的生詞本。</p>
-        </div>
-
-        <div class="feature-item">
-            <strong>High-Quality Cache (單向借閱緩存)</strong>
-            <p>Smartly locks high-quality AI translations to save API costs while maintaining top-tier quality.</p>
-            <p>智能鎖定高質量 AI 翻譯結果，在節省 API 消耗的同時守住質量底線。</p>
-        </div>
-
-        <div class="feature-item">
-            <strong>Privacy Centric (隱私至上)</strong>
-            <p>Serverless architecture. All configurations and data are privately synced via your own Google Drive.</p>
-            <p>無後端服務器，支持通過 Google Drive 私有雲同步配置與數據。</p>
+            <div class="story-jp">
+                肥大化したツールや登録の強制にうんざりし、設定が「地獄」にならないツールを求めて Mira を開発しました。サーバーなし、広告なし。<strong><a
+                        href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer"
+                        class="story-link">オープンソース</a></strong>で独自の API キーも利用可能。あなたのデータは、あなただけのものです。
+            </div>
         </div>
 
         <hr>
 
-        <h2>📸 Features & Gallery (功能圖賞)</h2>
+        <h2>🌟 Core Features (核心亮點 / 機能紹介)</h2>
+
+        <div class="feature-item">
+            <strong>Visual Element Picker (可視化拾取 / ビジュアル選択)</strong>
+            <p>Precisely define translation areas with a single click. 直感的クリックで翻訳範囲を自由に設定。</p>
+        </div>
+
+        <div class="feature-item">
+            <strong>Innovative Learning Flow (創新學習流 / 学習フロー)</strong>
+            <p>Instant word lookup on YouTube™ subtitles, synced with Google Drive. 字幕単詞をダブルクリックで即座に検索、Google ドライブと同期。
+            </p>
+        </div>
+
+        <div class="feature-item">
+            <strong>Personal Vocabulary Book (個人生詞本 / 単語帳)</strong>
+            <p>Every word you look up is saved with its definition, part of speech, phonetics, source context, and
+                timestamp — stored privately in your Google Drive. Export to CSV anytime.<br>
+                查過的每個單字自動收入生詞本，附音標、詞性、來源上下文，存於你的 Google Drive，隨時匯出 CSV。<br>
+                <span class="lang-jp" style="margin-top:6px;">調べた単語を音標・品詞・文脈とともに自動保存。Google
+                    ドライブに同期し、CSVエクスポートも可能。</span>
+            </p>
+        </div>
+
+        <div class="feature-item">
+            <strong>High-Quality Cache (智能緩存 / AIキャッシュ)</strong>
+            <p>Smartly locks high-quality AI translations to save API costs. 高品質AI翻訳をスマートにキャッシュし、APIコストを節約。</p>
+        </div>
+
+        <div class="feature-item">
+            <strong>Privacy Centric (隱私至上 / プライバシー重視)</strong>
+            <p>Serverless architecture. Private sync via your Google Drive. サーバーなしの設計。Google ドライブ経由でプライベートに同期。</p>
+        </div>
+
+        <hr>
+
+        <h2>📸 Gallery (功能圖賞 / ギャラリー)</h2>
 
         <div class="gallery-item">
             <h3>1. Immersive Video Learning (沉浸式影片學習)</h3>
-            <img src="bird_screenshot.png" alt="YouTube Learning Illustration">
-            <p>Enhance your YouTube experience with elegant bilingual subtitles and instant lookup.</p>
-            <p>提升您的 YouTube 體驗，提供優雅的雙語字幕渲染與即時查詞功能。</p>
+            <img src="bird_screenshot.png" loading="lazy" alt="YouTube dual-language subtitles learning interface"
+                class="gallery-img">
+            <p>Elegant bilingual subtitles and instant lookup on YouTube™. YouTube™での優雅な2ヶ国語字幕と即時単詞検索。</p>
         </div>
+        <div class="gallery-item">
+            <h3>2. Instant Style Editor (即時樣式編輯 / WYSIWYG)</h3>
+            <img src="style_screenshot.png" loading="lazy" alt="Visual style editor with instant WYSIWYG feedback"
+                class="gallery-img">
 
+            <p>
+                <strong>True WYSIWYG:</strong> No need to go back and forth between settings pages. Modify colors,
+                underline styles, and highlights with <span class="highlight-os">instant visual feedback</span> on the
+                same page. Apply independent configs for both <span style="color:var(--accent-blue)">Website
+                    Translation</span> and <span style="color:var(--accent-gold)">YouTube™ Subtitles</span> with just
+                one click.
+            </p>
+
+            <p>
+                <strong>所見即所得：</strong> 徹底告別繁瑣的設置頁面往返。直接在當前頁面定義顏色、底線樣式与高亮范围，<span
+                    class="highlight-os">點擊即刻應用</span>，效果實時呈現。支持 <span style="color:var(--accent-blue)">網頁翻譯</span> 与
+                <span style="color:var(--accent-gold)">YouTube™ 字幕</span> 獨立配置。
+            </p>
+
+            <p>
+                <strong>WYSIWYG 編集：</strong> 設定画面との往復はもう不要。テキスト色、下線スタイル、ハイライト範囲を定義し、<span
+                    class="highlight-os">クリックで即時反映</span>。ページ上の翻訳結果をリアルタイムに確認。<span
+                    style="color:var(--accent-blue)">ウェブ翻訳</span> と <span style="color:var(--accent-gold)">YouTube™
+                    字幕</span> の独立設定に対応。
+            </p>
+        </div>
         <div class="gallery-item">
             <h3>2. Precision Visual Picker (精準可視化拾取)</h3>
-            <img src="caddy_screenshot.png" alt="Precision Picker Screenshot">
-            <p>Control your reading flow. Define translation areas on any website with one click.</p>
-            <p>掌控您的閱讀流。點擊即可自定義任何網頁上的翻譯區域。</p>
+            <img src="caddy_screenshot.png" loading="lazy" alt="Visual picker for website translation selection"
+                class="gallery-img">
+            <p>Define translation areas on any website with one click. クリック一つでウェブサイトの翻訳範囲を設定。</p>
         </div>
 
         <div class="gallery-item">
-            <h3>3. Smart Engine & Private Sync (智能引擎與私密同步)</h3>
-            <img src="settings_screenshot.png" alt="Settings & Sync Interface">
-            <p>Powerful engine management with persistent AI cache and private Google Drive sync.</p>
-            <p>強大的引擎管理，具備持久化 AI 緩存與 Google Drive 私有雲同步功能。</p>
+            <h3>3. Personal Vocabulary Book (個人生詞本 / 単語帳)</h3>
+            <img src="vocab_screenshot.png" loading="lazy"
+                alt="Personal vocabulary book with phonetics, definitions and source context" class="gallery-img">
+            <p>Auto-saved vocabulary with phonetics, definitions, and source context. Export to CSV anytime.<br>
+                自動保存生詞，附音標、釋義與來源語境，隨時匯出 CSV。単語を自動保存、いつでもCSVエクスポート。</p>
         </div>
 
-        <footer style="text-align: center; padding: 0px 20px 60px; color: #8b949e; font-size: 0.85rem;">
-    <hr>
-    <p>
-        <strong>Mira Translator</strong> is an open-source project by <strong>David Bai</strong>
-    </p>
-    <p>
-        <a href="https://github.com/os9sur/MiraTranslator" target="_blank" style="margin-right: 15px;">View on GitHub</a>
-        <a href="mailto:p35850@proton.me">Support & Feedback</a>
-    </p>
-    </footer>
+        <div class="gallery-item">
+            <h3>4. Smart Engine & Private Sync (智能引擎與私密同步)</h3>
+            <img src="settings_screenshot.png" loading="lazy" alt="AI cache and Google Drive sync settings"
+                class="gallery-img">
+            <p>Powerful AI persistent cache and Google Drive sync. 強力なAIキャッシュとGoogle ドライブ同期。</p>
+        </div>
+
+        <hr>
+
+        <footer>
+            <div class="footer-links">
+                <a href="https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn" target="_blank"
+                    class="text-link">Chrome Web Store</a>
+                <a href="https://github.com/os9sur/MiraTranslator" target="_blank" class="text-link">GitHub ★ Star</a>
+            </div>
+            <p><strong>Mira Translator</strong> — an open-source project by <strong>David Bai</strong></p>
+            <div class="trademark-notice">
+                YouTube™ is a trademark of Google LLC. This project is an independent enhancement tool and is not
+                affiliated with Google Inc.
+            </div>
+        </footer>
+
     </div>
 </body>
 
 </html>
-
-
-
