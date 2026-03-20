@@ -189,7 +189,6 @@
                 0 0 12px rgba(88, 166, 255, 0.08) inset,
                 0 0 20px rgba(0, 0, 0, 0.2),
                 0 0 60px rgba(88, 166, 255, 0.04);
-
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
                 box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -241,12 +240,9 @@
             margin: 40px auto;
             padding: 35px;
             background: rgba(22, 27, 34, 0.6);
-
-            /* border: 1px solid rgba(88, 166, 255, 0.2);   */
             border-radius: 16px;
             box-shadow: 0 0 40px rgba(88, 166, 255, 0.2),
                 0 0 60px rgba(88, 166, 255, 0.1);
-
             text-align: left;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
@@ -258,7 +254,7 @@
             border-color: rgba(88, 166, 255, 0.3);
         }
 
-        .story-zh {
+        .story-text {
             color: var(--text-bright);
             font-size: 1.15rem;
             font-weight: 500;
@@ -275,21 +271,6 @@
 
         .story-link:hover {
             border-bottom: 1px solid var(--accent-blue);
-        }
-
-        .story-en,
-        .story-jp {
-            margin-top: 20px;
-            color: #8b949e;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            border-top: 1px solid rgba(48, 54, 61, 0.5);
-            padding-top: 20px;
-        }
-
-        .story-jp {
-            font-size: 0.88rem;
-            opacity: 0.8;
         }
 
         /* ── h2 ── */
@@ -367,18 +348,6 @@
             margin-right: auto;
         }
 
-        .lang-jp {
-            font-size: 0.92rem;
-            display: block;
-            margin-top: 4px;
-            opacity: 0.8;
-        }
-
-        .lang-en {
-            margin-top: 15px;
-            display: block;
-        }
-
         .os-link {
             display: inline-flex;
             align-items: center;
@@ -397,10 +366,50 @@
             filter: invert(1);
             opacity: 0.9;
         }
+
+        /* ── Lang switcher ── */
+        .lang-switcher {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            display: flex;
+            gap: 6px;
+            z-index: 999;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .lang-btn {
+            background: rgba(22, 27, 34, 0.9);
+            border: 1px solid var(--border-color);
+            color: #8b949e;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(8px);
+        }
+
+        .lang-btn:hover,
+        .lang-btn.active {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            background: rgba(88, 166, 255, 0.08);
+        }
     </style>
 </head>
 
 <body>
+
+    <!-- Language switcher (manual override) -->
+    <div class="lang-switcher">
+        <button class="lang-btn" onclick="setLang('zh-Hans')">简体</button>
+        <button class="lang-btn" onclick="setLang('zh-Hant')">繁體</button>
+        <button class="lang-btn" onclick="setLang('ja')">日本語</button>
+        <button class="lang-btn" onclick="setLang('en')">English</button>
+    </div>
+
     <div class="container">
 
         <!-- Hero -->
@@ -420,25 +429,19 @@
                 </div>
             </div>
 
-            <h1>Mira Translator | 沉浸式 YouTube 翻譯</h1>
+            <!-- H1: one per lang -->
+            <h1 data-i18n="hero_title"></h1>
 
-            <div class="sub-tagline">
-                沉浸式網頁全文翻譯与 YouTube™ 雙語字幕增強工具<br>
-                <span class="lang-jp">ウェブサイト翻訳と YouTube™ 2ヶ国語字幕表示ツール</span>
-            </div>
+            <div class="sub-tagline" data-i18n="hero_tagline"></div>
 
             <blockquote>
                 <a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer"
                     class="os-link">
                     <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" width="16" height="16"
                         class="github-icon">
-                    <span class="highlight-os">Open Source</span>
+                    <span class="highlight-os" data-i18n="open_source"></span>
                 </a>
-                | Ultra-lightweight (0.3MB) | Privacy-First<br>
-
-                <span class="highlight-os">開源項目</span> | 極致輕量 (0.3MB) | 隱私至上<br>
-
-                <span class="lang-jp"><span class="highlight-os">オープンソース</span> | 超軽量 (0.3MB) | プライバシー重視</span>
+                &nbsp;|&nbsp;<span data-i18n="lightweight"></span>&nbsp;|&nbsp;<span data-i18n="privacy_first"></span>
             </blockquote>
 
             <div class="cta-wrapper">
@@ -446,125 +449,82 @@
                     class="download-button">
                     <img src="https://www.vectorlogo.zone/logos/google_chrome/google_chrome-icon.svg" width="22"
                         height="22" style="margin-right:12px; vertical-align:middle;">
-                    Add to Chrome | 免費安裝 | 無料でインストール
+                    <span data-i18n="cta_button"></span>
                 </a>
             </div>
         </div>
 
-        <!-- 创作故事 -->
+        <!-- Story -->
         <div class="story-container">
-            <div class="story-zh">
-                我厭倦了那些臃腫、需要註冊、到處追蹤數據的翻譯插件，更厭倦了那些把「開始使用」變成一場<span class="highlight-text">設定噩夢</span>的工具——於是自己動手做了
-                Mira。<br>
-                這裡沒有伺服器，沒有會員牆。代碼<strong><a href="https://github.com/os9sur/MiraTranslator" target="_blank"
-                        rel="noopener noreferrer" class="story-link">完全開源</a></strong>，支持自定義 API 密鑰。打開即用，你的數據只屬於你。
-            </div>
-
-            <div class="story-en">
-                I was tired of bloated, account-gated tools that treat your data as their product. So I built Mira: a
-                0.3MB, serverless, and <strong><a href="https://github.com/os9sur/MiraTranslator" target="_blank"
-                        rel="noopener noreferrer" class="story-link">open-source</a></strong> translator. No setup
-                nightmares, no tracking. Your words, your keys, your privacy.
-            </div>
-
-            <div class="story-jp">
-                肥大化したツールや登録の強制にうんざりし、設定が「地獄」にならないツールを求めて Mira を開発しました。サーバーなし、広告なし。<strong><a
-                        href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer"
-                        class="story-link">オープンソース</a></strong>で独自の API キーも利用可能。あなたのデータは、あなただけのものです。
-            </div>
+            <div class="story-text" data-i18n="story"></div>
         </div>
 
         <hr>
 
-        <h2>🌟 Core Features (核心亮點 / 機能紹介)</h2>
+        <h2 data-i18n="features_title"></h2>
 
         <div class="feature-item">
-            <strong>Visual Element Picker (可視化拾取 / ビジュアル選択)</strong>
-            <p>Precisely define translation areas with a single click. 直感的クリックで翻訳範囲を自由に設定。</p>
+            <strong data-i18n="feat1_title"></strong>
+            <p data-i18n="feat1_desc"></p>
         </div>
 
         <div class="feature-item">
-            <strong>Innovative Learning Flow (創新學習流 / 学習フロー)</strong>
-            <p>Instant word lookup on YouTube™ subtitles, synced with Google Drive. 字幕単詞をダブルクリックで即座に検索、Google ドライブと同期。
-            </p>
+            <strong data-i18n="feat2_title"></strong>
+            <p data-i18n="feat2_desc"></p>
         </div>
 
         <div class="feature-item">
-            <strong>Personal Vocabulary Book (個人生詞本 / 単語帳)</strong>
-            <p>Every word you look up is saved with its definition, part of speech, phonetics, source context, and
-                timestamp — stored privately in your Google Drive. Export to CSV anytime.<br>
-                查過的每個單字自動收入生詞本，附音標、詞性、來源上下文，存於你的 Google Drive，隨時匯出 CSV。<br>
-                <span class="lang-jp" style="margin-top:6px;">調べた単語を音標・品詞・文脈とともに自動保存。Google
-                    ドライブに同期し、CSVエクスポートも可能。</span>
-            </p>
+            <strong data-i18n="feat3_title"></strong>
+            <p data-i18n="feat3_desc"></p>
         </div>
 
         <div class="feature-item">
-            <strong>High-Quality Cache (智能緩存 / AIキャッシュ)</strong>
-            <p>Smartly locks high-quality AI translations to save API costs. 高品質AI翻訳をスマートにキャッシュし、APIコストを節約。</p>
+            <strong data-i18n="feat4_title"></strong>
+            <p data-i18n="feat4_desc"></p>
         </div>
 
         <div class="feature-item">
-            <strong>Privacy Centric (隱私至上 / プライバシー重視)</strong>
-            <p>Serverless architecture. Private sync via your Google Drive. サーバーなしの設計。Google ドライブ経由でプライベートに同期。</p>
+            <strong data-i18n="feat5_title"></strong>
+            <p data-i18n="feat5_desc"></p>
         </div>
 
         <hr>
 
-        <h2>📸 Gallery (功能圖賞 / ギャラリー)</h2>
+        <h2 data-i18n="gallery_title"></h2>
 
         <div class="gallery-item">
-            <h3>1. Immersive Video Learning (沉浸式影片學習)</h3>
+            <h3 data-i18n="gallery1_title"></h3>
             <img src="bird_screenshot.png" loading="lazy" alt="YouTube dual-language subtitles learning interface"
                 class="gallery-img">
-            <p>Elegant bilingual subtitles and instant lookup on YouTube™. YouTube™での優雅な2ヶ国語字幕と即時単詞検索。</p>
+            <p data-i18n="gallery1_desc"></p>
         </div>
+
         <div class="gallery-item">
-            <h3>2. Instant Style Editor (即時樣式編輯 / WYSIWYG)</h3>
+            <h3 data-i18n="gallery2_title"></h3>
             <img src="style_screenshot.png" loading="lazy" alt="Visual style editor with instant WYSIWYG feedback"
                 class="gallery-img">
-
-            <p>
-                <strong>True WYSIWYG:</strong> No need to go back and forth between settings pages. Modify colors,
-                underline styles, and highlights with <span class="highlight-os">instant visual feedback</span> on the
-                same page. Apply independent configs for both <span style="color:var(--accent-blue)">Website
-                    Translation</span> and <span style="color:var(--accent-gold)">YouTube™ Subtitles</span> with just
-                one click.
-            </p>
-
-            <p>
-                <strong>所見即所得：</strong> 徹底告別繁瑣的設置頁面往返。直接在當前頁面定義顏色、底線樣式与高亮范围，<span
-                    class="highlight-os">點擊即刻應用</span>，效果實時呈現。支持 <span style="color:var(--accent-blue)">網頁翻譯</span> 与
-                <span style="color:var(--accent-gold)">YouTube™ 字幕</span> 獨立配置。
-            </p>
-
-            <p>
-                <strong>WYSIWYG 編集：</strong> 設定画面との往復はもう不要。テキスト色、下線スタイル、ハイライト範囲を定義し、<span
-                    class="highlight-os">クリックで即時反映</span>。ページ上の翻訳結果をリアルタイムに確認。<span
-                    style="color:var(--accent-blue)">ウェブ翻訳</span> と <span style="color:var(--accent-gold)">YouTube™
-                    字幕</span> の独立設定に対応。
-            </p>
+            <p data-i18n="gallery2_desc"></p>
         </div>
+
         <div class="gallery-item">
-            <h3>2. Precision Visual Picker (精準可視化拾取)</h3>
+            <h3 data-i18n="gallery3_title"></h3>
             <img src="caddy_screenshot.png" loading="lazy" alt="Visual picker for website translation selection"
                 class="gallery-img">
-            <p>Define translation areas on any website with one click. クリック一つでウェブサイトの翻訳範囲を設定。</p>
+            <p data-i18n="gallery3_desc"></p>
         </div>
 
         <div class="gallery-item">
-            <h3>3. Personal Vocabulary Book (個人生詞本 / 単語帳)</h3>
+            <h3 data-i18n="gallery4_title"></h3>
             <img src="vocab_screenshot.png" loading="lazy"
                 alt="Personal vocabulary book with phonetics, definitions and source context" class="gallery-img">
-            <p>Auto-saved vocabulary with phonetics, definitions, and source context. Export to CSV anytime.<br>
-                自動保存生詞，附音標、釋義與來源語境，隨時匯出 CSV。単語を自動保存、いつでもCSVエクスポート。</p>
+            <p data-i18n="gallery4_desc"></p>
         </div>
 
         <div class="gallery-item">
-            <h3>4. Smart Engine & Private Sync (智能引擎與私密同步)</h3>
+            <h3 data-i18n="gallery5_title"></h3>
             <img src="settings_screenshot.png" loading="lazy" alt="AI cache and Google Drive sync settings"
                 class="gallery-img">
-            <p>Powerful AI persistent cache and Google Drive sync. 強力なAIキャッシュとGoogle ドライブ同期。</p>
+            <p data-i18n="gallery5_desc"></p>
         </div>
 
         <hr>
@@ -576,13 +536,203 @@
                 <a href="https://github.com/os9sur/MiraTranslator" target="_blank" class="text-link">GitHub ★ Star</a>
             </div>
             <p><strong>Mira Translator</strong> — an open-source project by <strong>David Bai</strong></p>
-            <div class="trademark-notice">
-                YouTube™ is a trademark of Google LLC. This project is an independent enhancement tool and is not
-                affiliated with Google Inc.
-            </div>
+            <div class="trademark-notice" data-i18n="trademark"></div>
         </footer>
 
     </div>
-</body>
 
+    <script>
+    // ─────────────────────────────────────────────
+    //  i18n strings
+    // ─────────────────────────────────────────────
+    const i18n = {
+        'zh-Hans': {
+            hero_title:    'Mira Translator | 沉浸式 YouTube 翻译',
+            hero_tagline:  '沉浸式网页全文翻译与 YouTube™ 双语字幕增强工具',
+            open_source:   'Open Source 开源项目',
+            lightweight:   '极致轻量 (0.3MB)',
+            privacy_first: '隐私至上',
+            cta_button:    '免费安装 · Add to Chrome',
+            story: `我厌倦了那些臃肿、需要注册、到处追踪数据的翻译插件，更厌倦了那些把「开始使用」变成一场<strong style="color:var(--accent-blue)">设定噩梦</strong>的工具——于是自己动手做了 Mira。<br><br>这里没有服务器，没有会员墙。代码 <a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer" class="story-link">完全开源</a>，支持自定义 API 密钥。打开即用，你的数据只属于你。`,
+            features_title: '🌟 核心亮点',
+            feat1_title: 'Visual Element Picker（可视化拾取）',
+            feat1_desc:  '一键精确定义翻译区域，直观高效。',
+            feat2_title: 'Innovative Learning Flow（创新学习流）',
+            feat2_desc:  '在 YouTube™ 字幕上即时查词，与 Google Drive 同步。',
+            feat3_title: 'Personal Vocabulary Book（个人生词本）',
+            feat3_desc:  '每个查过的单词自动收入生词本，附音标、词性、来源语境与时间戳，存于你的 Google Drive，随时导出 CSV。',
+            feat4_title: 'High-Quality Cache（智能缓存）',
+            feat4_desc:  '智能锁定高质量 AI 翻译缓存，节省 API 费用。',
+            feat5_title: 'Privacy Centric（隐私至上）',
+            feat5_desc:  '无服务器架构，通过你自己的 Google Drive 私密同步。',
+            gallery_title: '📸 功能图赏',
+            gallery1_title: '1. 沉浸式视频学习',
+            gallery1_desc:  '在 YouTube™ 上优雅呈现双语字幕，即时查词。',
+            gallery2_title: '2. 即时样式编辑（WYSIWYG）',
+            gallery2_desc:  '所见即所得：直接在当前页面调整颜色、下划线样式与高亮范围，点击即刻应用，效果实时呈现。支持网页翻译与 YouTube™ 字幕独立配置。',
+            gallery3_title: '3. 精准可视化拾取',
+            gallery3_desc:  '一键在任意网站定义翻译区域。',
+            gallery4_title: '4. 个人生词本',
+            gallery4_desc:  '自动保存生词，附音标、释义与来源语境，随时导出 CSV。',
+            gallery5_title: '5. 智能引擎与私密同步',
+            gallery5_desc:  '强大的 AI 持久化缓存与 Google Drive 同步。',
+            trademark: 'YouTube™ 是 Google LLC 的商标。本项目为独立增强工具，与 Google Inc. 无关联。',
+        },
+
+        'zh-Hant': {
+            hero_title:    'Mira Translator | 沉浸式 YouTube 翻譯',
+            hero_tagline:  '沉浸式網頁全文翻譯與 YouTube™ 雙語字幕增強工具',
+            open_source:   'Open Source 開源項目',
+            lightweight:   '極致輕量 (0.3MB)',
+            privacy_first: '隱私至上',
+            cta_button:    '免費安裝 · Add to Chrome',
+            story: `我厭倦了那些臃腫、需要註冊、到處追蹤數據的翻譯插件，更厭倦了那些把「開始使用」變成一場<strong style="color:var(--accent-blue)">設定噩夢</strong>的工具——於是自己動手做了 Mira。<br><br>這裡沒有伺服器，沒有會員牆。代碼 <a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer" class="story-link">完全開源</a>，支持自定義 API 密鑰。打開即用，你的數據只屬於你。`,
+            features_title: '🌟 核心亮點',
+            feat1_title: 'Visual Element Picker（可視化拾取）',
+            feat1_desc:  '一鍵精確定義翻譯區域，直觀高效。',
+            feat2_title: 'Innovative Learning Flow（創新學習流）',
+            feat2_desc:  '在 YouTube™ 字幕上即時查詞，與 Google Drive 同步。',
+            feat3_title: 'Personal Vocabulary Book（個人生詞本）',
+            feat3_desc:  '每個查過的單字自動收入生詞本，附音標、詞性、來源語境與時間戳，存於你的 Google Drive，隨時匯出 CSV。',
+            feat4_title: 'High-Quality Cache（智能緩存）',
+            feat4_desc:  '智能鎖定高品質 AI 翻譯緩存，節省 API 費用。',
+            feat5_title: 'Privacy Centric（隱私至上）',
+            feat5_desc:  '無伺服器架構，通過你自己的 Google Drive 私密同步。',
+            gallery_title: '📸 功能圖賞',
+            gallery1_title: '1. 沉浸式影片學習',
+            gallery1_desc:  '在 YouTube™ 上優雅呈現雙語字幕，即時查詞。',
+            gallery2_title: '2. 即時樣式編輯（WYSIWYG）',
+            gallery2_desc:  '所見即所得：直接在當前頁面調整顏色、底線樣式與高亮範圍，點擊即刻應用，效果即時呈現。支持網頁翻譯與 YouTube™ 字幕獨立配置。',
+            gallery3_title: '3. 精準可視化拾取',
+            gallery3_desc:  '一鍵在任意網站定義翻譯區域。',
+            gallery4_title: '4. 個人生詞本',
+            gallery4_desc:  '自動保存生詞，附音標、釋義與來源語境，隨時匯出 CSV。',
+            gallery5_title: '5. 智能引擎與私密同步',
+            gallery5_desc:  '強大的 AI 持久化緩存與 Google Drive 同步。',
+            trademark: 'YouTube™ 是 Google LLC 的商標。本項目為獨立增強工具，與 Google Inc. 無關聯。',
+        },
+
+        'ja': {
+            hero_title:    'Mira Translator | 沉浸式 YouTube 翻訳',
+            hero_tagline:  'ウェブサイト全文翻訳と YouTube™ 2ヶ国語字幕表示ツール',
+            open_source:   'オープンソース',
+            lightweight:   '超軽量 (0.3MB)',
+            privacy_first: 'プライバシー重視',
+            cta_button:    'Chromeに追加（無料）',
+            story: `肥大化したツールや登録の強制にうんざりし、設定が「地獄」にならないツールを求めて Mira を開発しました。サーバーなし、広告なし。<a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer" class="story-link">オープンソース</a>で独自の API キーも利用可能。あなたのデータは、あなただけのものです。`,
+            features_title: '🌟 主な機能',
+            feat1_title: 'ビジュアル選択（Visual Element Picker）',
+            feat1_desc:  '直感的なクリックで翻訳範囲を自由に設定できます。',
+            feat2_title: '革新的な学習フロー（Innovative Learning Flow）',
+            feat2_desc:  'YouTube™ 字幕の単語をダブルクリックで即座に検索、Google ドライブと同期。',
+            feat3_title: '個人単語帳（Personal Vocabulary Book）',
+            feat3_desc:  '調べた単語を音標・品詞・文脈とともに自動保存。Google ドライブに同期し、CSV エクスポートも可能。',
+            feat4_title: 'AIキャッシュ（High-Quality Cache）',
+            feat4_desc:  '高品質 AI 翻訳をスマートにキャッシュし、API コストを節約。',
+            feat5_title: 'プライバシー重視（Privacy Centric）',
+            feat5_desc:  'サーバーなしの設計。Google ドライブ経由でプライベートに同期。',
+            gallery_title: '📸 ギャラリー',
+            gallery1_title: '1. 没入型動画学習',
+            gallery1_desc:  'YouTube™ での優雅な2ヶ国語字幕と即時単語検索。',
+            gallery2_title: '2. リアルタイムスタイル編集（WYSIWYG）',
+            gallery2_desc:  'WYSIWYG 編集：設定画面との往復は不要。テキスト色・下線・ハイライトをリアルタイムに確認しながら設定。ウェブ翻訳と YouTube™ 字幕の独立設定に対応。',
+            gallery3_title: '3. 精確ビジュアル選択',
+            gallery3_desc:  'クリック一つでウェブサイトの翻訳範囲を設定。',
+            gallery4_title: '4. 個人単語帳',
+            gallery4_desc:  '単語を音標・釋義・来源文脈とともに自動保存。いつでも CSV エクスポート可能。',
+            gallery5_title: '5. スマートエンジンとプライベート同期',
+            gallery5_desc:  '強力な AI 永続キャッシュと Google ドライブ同期。',
+            trademark: 'YouTube™ は Google LLC の商標です。本プロジェクトは独立したツールであり、Google Inc. とは一切関係ありません。',
+        },
+
+        'en': {
+            hero_title:    'Mira Translator | Immersive YouTube & Web Translation',
+            hero_tagline:  'Immersive full-page translation & YouTube™ bilingual subtitle enhancer',
+            open_source:   'Open Source',
+            lightweight:   'Ultra-lightweight (0.3MB)',
+            privacy_first: 'Privacy-First',
+            cta_button:    'Add to Chrome — Free',
+            story: `I was tired of bloated, account-gated tools that treat your data as their product. So I built Mira: a 0.3MB, serverless, and <a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer" class="story-link">open-source</a> translator. No setup nightmares, no tracking. Your words, your keys, your privacy.`,
+            features_title: '🌟 Core Features',
+            feat1_title: 'Visual Element Picker',
+            feat1_desc:  'Precisely define translation areas with a single click — intuitive and fast.',
+            feat2_title: 'Innovative Learning Flow',
+            feat2_desc:  'Instant word lookup on YouTube™ subtitles, synced with Google Drive.',
+            feat3_title: 'Personal Vocabulary Book',
+            feat3_desc:  'Every word you look up is saved with its definition, part of speech, phonetics, source context, and timestamp — stored privately in your Google Drive. Export to CSV anytime.',
+            feat4_title: 'High-Quality Cache',
+            feat4_desc:  'Smartly locks high-quality AI translations to save API costs.',
+            feat5_title: 'Privacy Centric',
+            feat5_desc:  'Serverless architecture. Private sync via your own Google Drive.',
+            gallery_title: '📸 Gallery',
+            gallery1_title: '1. Immersive Video Learning',
+            gallery1_desc:  'Elegant bilingual subtitles and instant word lookup on YouTube™.',
+            gallery2_title: '2. Instant Style Editor (WYSIWYG)',
+            gallery2_desc:  'True WYSIWYG: modify colors, underline styles, and highlights with instant visual feedback on the same page — no back-and-forth settings. Independent configs for website translation and YouTube™ subtitles.',
+            gallery3_title: '3. Precision Visual Picker',
+            gallery3_desc:  'Define translation areas on any website with one click.',
+            gallery4_title: '4. Personal Vocabulary Book',
+            gallery4_desc:  'Auto-saved vocabulary with phonetics, definitions, and source context. Export to CSV anytime.',
+            gallery5_title: '5. Smart Engine & Private Sync',
+            gallery5_desc:  'Powerful AI persistent cache and Google Drive sync.',
+            trademark: 'YouTube™ is a trademark of Google LLC. This project is an independent enhancement tool and is not affiliated with Google Inc.',
+        },
+    };
+
+    // ─────────────────────────────────────────────
+    //  Language detection
+    // ─────────────────────────────────────────────
+    function detectLang() {
+        const langs = navigator.languages || [navigator.language || 'en'];
+        for (const l of langs) {
+            const lower = l.toLowerCase();
+            if (lower === 'zh-tw' || lower === 'zh-hk' || lower === 'zh-hant') return 'zh-Hant';
+            if (lower.startsWith('zh')) return 'zh-Hans';
+            if (lower.startsWith('ja')) return 'ja';
+            if (lower.startsWith('en')) return 'en';
+        }
+        return 'en'; // fallback
+    }
+
+    // ─────────────────────────────────────────────
+    //  Apply translations
+    // ─────────────────────────────────────────────
+    let currentLang = detectLang();
+
+    function applyLang(lang) {
+        currentLang = lang;
+        const strings = i18n[lang] || i18n['en'];
+
+        // Update all [data-i18n] elements
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (strings[key] !== undefined) {
+                el.innerHTML = strings[key];
+            }
+        });
+
+        // Update <html lang>
+        const htmlLangMap = { 'zh-Hans': 'zh-Hans', 'zh-Hant': 'zh-Hant', 'ja': 'ja', 'en': 'en' };
+        document.documentElement.lang = htmlLangMap[lang] || 'en';
+
+        // Highlight active button
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.getAttribute('onclick').includes(`'${lang}'`));
+        });
+    }
+
+    function setLang(lang) {
+        applyLang(lang);
+        try { localStorage.setItem('mira_lang', lang); } catch(e) {}
+    }
+
+    // Init: prefer saved preference, then browser detection
+    (function init() {
+        let saved = null;
+        try { saved = localStorage.getItem('mira_lang'); } catch(e) {}
+        applyLang(saved && i18n[saved] ? saved : detectLang());
+    })();
+    </script>
+
+</body>
 </html>
