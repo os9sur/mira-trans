@@ -1,0 +1,26 @@
+# 拦截 OpenAI 的爬虫
+User-agent: GPTBot
+Disallow: /
+
+# 拦截 Google 用于 AI 训练的扩展爬虫
+User-agent: Google-Extended
+Disallow: /
+
+# 拦截通用大模型训练数据集 (Common Crawl)
+User-agent: CCBot
+Disallow: /
+
+# 拦截其他已知的 AI 爬虫
+User-agent: AnthropicAI
+Disallow: /
+User-agent: Claude-Web
+Disallow: /
+User-agent: OAI-SearchBot
+Disallow: /
+User-agent: PerplexityBot
+Disallow: /
+
+# 如果你想激进一点，不希望任何 AI 爬虫进入，可以用下面的通配符
+# 但要注意这可能会影响某些正常的搜索体验
+# User-agent: *
+# Disallow: /
