@@ -38,26 +38,27 @@
     <meta name="twitter:image" content="https://os9sur.github.io/mira-trans/og-image.png">
 
     <script type="application/ld+json">
-    {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Mira Translator",
-    "operatingSystem": "Chrome OS, Windows, macOS, Linux",
-    "applicationCategory": "BrowserExtension",
-    "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-    },
-    "description": "An ultra-lightweight (0.3MB), open-source immersive translation extension for YouTube and web pages. 免费开源的沉浸式翻译与 YouTube 双语字幕插件。",
-    "author": {
-        "@type": "Person",
-        "name": "David Bai",
-        "url": "https://github.com/os9sur"
-    },
-    "downloadUrl": "https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn"
-    }
-    </script>
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Mira Translator",
+  "operatingSystem": "Chrome OS, Windows, macOS, Linux",
+  "applicationCategory": "BrowserExtension",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "description": "An ultra-lightweight (0.3MB), open-source immersive translation extension for YouTube and web pages. 免费开源的沉浸式翻译与 YouTube 双语字幕插件。",
+  "author": {
+    "@type": "Person",
+    "name": "David Bai", 
+    "url": "https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn" 
+  },
+  "downloadUrl": "https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn", 
+  "isAccessibleForFree": "True"
+}
+</script>
 
     <style>
         :root {
@@ -209,11 +210,12 @@
 
         /* ── CTA ── */
         .cta-wrapper {
-            text-align: center;
-            margin: 22px 0 10px;
+            display: flex;
+            gap: 12px;
         }
 
         .download-button {
+            flex: 1;
             display: inline-flex;
             align-items: center;
             justify-content: center;
@@ -419,7 +421,7 @@
                 <img src="logo.png" alt="Mira Translator Logo" class="main-logo">
             </a>
 
-            <div class="featured-badge-container">
+            <!-- <div class="featured-badge-container">
                 <div class="featured-badge">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
                         stroke-linecap="round" stroke-linejoin="round">
@@ -427,41 +429,54 @@
                     </svg>
                     Chrome Web Store Featured
                 </div>
-            </div>
+            </div> -->
 
             <!-- H1: one per lang -->
             <h1 data-i18n="hero_title"></h1>
 
             <div class="sub-tagline" data-i18n="hero_tagline"></div>
 
-<blockquote style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-    <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-        <a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer" class="os-link">
-            <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" width="16" height="16" style="filter: invert(1);">
-            <span class="highlight-os" data-i18n="open_source">Open Source</span>
-        </a>
-        &nbsp;|&nbsp;<span data-i18n="lightweight"></span>&nbsp;|&nbsp;<span data-i18n="privacy_first"></span>
-    </div>
+            <blockquote style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
+                    <a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer"
+                        class="os-link">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" width="16" height="16"
+                            style="filter: invert(1);">
+                        <span class="highlight-os" data-i18n="open_source">Open Source</span>
+                    </a>
+                    &nbsp;|&nbsp;<span data-i18n="lightweight"></span>&nbsp;|&nbsp;<span
+                        data-i18n="privacy_first"></span>
+                </div>
 
-    <div style="margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-    <a href="mailto:p35850@proton.me" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
-        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/gmail.svg" width="16" height="16" style="filter: invert(1); opacity: 0.9;">
-        
-        <span style="color: #888; font-size: 14px; font-weight: 400;">Contact:</span>
+                <div style="margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <a href="mailto:p35850@proton.me"
+                        style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/gmail.svg" width="16" height="16"
+                            style="filter: invert(1); opacity: 0.9;">
 
-        <span style="color: #4a9eff; font-family: -apple-system, sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 0.3px;">
-            p35850@proton.me
-        </span>
-    </a>
-</div>
-</blockquote>
+                        <span style="color: #aaa; font-size: 14px; font-weight: 400;">David Bai:</span>
+
+                        <span
+                            style="color: #4a9eff; font-family: -apple-system, sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 0.3px;">
+                            p35850@proton.me
+                        </span>
+                    </a>
+                </div>
+            </blockquote>
 
             <div class="cta-wrapper">
-                <a href="https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn" target="_blank"
+                <a href="https://chromewebstore.google.com/detail/hmmllfdmkbmmhhfhhnocmn" target="_blank"
                     class="download-button">
                     <img src="https://www.vectorlogo.zone/logos/google_chrome/google_chrome-icon.svg" width="22"
                         height="22" style="margin-right:12px; vertical-align:middle;">
                     <span data-i18n="cta_button"></span>
+                </a>
+
+                <a href="https://microsoftedge.microsoft.com/addons/detail/ofhlbeoigddhlpompkgbmbdhpbffmife"
+                    target="_blank" class="download-button">
+                    <img src="https://www.vectorlogo.zone/logos/microsoft_edge/microsoft_edge-icon.svg" width="22"
+                        height="22" style="margin-right:12px; vertical-align:middle;">
+                    <span data-i18n="cta_button_edge"></span>
                 </a>
             </div>
         </div>
@@ -545,6 +560,8 @@
             <div class="footer-links">
                 <a href="https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn" target="_blank"
                     class="text-link">Chrome Web Store</a>
+                    <a href="https://microsoftedge.microsoft.com/addons/detail/ofhlbeoigddhlpompkgbmbdhpbffmife" target="_blank"
+                    class="text-link">Edge Add-ons</a>
                 <a href="https://github.com/os9sur/MiraTranslator" target="_blank" class="text-link">GitHub</a>
             </div>
             <p>
@@ -566,11 +583,12 @@
         const i18n = {
             'zh-Hans': {
                 hero_title: 'Mira Translator | 沉浸式 YouTube 翻译',
-                hero_tagline: '沉浸式网页全文翻译与 YouTube™ 双语字幕增强工具',
+                hero_tagline: '沉浸式网页全文翻译与 YouTube™ 双语字幕 · 完全免费',
                 open_source: 'Open Source 开源项目',
                 lightweight: '极致轻量 (0.3MB)',
                 privacy_first: '隐私至上',
-                cta_button: '免费安装 · Add to Chrome',
+                cta_button: '免费安装 · Chrome',
+                cta_button_edge: '免费安装 · Edge',
                 story: `我厌倦了那些臃肿、需要注册、到处追踪数据的翻译插件，更厌倦了那些把「开始使用」变成一场<strong style="color:var(--accent-blue)">复杂工程</strong>的工具——于是自己动手做了 Mira。<br><br>这里没有服务器，没有会员墙。代码 <a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer" class="story-link">完全开源</a>，支持自定义 API 密钥。打开即用，你的数据只属于你。`,
                 features_title: '🌟 核心亮点',
                 feat1_title: 'Visual Element Picker（可视化拾取）',
@@ -599,11 +617,12 @@
 
             'zh-Hant': {
                 hero_title: 'Mira Translator | 沉浸式 YouTube 翻譯',
-                hero_tagline: '沉浸式網頁全文翻譯與 YouTube™ 雙語字幕增強工具',
+                hero_tagline: '沉浸式網頁全文翻譯與 YouTube™ 雙語字幕 · 完全免費',
                 open_source: 'Open Source 開源項目',
                 lightweight: '極致輕量 (0.3MB)',
                 privacy_first: '隱私至上',
-                cta_button: '免費安裝 · Add to Chrome',
+                cta_button: '免費安裝 · Chrome',
+                cta_button_edge: '免費安裝 · Edge',
                 story: `我厭倦了那些臃腫、需要註冊、到處追蹤數據的翻譯插件，更厭倦了那些把「開始使用」變成一場<strong style="color:var(--accent-blue)">超搞工差事</strong>的工具——於是自己動手做了 Mira。<br><br>這裡沒有伺服器，沒有會員牆。代碼 <a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer" class="story-link">完全開源</a>，支持自定義 API 密鑰。打開即用，你的數據只屬於你。`,
                 features_title: '🌟 核心亮點',
                 feat1_title: 'Visual Element Picker（可視化拾取）',
@@ -632,11 +651,12 @@
 
             'ja': {
                 hero_title: 'Mira Translator | 沉浸式 YouTube 翻訳',
-                hero_tagline: 'ウェブサイト全文翻訳と YouTube™ 2ヶ国語字幕表示ツール',
+                hero_tagline: '没入型全ページ翻訳と YouTube™ 2ヶ国語字幕 · 完全無料',
                 open_source: 'オープンソース',
                 lightweight: '超軽量 (0.3MB)',
                 privacy_first: 'プライバシー重視',
-                cta_button: 'Chromeに追加（無料）',
+                cta_button: 'Chrome に追加（無料）',
+                cta_button_edge: 'Edge に追加（無料）',
                 story: `肥大化したツールや登録の強制にうんざりし、使い始めるまでの「導入のハードル」を極限まで削ぎ落とした Mira を開発しました。サーバーなし、広告なし。代码は<a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer" class="story-link">完全オープンソース</a>で、独自の API キーも利用可能。あなたのデータは、あなただけのものです。`,
                 features_title: '🌟 主な機能',
                 feat1_title: 'ビジュアル選択（Visual Element Picker）',
@@ -665,11 +685,12 @@
 
             'en': {
                 hero_title: 'Mira Translator | Immersive YouTube & Web Translation',
-                hero_tagline: 'Immersive full-page translation & YouTube™ bilingual subtitle enhancer',
+                hero_tagline: 'Immersive Webpage Translation & YouTube™ Bilingual Subtitles · Completely Free',
                 open_source: 'Open Source',
                 lightweight: 'Ultra-lightweight (0.3MB)',
                 privacy_first: 'Privacy-First',
                 cta_button: 'Add to Chrome — Free',
+                cta_button_edge: 'Add to Edge — Free',
                 story: `I was tired of bloated, account-gated tools that treat your data as their product. So I built Mira: a 0.3MB, serverless, and <a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer" class="story-link">open-source</a> translator. No setup nightmares, no tracking. Your words, your keys, your privacy.`,
                 features_title: '🌟 Core Features',
                 feat1_title: 'Visual Element Picker',
