@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <!-- GA4 tag -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'GA_MEASUREMENT_ID');
+
+    // 从 URL 参数读取扩展数据
+    const params = new URLSearchParams(location.search);
+    gtag('event', 'extension_uninstalled', {
+      version:     params.get('version'),
+      days_used:   Number(params.get('days_used')),
+      usage_count: Number(params.get('usage_count')),
+      browser:     params.get('browser'),
+      os:          params.get('os'),
+      lang:        params.get('lang'),
+    });
+
+    // 500ms 后跳转到 tally 问卷
+    setTimeout(() => {
+      location.href = `https://tally.so/r/68xBrJ?${location.search}`;
+    }, 500);
+  </script>
+</head>
+<body> 
+</body>
+</html>
