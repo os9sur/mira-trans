@@ -1,45 +1,41 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="UTF-8">
-  <title>Uninstalling Mira Translator...</title>
+  <title>Uninstalling Mira Translator...</title> 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2MZR2NP56"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); 
     gtag('config', 'G-H2MZR2NP56');
 
     const params = new URLSearchParams(location.search);
     const redirectUrl = `https://tally.so/r/68xBrJ${location.search}`;
 
-    const token = params.get('token');
-    const t = Number(params.get('t'));
-    const age = Date.now() - t;
-    const isValid = token && t && age > 0 && age < 30 * 60 * 1000;
+    gtag('event', 'extension_uninstalled', {
+      version:         params.get('version'),
+      days_used:       Number(params.get('days_used')),
+      minutes_used:    Number(params.get('minutes_used')),
+      usage_count:     Number(params.get('usage_count')),
+      browser:         params.get('browser'),
+      browser_version: params.get('browser_version'),  
+      os:              params.get('os'),
+      timezone:        params.get('timezone'),       
+      browser_lang:    params.get('browser_lang'),    
+      //  确保 GA 请求发送成功后再跳转
+      'event_callback': function() {
+        location.href = redirectUrl;
+      }
+    });
 
-    if (isValid) {
-      gtag('event', 'extension_uninstalled', {
-        version: params.get('version'),
-        days_used: Number(params.get('days_used')),
-        minutes_used: Number(params.get('minutes_used')),
-        usage_count: Number(params.get('usage_count')),
-        browser: params.get('browser'),
-        browser_version: params.get('browser_version'),
-        os: params.get('os'),
-        timezone: params.get('timezone'),
-        browser_lang: params.get('browser_lang'),
-        event_callback: () => { location.href = redirectUrl; }
-      });
-      setTimeout(() => { location.href = redirectUrl; }, 800);
-    } else {
+    //  如果用户的浏览器拦截了 GA (如使用了广告拦截器)，
+    // 确保 0.8 秒后依然能跳到 Tally 问卷
+    setTimeout(() => {
       location.href = redirectUrl;
-    }
+    }, 800);
   </script>
 </head>
-
-<body>
+<body> 
 </body>
-
 </html>
