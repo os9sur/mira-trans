@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>Uninstalling Mira Translator...</title>
@@ -15,8 +16,8 @@
 
     const t = Number(params.get('t'));
     const age = Date.now() - t;
-    const isValid = t > 0 && age > 0 && age < 30 * 60 * 1000;
-
+    // const isValid = t > 0 && age > 0 && age < 30 * 60 * 1000;
+    const isValid = t > 0;
     let redirected = false;
     const doRedirect = () => { if (!redirected) { redirected = true; location.href = redirectUrl; } };
 
@@ -39,5 +40,7 @@
     }
   </script>
 </head>
+
 <body></body>
+
 </html>
