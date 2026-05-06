@@ -1,88 +1,210 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>欢迎使用 Mira 翻译</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Mira</title>
+  <link rel="icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&family=Noto+Sans+TC:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700&family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --bg-main: #0b0f19;
+      --card-bg: rgba(30, 41, 59, 0.45);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --text-gradient: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+      --glow-color: rgba(6, 182, 212, 0.45); 
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Noto Sans SC', sans-serif;
-      background: #0f172a;
+      background-color: var(--bg-main);
       color: #fff;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+ 
+    .glow-bg {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
+      z-index: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
     }
 
     .box {
+      position: relative;
+      z-index: 1;
       text-align: center;
-      max-width: 480px;
+      /* 宽度增加到 650px，防止文字换行 */
+      max-width: 618px; 
       width: 100%;
+      background: var(--card-bg);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--card-border);
+      border-radius: 32px;
+      padding: 48px 40px;
+       
+      box-shadow: 
+        0 0 60px -10px var(--glow-color), 
+        0 30px 60px rgba(0, 0, 0, 0.5), 
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      
+      animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      opacity: 0;
+      transform: translateY(20px);
     }
 
-    .emoji { font-size: 52px; margin-bottom: 20px; }
+    @keyframes slideUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Logo + Title 行 */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .header img {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      flex-shrink: 0;
+    }
 
     h1 {
-      font-size: 22px;
+      font-size: 32px;
       font-weight: 700;
-      margin-bottom: 10px;
+      line-height: 1.2;
+      background: var(--text-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+      /* 强制标题一行显示 */
+      white-space: nowrap; 
+    }
+ 
+    @media (max-width: 600px) {
+      h1 { font-size: 24px; white-space: normal; text-align: center; }
+      .header { flex-direction: column; gap: 12px; }
+      .box { padding: 32px 20px; }
     }
 
-    p {
-      font-size: 14px;
-      color: rgba(255,255,255,0.5);
-      line-height: 1.7;
-      margin-bottom: 28px;
+    /* Pin 图钉 */
+    .pin-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 32px;
     }
 
-    p strong {
-      color: rgba(255,255,255,0.85);
+.pin-bg {
+  font-size: 56px; 
+  filter: hue-rotate(65deg) contrast(1.1) saturate(1.8) brightness(1.3) drop-shadow(0 15px 20px rgba(0,0,0,0.5));
+  
+  animation: floatUp 3s infinite ease-in-out;
+  display: inline-block;
+  user-select: none;
+}
+    @keyframes floatUp {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50%      { transform: translateY(-15px) rotate(5deg); }
     }
 
+    /* GIF 预览区 */
     .gif-wrap {
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid #1e293b;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      border-radius: 20px;
+      position: relative;
+      padding: 6px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 100%);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
     }
 
-    .gif-wrap img {
+    .gif-inner {
+      border-radius: 16px;
+      overflow: hidden;
+      background: #000;
+      display: flex;
+    }
+
+    .gif-inner img {
       width: 100%;
+      height: auto;
       display: block;
+      border-radius: 16px;
     }
   </style>
 </head>
 <body>
+  <div class="glow-bg"></div>
+
   <div class="box">
-    <div class="emoji">📌</div>
-    <h1>最后一步：固定插件到工具栏</h1>
-    <p>这样才能<strong>随时一键开关翻译</strong></p>
+    
+    <!-- 顶部：Logo + 放大文字 -->
+    <div class="header">
+      <img src="logo.png" alt="Mira">
+      <h1 id="title"></h1>
+    </div>
+
+    <!-- 中间：浮动图钉 -->
+    <div class="pin-wrap">
+      <div class="pin-bg">📌</div>
+    </div>
+
+    <!-- 底部：预览图 -->
     <div class="gif-wrap">
-      <img id="guide-gif" src="welcome.gif" alt="固定插件教程">
+      <div class="gif-inner">
+        <img id="guide-gif" src="welcome-chrome.gif" alt="Guide">
+      </div>
     </div>
   </div>
 
   <script>
-    const ua = navigator.userAgent;
-    let browser = 'chrome';
+    const lang = navigator.language || 'en';
+    const i18n = {
+      'zh-CN': { font: "'Noto Sans SC', sans-serif", title: '最后一步：将 Mira 固定到工具栏' },
+      'zh-TW': { font: "'Noto Sans TC', sans-serif", title: '最後一步：將 Mira 固定到工具列' },
+      'zh-HK': { font: "'Noto Sans TC', sans-serif", title: '最後一步：將 Mira 固定到工具列' },
+      'ja':    { font: "'Noto Sans JP', sans-serif", title: '最後のステップ：Mira をツールバーに固定' },
+      'ko':    { font: "'Noto Sans KR', sans-serif", title: '마지막 단계: Mira를 툴바에 고정하세요' },
+      'en':    { font: "system-ui, -apple-system, sans-serif", title: 'Last step: Pin Mira to your toolbar' },
+    };
 
-    if (typeof browser !== 'undefined' && /Firefox/.test(ua)) {
-      browser = 'firefox';
-    } else if (ua.includes('Edg/')) {
-      browser = 'edge';
+    function getStrings() {
+      if (i18n[lang]) return i18n[lang];
+      const prefix = lang.split('-')[0];
+      const match = Object.keys(i18n).find(k => k.startsWith(prefix));
+      return i18n[match] || i18n['en'];
     }
 
-    // 根据浏览器切换对应GIF
+    const ua = navigator.userAgent;
+    let browser = 'chrome';
+    if (ua.includes('Firefox')) browser = 'firefox';
+    else if (ua.includes('Edg/')) browser = 'edge';
+
     const gifMap = {
       chrome:  'welcome-chrome.gif',
       edge:    'welcome-edge.gif',
       firefox: 'welcome-firefox.gif',
     };
 
+    const s = getStrings();
+    document.body.style.fontFamily = s.font;
+    document.getElementById('title').textContent = s.title;
     document.getElementById('guide-gif').src = gifMap[browser];
   </script>
 </body>
