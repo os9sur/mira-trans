@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>欢迎使用 Mira 翻译</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Noto Sans SC', sans-serif;
+      background: #0f172a;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .box {
+      text-align: center;
+      max-width: 480px;
+      width: 100%;
+    }
+
+    .emoji { font-size: 52px; margin-bottom: 20px; }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    p strong {
+      color: rgba(255,255,255,0.85);
+    }
+
+    .gif-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #1e293b;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+
+    .gif-wrap img {
+      width: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <div class="emoji">📌</div>
+    <h1>最后一步：固定插件到工具栏</h1>
+    <p>这样才能<strong>随时一键开关翻译</strong></p>
+    <div class="gif-wrap">
+      <img id="guide-gif" src="welcome.gif" alt="固定插件教程">
+    </div>
+  </div>
+
+  <script>
+    const ua = navigator.userAgent;
+    let browser = 'chrome';
+
+    if (typeof browser !== 'undefined' && /Firefox/.test(ua)) {
+      browser = 'firefox';
+    } else if (ua.includes('Edg/')) {
+      browser = 'edge';
+    }
+
+    // 根据浏览器切换对应GIF
+    const gifMap = {
+      chrome:  'welcome-chrome.gif',
+      edge:    'welcome-edge.gif',
+      firefox: 'welcome-firefox.gif',
+    };
+
+    document.getElementById('guide-gif').src = gifMap[browser];
+  </script>
+</body>
+</html>
