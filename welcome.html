@@ -50,10 +50,9 @@
     .box {
       position: relative;
       z-index: 1;
-      text-align: center;
-      /* 宽度增加到 650px，防止文字换行 */
-      max-width: 618px; 
-      width: 100%;
+      text-align: center; 
+       width: fit-content;
+  max-width: 90vw;  /* 防止在小屏溢出屏幕 */
       background: var(--card-bg);
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
