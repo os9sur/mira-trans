@@ -1,6 +1,7 @@
 {
     "enabled": true,
     "minDays": 7,
+    "openReview": true,
     "zh-CN": {
         "id": "review_request_20260509",
         "title": "⭐ 觉得 Mira 好用？",
