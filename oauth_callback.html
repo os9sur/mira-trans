@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"></head>
+<body>
+<script>
+  const hash = window.location.hash;
+  const params = new URLSearchParams(hash.slice(1));
+  const token = params.get('access_token');
+  document.body.innerText = token ? 'Authorization successful, closing...' : 'Authorization failed.';
+</script>
+</body>
+</html>
