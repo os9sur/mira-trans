@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<body>
+<p style="font-size:20px; padding:40px;">长按这里</p>
+<div id="log" style="font-size:16px; padding:20px; background:#eee;"></div>
+<script>
+document.addEventListener("contextmenu", (e) => {
+  document.getElementById('log').innerHTML = 
+    `pointerType: <b>${e.pointerType}</b><br>button: <b>${e.button}</b>`;
+  e.preventDefault();
+});
+</script>
+</body>
+</html>
