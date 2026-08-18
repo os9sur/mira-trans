@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-H2MZR2NP56"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-H2MZR2NP56');
-    </script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2MZR2NP56"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-H2MZR2NP56');
+  </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome to Mira</title>
   <link rel="icon" href="favicon.ico">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&family=Noto+Sans+TC:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700&family=Noto+Sans+KR:wght@400;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&family=Noto+Sans+TC:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700&family=Noto+Sans+KR:wght@400;600;700&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --bg-main: #0b0f19;
       --card-bg: rgba(30, 41, 59, 0.45);
       --card-border: rgba(255, 255, 255, 0.1);
       --text-gradient: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
-      --glow-color: rgba(6, 182, 212, 0.45); 
+      --glow-color: rgba(6, 182, 212, 0.45);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
     body {
       background-color: var(--bg-main);
@@ -34,7 +41,7 @@
       padding: 20px;
       overflow-x: hidden;
     }
- 
+
     .glow-bg {
       position: absolute;
       width: 600px;
@@ -50,28 +57,41 @@
     .box {
       position: relative;
       z-index: 1;
-      text-align: center; 
-       width: fit-content;
-  max-width: 90vw;  /* 防止在小屏溢出屏幕 */
+      text-align: center;
+      width: fit-content;
+      max-width: 95vw;
+
+      /* 整体尽量占满高度 */
+      height: 92vh;
+      max-height: 92vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(8px, 1.5vh, 20px);
+
       background: var(--card-bg);
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
       border: 1px solid var(--card-border);
       border-radius: 32px;
-      padding: 48px 40px;
-       
-      box-shadow: 
-        0 0 60px -10px var(--glow-color), 
-        0 30px 60px rgba(0, 0, 0, 0.5), 
+      padding: clamp(16px, 2.5vh, 40px) clamp(16px, 3vw, 40px);
+
+      box-shadow:
+        0 0 60px -10px var(--glow-color),
+        0 30px 60px rgba(0, 0, 0, 0.5),
         inset 0 1px 1px rgba(255, 255, 255, 0.1);
-      
+
       animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       opacity: 0;
       transform: translateY(20px);
     }
 
     @keyframes slideUp {
-      to { opacity: 1; transform: translateY(0); }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Logo + Title 行 */
@@ -80,34 +100,40 @@
       align-items: center;
       justify-content: center;
       gap: 20px;
-      margin-bottom: 24px;
+      flex-shrink: 0;
+      /* 不参与压缩，保持原尺寸 */
     }
 
     .header img {
-      width: 60px;
-      height: 60px;
+      width: clamp(48px, 8vh, 70px);
+      height: clamp(48px, 8vh, 70px);
       border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-      border: 1.5px solid rgba(255,255,255,0.15);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
       flex-shrink: 0;
     }
 
     h1 {
-      font-size: 32px;
+      font-size: clamp(20px, 4vh, 36px);
       font-weight: 700;
       line-height: 1.2;
       background: var(--text-gradient);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: -0.5px;
-      /* 强制标题一行显示 */
-      white-space: nowrap; 
+      white-space: nowrap;
     }
- 
+
     @media (max-width: 600px) {
-      h1 { font-size: 24px; white-space: normal; text-align: center; }
-      .header { flex-direction: column; gap: 12px; }
-      .box { padding: 32px 20px; }
+      h1 {
+        white-space: normal;
+        text-align: center;
+      }
+
+      .header {
+        flex-direction: column;
+        gap: 12px;
+      }
     }
 
     /* Pin 图钉 */
@@ -115,20 +141,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 32px;
+      flex-shrink: 0;
     }
 
-.pin-bg {
-  font-size: 56px; 
-  filter: hue-rotate(65deg) contrast(1.1) saturate(1.8) brightness(1.3) drop-shadow(0 15px 20px rgba(0,0,0,0.5));
-  
-  animation: floatUp 3s infinite ease-in-out;
-  display: inline-block;
-  user-select: none;
-}
+    .pin-bg {
+      font-size: clamp(28px, 5vh, 43px);
+      filter: hue-rotate(65deg) contrast(1.1) saturate(1.8) brightness(1.3) drop-shadow(0 15px 20px rgba(0, 0, 0, 0.5));
+      animation: floatUp 3s infinite ease-in-out;
+      display: inline-block;
+      user-select: none;
+    }
+
     @keyframes floatUp {
-      0%, 100% { transform: translateY(0) rotate(-5deg); }
-      50%      { transform: translateY(-15px) rotate(5deg); }
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(-5deg);
+      }
+
+      50% {
+        transform: translateY(-15px) rotate(5deg);
+      }
     }
 
     /* GIF 预览区 */
@@ -136,8 +169,15 @@
       border-radius: 20px;
       position: relative;
       padding: 6px;
-      background: linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.02) 100%);
-      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 100%);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+
+      flex: 1 1 auto;
+      /* 自动伸展，占满 box 里剩下的所有空间 */
+      min-height: 0;
+      /* 清零，让 flex 子项 s收缩/伸展 */
+      width: 100%;
+      display: flex;
     }
 
     .gif-inner {
@@ -145,25 +185,45 @@
       overflow: hidden;
       background: #000;
       display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
     }
 
     .gif-inner img {
-      width: 100%;
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
       height: auto;
       display: block;
       border-radius: 16px;
+      object-fit: contain;
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        white-space: normal;
+        text-align: center;
+      }
+
+      .header {
+        flex-direction: column;
+        gap: 12px;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="glow-bg"></div>
 
   <div class="box">
-    
+
     <!-- 顶部：Logo + 放大文字 -->
     <div class="header">
       <img src="logo.png" alt="Mira">
-      <h1 id="title"></h1>
+      <h1 id="title" dir="auto"></h1>
     </div>
 
     <!-- 中间：浮动图钉 -->
@@ -182,12 +242,75 @@
   <script>
     const lang = navigator.language || 'en';
     const i18n = {
-      'zh-CN': { font: "'Noto Sans SC', sans-serif", title: '最后一步：将 Mira 固定到工具栏' },
-      'zh-TW': { font: "'Noto Sans TC', sans-serif", title: '最後一步：將 Mira 固定到工具列' },
-      'zh-HK': { font: "'Noto Sans TC', sans-serif", title: '最後一步：將 Mira 固定到工具列' },
-      'ja':    { font: "'Noto Sans JP', sans-serif", title: '最後のステップ：Mira をツールバーに固定' },
-      'ko':    { font: "'Noto Sans KR', sans-serif", title: '마지막 단계: Mira를 툴바에 고정하세요' },
-      'en':    { font: "system-ui, -apple-system, sans-serif", title: 'Last step: Pin Mira to your toolbar' },
+      'zh-CN': {
+        font: "'Noto Sans SC', sans-serif",
+        title: '最后一步：将 Mira 固定到工具栏'
+      },
+      'zh-TW': {
+        font: "'Noto Sans TC', sans-serif",
+        title: '最後一步：將 Mira 固定到工具列'
+      },
+      'zh-HK': {
+        font: "'Noto Sans TC', sans-serif",
+        title: '最後一步：將 Mira 固定到工具列'
+      },
+      'ja': {
+        font: "'Noto Sans JP', sans-serif",
+        title: '最後のステップ：Mira をツールバーに固定'
+      },
+      'ko': {
+        font: "'Noto Sans KR', sans-serif",
+        title: '마지막 단계: Mira를 툴바에 고정하세요'
+      },
+      'en': {
+        font: "system-ui, -apple-system, sans-serif",
+        title: 'Last step: Pin Mira to your toolbar'
+      },
+
+      'es': {
+        font: "system-ui, -apple-system, sans-serif",
+        title: 'Último paso: fija Mira en la barra de herramientas'
+      },
+      'fr': {
+        font: "system-ui, -apple-system, sans-serif",
+        title: 'Dernière étape : épinglez Mira à la barre d’outils'
+      },
+      'de': {
+        font: "system-ui, -apple-system, sans-serif",
+        title: 'Letzter Schritt: Mira an die Symbolleiste anheften'
+      },
+      'ru': {
+        font: "system-ui, -apple-system, sans-serif",
+        title: 'Последний шаг: закрепите Mira на панели инструментов'
+      },
+      'pt-BR': {
+        font: "system-ui, -apple-system, sans-serif",
+        title: 'Último passo: fixe o Mira na barra de ferramentas'
+      },
+      'it': {
+        font: "system-ui, -apple-system, sans-serif",
+        title: 'Ultimo passaggio: aggiungi Mira alla barra degli strumenti'
+      },
+      'tr': {
+        font: "system-ui, -apple-system, sans-serif",
+        title: 'Son adım: Mira’yı araç çubuğuna sabitleyin'
+      },
+      'vi': {
+        font: "system-ui, -apple-system, sans-serif",
+        title: 'Bước cuối: ghim Mira vào thanh công cụ'
+      },
+      'th': {
+        font: "system-ui, -apple-system, sans-serif",
+        title: 'ขั้นตอนสุดท้าย: ปักหมุด Mira ไว้ที่แถบเครื่องมือ'
+      },
+      'ar': {
+        font: "system-ui, -apple-system, sans-serif",
+        title: 'الخطوة الأخيرة: ثبّت Mira في شريط الأدوات'
+      },
+      'fa': {
+        font: "system-ui, -apple-system, sans-serif",
+        title: 'مرحله آخر: Mira را به نوار ابزار سنجاق کنید'
+      },
     };
 
     function getStrings() {
@@ -203,8 +326,8 @@
     else if (ua.includes('Edg/')) browser = 'edge';
 
     const gifMap = {
-      chrome:  'welcome-chrome.gif',
-      edge:    'welcome-edge.gif',
+      chrome: 'welcome-chrome.gif',
+      edge: 'welcome-edge.gif',
       firefox: 'welcome-firefox.gif',
     };
 
@@ -214,4 +337,5 @@
     document.getElementById('guide-gif').src = gifMap[browser];
   </script>
 </body>
+
 </html>
