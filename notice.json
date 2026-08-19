@@ -7,7 +7,7 @@
         "id": "notice_20260817_free_ai",
         "title": "💡 免费 AI 翻译渠道推荐",
         "level": "info",
-        "content": "推荐使用 Groq 或 Gemini 的免费 API Key 进行 AI 翻译，速度快。使用方法：点击右上角的「设置」图标，进入「配置翻译服务 → 添加自定义翻译服务」，选择 Groq 或 Gemini，点击"获取 API Key"，按照提示完成配置即可。",
+        "content": "推荐使用 Groq 或 Gemini 的免费 API Key 进行 AI 翻译，速度快。使用方法：点击右上角的「设置」图标，进入「配置翻译服务 → 添加自定义翻译服务」，选择 Groq 或 Gemini，点击「获取 API Key」，按照提示完成配置即可。",
         "gotIt": "知道了",
         "scope": "popup"
       }
