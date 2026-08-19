@@ -44,7 +44,7 @@
         "level": "info",
         "content": "全新 v2.0 版本已上线，欢迎体验最新功能。",
         "gotIt": "知道了",
-        "scope": "settings"
+        "scope": "both"
       }
     ],
     "en": [
@@ -54,7 +54,7 @@
         "level": "info",
         "content": "This is a test announcement.",
         "gotIt": "Got it",
-        "scope": "settings"
+        "scope": "both"
       }
     ]
   }
