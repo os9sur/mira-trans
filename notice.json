@@ -191,26 +191,6 @@
             "scope": "settings"
         }
     ],
-    "fr": [
-        {
-            "id": "notice_20260817_free_ai",
-            "title": "💡 Options de traduction IA gratuites",
-            "level": "info",
-            "content": "Pour la traduction par IA, nous vous recommandons d’utiliser une clé API gratuite de Groq ou Gemini : rapide et facile à utiliser. Cliquez sur « Ajouter un service de traduction personnalisé (API Key) » en bas à gauche, sélectionnez Groq ou Gemini, cliquez sur « Obtenir une clé API » et suivez les instructions pour terminer la configuration.\nRemarque : les API gratuites sont généralement soumises à des limites de fréquence, et la traduction de pages Web très volumineuses peut atteindre ces limites. En cas d’erreur 429, attendez un moment puis réessayez. Vous pouvez également désactiver temporairement la traduction des pages Web et traduire les paragraphes en sélectionnant du texte ou en utilisant le raccourci, ce qui réduit le nombre de requêtes et limite le risque d’atteindre ces limites.",
-            "gotIt": "Compris",
-            "scope": "settings"
-        }
-    ],
-    "de": [
-        {
-            "id": "notice_20260817_free_ai",
-            "title": "💡 Kostenlose KI-Übersetzung",
-            "level": "info",
-            "content": "Für KI-Übersetzungen empfehlen wir einen kostenlosen API-Key von Groq oder Gemini – schnell und einfach. Klicke unten links auf „Benutzerdefinierten Übersetzungsdienst hinzufügen (API Key)“, wähle Groq oder Gemini aus, klicke auf „API-Key abrufen“ und folge den Anweisungen zur Einrichtung.\nHinweis: Kostenlose APIs haben in der Regel Ratenlimits, und beim Übersetzen sehr großer Webseiten können diese Limits erreicht werden. Wenn ein 429-Fehler auftritt, warte kurz und versuche es erneut. Alternativ kannst du die Webseitenübersetzung vorübergehend deaktivieren und Absätze durch Markieren von Text oder über die Tastenkombination übersetzen. Dadurch werden weniger Anfragen gesendet und Ratenlimits seltener erreicht.",
-            "gotIt": "Verstanden",
-            "scope": "settings"
-        }
-    ],
     "tr": [
         {
             "id": "notice_20260817_free_ai",
