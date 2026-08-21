@@ -13,9 +13,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome to Mira</title>
   <link rel="icon" href="favicon.ico">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&family=Noto+Sans+TC:wght@400;600;700&family=Noto+Sans+JP:wght@400;600;700&family=Noto+Sans+KR:wght@400;600;700&display=swap"
-    rel="stylesheet">
   <style>
     :root {
       --bg-main: #0b0f19;
@@ -93,15 +90,13 @@
         transform: translateY(0);
       }
     }
-
-    /* Logo + Title 行 */
+ 
     .header {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 20px;
-      flex-shrink: 0;
-      /* 不参与压缩，保持原尺寸 */
+      flex-shrink: 0; 
     }
 
     .header img {
@@ -163,8 +158,7 @@
         transform: translateY(-15px) rotate(5deg);
       }
     }
-
-    /* GIF 预览区 */
+ 
     .gif-wrap {
       border-radius: 20px;
       position: relative;
@@ -191,7 +185,8 @@
       height: 100%;
     }
 
-    .gif-inner img {
+    .gif-inner img,
+    .gif-inner video {
       max-width: 100%;
       max-height: 100%;
       width: auto;
@@ -211,6 +206,65 @@
         flex-direction: column;
         gap: 12px;
       }
+    }
+
+    .gif-inner {
+      position: relative;
+    }
+
+    .play-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: rgba(6, 182, 212, 0.5);
+      border: 2px solid rgba(56, 189, 248, 0.9);
+      color: #fff;
+      font-size: 30px;
+      cursor: pointer;
+      display: none;
+      padding-left: 6px;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(6px);
+      box-shadow:
+        0 0 0 0 rgba(56, 189, 248, 0.6),
+        0 8px 24px rgba(0, 0, 0, 0.5);
+      animation: pulseGlow 1.8s infinite ease-out;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .play-overlay:hover {
+      background: rgba(6, 182, 212, 0.55);
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    @keyframes pulseGlow {
+      0% {
+        box-shadow:
+          0 0 0 0 rgba(56, 189, 248, 0.6),
+          0 8px 24px rgba(0, 0, 0, 0.5);
+      }
+
+      70% {
+        box-shadow:
+          0 0 0 20px rgba(56, 189, 248, 0),
+          0 8px 24px rgba(0, 0, 0, 0.5);
+      }
+
+      100% {
+        box-shadow:
+          0 0 0 0 rgba(56, 189, 248, 0),
+          0 8px 24px rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    .play-overlay:hover {
+      background: rgba(0, 0, 0, 0.75);
+      transform: translate(-50%, -50%) scale(1.08);
     }
   </style>
 </head>
@@ -234,7 +288,8 @@
     <!-- 底部：预览图 -->
     <div class="gif-wrap">
       <div class="gif-inner">
-        <img id="guide-gif" src="welcome-chrome.gif" alt="Guide">
+        <video id="guide-gif" muted loop playsinline></video>
+        <button id="play-overlay" class="play-overlay" aria-label="Play">▶</button>
       </div>
     </div>
   </div>
@@ -243,23 +298,23 @@
     const lang = navigator.language || 'en';
     const i18n = {
       'zh-CN': {
-        font: "'Noto Sans SC', sans-serif",
+        font: "'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif",
         title: '最后一步：将 Mira 固定到工具栏'
       },
       'zh-TW': {
-        font: "'Noto Sans TC', sans-serif",
+        font: "'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif",
         title: '最後一步：將 Mira 固定到工具列'
       },
       'zh-HK': {
-        font: "'Noto Sans TC', sans-serif",
+        font: "'PingFang HK', 'PingFang TC', 'Microsoft JhengHei', sans-serif",
         title: '最後一步：將 Mira 固定到工具列'
       },
       'ja': {
-        font: "'Noto Sans JP', sans-serif",
+        font: "'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif",
         title: '最後のステップ：Mira をツールバーに固定'
       },
       'ko': {
-        font: "'Noto Sans KR', sans-serif",
+        font: "'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif",
         title: '마지막 단계: Mira를 툴바에 고정하세요'
       },
       'en': {
@@ -326,15 +381,63 @@
     else if (ua.includes('Edg/')) browser = 'edge';
 
     const gifMap = {
-      chrome: 'welcome-chrome.gif',
-      edge: 'welcome-edge.gif',
-      firefox: 'welcome-firefox.gif',
+      chrome: 'welcome-chrome.mp4',
+      edge: 'welcome-edge.mp4',
+      firefox: 'welcome-firefox.mp4',
     };
 
     const s = getStrings();
     document.body.style.fontFamily = s.font;
     document.getElementById('title').textContent = s.title;
-    document.getElementById('guide-gif').src = gifMap[browser];
+
+    const video = document.getElementById('guide-gif');
+    const playOverlay = document.getElementById('play-overlay');
+
+    video.muted = true;
+    video.playsInline = true;
+    video.src = gifMap[browser];
+    video.load();
+
+    let hasPlayed = false;
+
+    function attemptPlay() {
+      if (hasPlayed) return;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            hasPlayed = true;
+            playOverlay.style.display = 'none';
+            removeGestureListeners();
+          })
+          .catch(() => {
+            playOverlay.style.display = 'flex';
+          });
+      }
+    }
+
+    function onUserGesture() {
+      attemptPlay();
+    }
+
+    function removeGestureListeners() {
+      document.removeEventListener('pointerdown', onUserGesture);
+      document.removeEventListener('keydown', onUserGesture);
+      document.removeEventListener('touchstart', onUserGesture);
+    }
+
+    document.addEventListener('pointerdown', onUserGesture);
+    document.addEventListener('keydown', onUserGesture);
+    document.addEventListener('touchstart', onUserGesture);
+
+    playOverlay.addEventListener('click', () => {
+      video.play();
+      hasPlayed = true;
+      playOverlay.style.display = 'none';
+      removeGestureListeners();
+    });
+
+    video.addEventListener('loadedmetadata', attemptPlay);
   </script>
 </body>
 
