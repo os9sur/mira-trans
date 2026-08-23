@@ -1,811 +1,428 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
-
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noai, noimageai">
-    <title>Mira Translator | 沉浸式翻译 | YouTube 翻譯 | Web Translation | 翻訳</title>
+    <title>Mira Translator | Immersive Web & YouTube Translation</title>
 
-    <meta name="description"
-        content="Mira Translator: A free, 0.3MB ultra-lightweight open-source translation extension. Supports immersive web translation and YouTube bilingual subtitles. 免费开源的沉浸式网页与 YouTube 双语字幕翻译插件，完全免费，支持生词本与 AI 自定义 Key。オープンソースの無料ウェブ・YouTube翻訳、2言語字幕対応。">
-    <meta name="keywords"
-        content="Mira Translator, 免费翻译插件, 沉浸式翻译, Immersive Translate, YouTube翻译, 双语字幕, 网页翻译, Chrome扩展, 浏览器插件, 翻訳拡張機能, 無料翻訳, YouTube字幕翻訳, 2言語字幕, Free translation extension, AI翻译, 生词本, 单词本, 単語帳, WebDAV sync">
-
+    <meta name="description" content="Mira Translator: A free, 0.3MB ultra-lightweight open-source translation extension. Supports immersive web translation, YouTube bilingual subtitles, and multi-engine AI (ChatGPT, Claude, Gemini).">
     <meta name="author" content="David Bai">
-    <meta name="google-site-verification" content="WY1WIX9OHud3kC1U-EwW61ek9uXKG21Z6Q0PZyn8YlU" />
-    <link rel="canonical" href="https://os9sur.github.io/mira-trans/" />
-
-    <link rel="alternate" hreflang="zh-Hans" href="https://os9sur.github.io/mira-trans/" />
-    <link rel="alternate" hreflang="zh-Hant" href="https://os9sur.github.io/mira-trans/" />
-    <link rel="alternate" hreflang="en" href="https://os9sur.github.io/mira-trans/" />
-    <link rel="alternate" hreflang="ja" href="https://os9sur.github.io/mira-trans/" />
-    <link rel="alternate" hreflang="x-default" href="https://os9sur.github.io/mira-trans/" />
-
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="zh_CN">
-    <meta property="og:locale:alternate" content="zh_TW">
-    <meta property="og:locale:alternate" content="en_US">
-    <meta property="og:locale:alternate" content="ja_JP">
-    <meta property="og:title" content="Mira Translator | 沉浸式翻译 & YouTube 双语字幕">
-    <meta property="og:description" content="0.3MB 极致轻量的开源翻译插件。免费、无服务器、无追踪。支持网页全文与 YouTube 视频翻译，内建生词本，数据完全属于你。">
-    <meta property="og:image" content="https://os9sur.github.io/mira-trans/og-image.png">
-
-    <link rel="icon" href="logo.png" type="image/png">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Mira Translator | Immersive YouTube & Web Translation">
-    <meta name="twitter:description" content="0.3MB 极致轻量的开源翻译插件。支持网页与 YouTube 双语字幕，内置生词本。Free & Open-source.">
-    <meta name="twitter:image" content="https://os9sur.github.io/mira-trans/og-image.png">
-
-    <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Mira Translator",
-  "operatingSystem": "Chrome OS, Windows, macOS, Linux",
-  "applicationCategory": "BrowserExtension",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  },
-  "description": "An ultra-lightweight (0.3MB), open-source immersive translation extension for YouTube and web pages. 免费开源的沉浸式翻译与 YouTube 双语字幕插件。",
-  "author": {
-    "@type": "Person",
-    "name": "David Bai", 
-    "url": "https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn" 
-  },
-  "downloadUrl": "https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn", 
-  "isAccessibleForFree": "True"
-}
-</script>
 
     <style>
         :root {
-            --bg-color: #0d1117;
+            --bg-color: #090c10;
             --text-main: #c9d1d9;
-            --text-bright: #f0f6fc;
+            --text-bright: #ffffff;
             --accent-blue: #58a6ff;
-            --card-bg: #161b22;
+            --accent-glow: rgba(88, 166, 255, 0.4);
+            --card-bg: rgba(22, 27, 34, 0.7);
             --border-color: #30363d;
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             line-height: 1.7;
             margin: 0;
             display: flex;
             justify-content: center;
-            padding: 40px 20px;
+            padding: 60px 20px;
+            background-image: radial-gradient(circle at 50% 0%, rgba(88, 166, 255, 0.05) 0%, transparent 50%);
         }
 
         .container {
-            max-width: 850px;
+            max-width: 900px;
             width: 100%;
         }
 
-        /* ── Hero ── */
+        /* Hero Section */
         .hero {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
 
-        .logo-link {
-            display: inline-block;
-            text-decoration: none;
-            transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
-        }
-
-        .hero img.main-logo {
-            max-width: 90px;
-            margin-bottom: 15px;
-            border: none;
-            border-radius: 20px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-        }
-
-        .logo-link:hover {
-            transform: scale(1.08);
+        .logo-link img.main-logo {
+            max-width: 100px;
+            margin-bottom: 20px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: var(--transition-smooth);
         }
 
         .logo-link:hover img.main-logo {
-            box-shadow: 0 12px 32px rgba(88, 166, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px var(--accent-glow);
         }
 
-        /* ── Featured badge ── */
-        .featured-badge-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 22px;
-        }
-
-        .featured-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: linear-gradient(135deg, rgba(88, 166, 255, 0.08), rgba(88, 166, 255, 0.04));
-            border: 1px solid rgba(88, 166, 255, 0.25);
-            padding: 7px 22px;
-            border-radius: 50px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            color: var(--accent-blue);
-            letter-spacing: 0.02em;
-            cursor: default;
-            box-shadow: 0 0 16px rgba(88, 166, 255, 0.08);
-            transition: all 0.3s ease;
-        }
-
-        .featured-badge svg {
-            width: 17px;
-            height: 17px;
-            color: #34d399;
-            stroke-width: 3.5;
-            filter: drop-shadow(0 0 3px rgba(52, 211, 153, 0.4));
-        }
-
-        .featured-badge:hover {
-            background: linear-gradient(135deg, rgba(88, 166, 255, 0.15), rgba(88, 166, 255, 0.08));
-            box-shadow: 0 0 20px rgba(88, 166, 255, 0.12);
-        }
-
-        /* ── Headings ── */
         h1 {
-            margin-top: 10px;
-            margin-bottom: 8px;
             color: var(--text-bright);
-            font-size: 1.9rem;
-        }
-
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.4rem;
-            }
+            font-size: 2.5rem;
+            margin: 10px 0;
+            background: linear-gradient(to right, #fff, var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .sub-tagline {
             color: #8b949e;
-            font-size: 1.05rem;
-            margin-bottom: 28px;
-        }
-
-        /* ── Blockquote ── */
-        blockquote {
-            background: var(--card-bg);
-            padding: 24px;
-            border-radius: 12px;
-            color: #8b949e;
-            text-align: center;
-            margin: 20px auto;
-            line-height: 1.8;
-            max-width: 550px;
-            border: none;
-            box-shadow:
-                0 0 12px rgba(88, 166, 255, 0.08) inset,
-                0 0 20px rgba(0, 0, 0, 0.2),
-                0 0 60px rgba(88, 166, 255, 0.04);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        blockquote:hover {
-            transform: translateY(-2px);
-            box-shadow:
-                0 0 16px rgba(88, 166, 255, 0.12) inset,
-                0 5px 25px rgba(0, 0, 0, 0.3),
-                0 0 80px rgba(88, 166, 255, 0.07);
-        }
-
-        .highlight-os {
-            color: var(--accent-blue);
-            font-weight: 600;
-            text-shadow: 0 0 8px rgba(88, 166, 255, 0.3);
-        }
-
-.cta-wrapper {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 30px;
-}
-
-.download-link {
-    padding: 12px 24px;
-    text-decoration: none;
-    font-size: 1rem;
-    font-weight: 500;
-    color: #ffffff;
-    
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    
-    box-shadow: 0 0 10px rgba(88, 166, 255, 0.2);
-    
-    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.download-link:hover {
-    background: rgba(88, 166, 255, 0.15);
-    border-color: rgba(88, 166, 255, 0.5);
-    
-    box-shadow: 0 0 20px rgba(88, 166, 255, 0.4), 
-                0 0 40px rgba(88, 166, 255, 0.2);
-    
-    transform: translateY(-5px);
-}
-
-        .download-button:hover {
-            transform: translateY(-3px);
-            filter: brightness(1.1);
-            box-shadow: 0 10px 30px rgba(88, 166, 255, 0.4);
-        }
-
-        /* ── Story ── */
-        .story-container {
-            max-width: 850px;
-            margin: 40px auto;
-            padding: 35px;
-            background: rgba(22, 27, 34, 0.6);
-            border-radius: 16px;
-            box-shadow: 0 0 40px rgba(88, 166, 255, 0.2),
-                0 0 60px rgba(88, 166, 255, 0.1);
-            text-align: left;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .story-container:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 25px rgba(88, 166, 255, 0.15),
-                0 0 50px rgba(88, 166, 255, 0.08);
-            border-color: rgba(88, 166, 255, 0.3);
-        }
-
-        .story-text {
-            color: var(--text-bright);
             font-size: 1.15rem;
-            font-weight: 500;
-            line-height: 1.8;
+            margin-bottom: 30px;
         }
 
-        .story-link {
+        /* Badges */
+        .badges-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.2);
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 0.85rem;
             color: var(--accent-blue);
+            backdrop-filter: blur(4px);
+        }
+
+        /* CTA Buttons */
+        .cta-wrapper {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .download-link {
+            padding: 12px 28px;
             text-decoration: none;
             font-weight: 600;
-            border-bottom: 1px solid transparent;
-            transition: border-bottom 0.2s;
-        }
-
-        .story-link:hover {
-            border-bottom: 1px solid var(--accent-blue);
-        }
-
-        /* ── h2 ── */
-        h2 {
             color: var(--text-bright);
-            border-bottom: 1px solid transparent;
-            padding-bottom: 12px;
-            margin-top: 60px;
-        }
-
-        /* ── Features ── */
-        .feature-item {
-            margin-bottom: 35px;
-        }
-
-        .feature-item strong {
-            color: var(--accent-blue);
-            font-size: 1.2rem;
-            display: block;
-            margin-bottom: 8px;
-        }
-
-        /* ── Gallery ── */
-        .gallery-img {
-            max-width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
-            margin: 25px 0;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
-            border: 1px solid var(--border-color);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
         }
 
-        /* ── Links ── */
-        a.text-link {
-            color: var(--accent-blue);
-            text-decoration: none;
-            transition: opacity 0.2s;
+        .download-link::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: 0.5s;
         }
 
-        a.text-link:hover {
-            text-decoration: underline;
-            opacity: 0.8;
+        .download-link:hover::before { left: 100%; }
+        
+        .download-link:hover {
+            background: rgba(88, 166, 255, 0.15);
+            border-color: rgba(88, 166, 255, 0.5);
+            box-shadow: 0 0 20px var(--accent-glow);
+            transform: translateY(-3px);
         }
 
-        /* ── HR ── */
-        hr {
-            border: 0;
-            height: 1px;
-            background: linear-gradient(to right, transparent, rgba(201, 209, 217, 0.15), transparent);
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
             margin: 50px 0;
         }
 
-        /* ── Footer ── */
-        footer {
-            text-align: center;
-            padding: 0 20px 80px;
-            color: #8b949e;
-            font-size: 0.85rem;
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            transition: var(--transition-smooth);
+            backdrop-filter: blur(10px);
         }
 
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 24px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(88, 166, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(88, 166, 255, 0.1);
         }
 
-        .trademark-notice {
-            font-size: 0.75rem;
-            color: #484f58;
-            margin-top: 20px;
-            line-height: 1.5;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .os-link {
-            display: inline-flex;
-            align-items: center;
-            text-decoration: none;
+        .feature-card h3 {
             color: var(--accent-blue);
-            transition: opacity 0.2s;
-            gap: 6px;
+            margin-top: 0;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .os-link:hover {
-            opacity: 0.8;
-            text-decoration: underline;
-        }
-
-        .github-icon {
-            filter: invert(1);
-            opacity: 0.9;
-        }
-
-        /* ── Lang switcher ── */
+        /* Language Switcher */
         .lang-switcher {
             position: fixed;
-            top: 16px;
-            right: 16px;
+            top: 20px;
+            right: 20px;
             display: flex;
-            gap: 6px;
-            z-index: 999;
-            flex-wrap: wrap;
-            justify-content: flex-end;
+            gap: 8px;
+            z-index: 1000;
+            background: rgba(13, 17, 23, 0.8);
+            padding: 8px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
         }
 
         .lang-btn {
-            background: rgba(22, 27, 34, 0.9);
-            border: 1px solid var(--border-color);
+            background: transparent;
+            border: none;
             color: #8b949e;
-            padding: 4px 10px;
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 0.78rem;
+            font-size: 0.85rem;
             cursor: pointer;
-            transition: all 0.2s;
-            backdrop-filter: blur(8px);
+            transition: var(--transition-smooth);
+            font-weight: 500;
         }
 
-        .lang-btn:hover,
-        .lang-btn.active {
-            border-color: var(--accent-blue);
+        .lang-btn:hover, .lang-btn.active {
+            background: rgba(88, 166, 255, 0.15);
             color: var(--accent-blue);
-            background: rgba(88, 166, 255, 0.08);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 30px;
+            border-top: 1px solid var(--border-color);
+            color: #8b949e;
+            font-size: 0.9rem;
+        }
+        
+        footer a { color: var(--accent-blue); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .features-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 
 <body>
-
-    <!-- Language switcher (manual override) -->
+    <!-- Language Navigation -->
     <div class="lang-switcher">
-        <button class="lang-btn" onclick="setLang('zh-Hans')">简体</button>
-        <button class="lang-btn" onclick="setLang('zh-Hant')">繁體</button>
-        <button class="lang-btn" onclick="setLang('ja')">日本語</button>
-        <button class="lang-btn" onclick="setLang('en')">English</button>
+        <button class="lang-btn" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" onclick="setLang('zh-Hans')">简</button>
+        <button class="lang-btn" onclick="setLang('zh-Hant')">繁</button>
+        <button class="lang-btn" onclick="setLang('ja')">日</button>
     </div>
 
     <div class="container">
-
         <!-- Hero -->
         <div class="hero">
-            <a id="download-link" href="#" target="_blank" class="logo-link">
-                <img src="logo.png" alt="Mira Translator Logo" class="main-logo">
+            <a href="https://github.com/os9sur/MiraTranslator" target="_blank" class="logo-link">
+                <img src="logo.png" alt="Mira Translator Logo" class="main-logo" onerror="this.src='https://via.placeholder.com/100/161b22/58a6ff?text=Mira'">
             </a>
+            
+            <h1 data-i18n="hero_title">Mira Translator</h1>
+            <div class="sub-tagline" data-i18n="hero_tagline">Ultra-lightweight AI Gateway — Vanilla JS for immersive reading.</div>
 
-            <div class="featured-badge-container">
-                <div class="featured-badge">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Chrome Web Store Featured
-                </div>
+            <div class="badges-container">
+                <div class="badge" data-i18n="badge_size">📦 0.3MB Ultra-lightweight</div>
+                <div class="badge" data-i18n="badge_privacy">🔒 Privacy First (Local API)</div>
+                <div class="badge" data-i18n="badge_open">💻 100% Open Source</div>
             </div>
 
-            <!-- H1: one per lang -->
-            <h1 data-i18n="hero_title"></h1>
-
-            <div class="sub-tagline" data-i18n="hero_tagline"></div>
-
-            <blockquote style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
-                <div style="display: flex; align-items: center; justify-content: center; gap: 8px;">
-                    <a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer"
-                        class="os-link">
-                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/github.svg" width="16" height="16"
-                            style="filter: invert(1);">
-                        <span class="highlight-os" data-i18n="open_source">Open Source</span>
-                    </a>
-                    &nbsp;|&nbsp;<span data-i18n="lightweight"></span>&nbsp;|&nbsp;<span
-                        data-i18n="privacy_first"></span>
-                </div>
-
-                <div style="margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                    <a href="mailto:mira.studio@proton.me"
-                        style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
-                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/gmail.svg" width="16" height="16"
-                            style="filter: invert(1); opacity: 0.9;">
-
-                        <span style="color: #aaa; font-size: 14px; font-weight: 400;">David Bai:</span>
-
-                        <span
-                            style="color: #4a9eff; font-family: -apple-system, sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 0.3px;">
-                            mira.studio@proton.me
-                        </span>
-                    </a>
-                </div>
-            </blockquote>
+            <p style="max-width: 600px; margin: 0 auto; color: #8b949e;" data-i18n="hero_desc">
+                Designed around personal workflows. No bloat, no servers, just pure vanilla JavaScript connecting your browser directly to LLMs.
+            </p>
 
             <div class="cta-wrapper">
-                <a href="https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn" target="_blank"
-                    class="download-link">
-                    Chrome Web Store
-                </a>
-                <a href="https://microsoftedge.microsoft.com/addons/detail/ofhlbeoigddhlpompkgbmbdhpbffmife"
-                    target="_blank" class="download-link">
-                    Edge Add-ons
-                </a>
-                <a href="https://addons.mozilla.org/zh-CN/firefox/addon/mira-translator/" target="_blank"
-                    class="download-link">
-                    Firefox Add-ons
-                </a>
+                <a href="https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn" target="_blank" class="download-link">Chrome</a>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/ofhlbeoigddhlpompkgbmbdhpbffmife" target="_blank" class="download-link">Edge</a>
+                <a href="https://addons.mozilla.org/zh-CN/firefox/addon/mira-translator/" target="_blank" class="download-link">Firefox</a>
             </div>
         </div>
 
-        <!-- Story
-        <div class="story-container">
-            <div class="story-text" data-i18n="story"></div>
-        </div> -->
+        <h2 style="text-align: center; color: var(--text-bright); margin-bottom: 40px;" data-i18n="features_title">Core Features & Architecture</h2>
 
-        <hr>
+        <!-- Features Matrix -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3 data-i18n="feat_engine_title">🤖 Multi-Engine Support</h3>
+                <p data-i18n="feat_engine_desc">Compatible with ChatGPT, Claude, Gemini, DeepL, SiliconFlow, and local models (Ollama). Configure custom API endpoints seamlessly.</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3 data-i18n="feat_visual_title">🎯 Visual Element Picker</h3>
+                <p data-i18n="feat_visual_desc">Skip layout breakage. Mira focuses on main content areas out of the box. Select or exclude specific DOM elements visually without coding.</p>
+            </div>
 
-        <h2 data-i18n="features_title"></h2>
+            <div class="feature-card">
+                <h3 data-i18n="feat_youtube_title">▶️ YouTube Integration</h3>
+                <p data-i18n="feat_youtube_desc">Dual-language subtitle rendering with player adjustments. Click any word to translate via AI context-awareness.</p>
+            </div>
 
-        <div class="feature-item">
-            <strong data-i18n="feat1_title"></strong>
-            <p data-i18n="feat1_desc"></p>
+            <div class="feature-card">
+                <h3 data-i18n="feat_sync_title">☁️ WebDAV & Drive Sync</h3>
+                <p data-i18n="feat_sync_desc">Supports syncing your customized API configurations and saved vocabulary lists securely via Google Drive or WebDAV.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3 data-i18n="feat_vocab_title">📚 Vocabulary Learning</h3>
+                <p data-i18n="feat_vocab_desc">Save words directly from translated text into a local list with context and phonetics. Review and cross-device sync ready.</p>
+            </div>
+
+            <div class="feature-card">
+                <h3 data-i18n="feat_mobile_title">📱 Mobile Support</h3>
+                <p data-i18n="feat_mobile_desc">Fully compatible with mobile browsers supporting extensions (e.g., Firefox and Edge on Android) for on-the-go translation.</p>
+            </div>
         </div>
-
-        <div class="feature-item">
-            <strong data-i18n="feat2_title"></strong>
-            <p data-i18n="feat2_desc"></p>
-        </div>
-
-        <div class="feature-item">
-            <strong data-i18n="feat3_title"></strong>
-            <p data-i18n="feat3_desc"></p>
-        </div>
-
-        <div class="feature-item">
-            <strong data-i18n="feat4_title"></strong>
-            <p data-i18n="feat4_desc"></p>
-        </div>
-
-        <div class="feature-item">
-            <strong data-i18n="feat5_title"></strong>
-            <p data-i18n="feat5_desc"></p>
-        </div>
-
-        <hr>
-
-        <h2 data-i18n="gallery_title"></h2>
-
-        <div class="gallery-item">
-            <h3 data-i18n="gallery1_title"></h3>
-            <img src="bird_screenshot.png" loading="lazy" alt="YouTube dual-language subtitles learning interface"
-                class="gallery-img">
-            <p data-i18n="gallery1_desc"></p>
-        </div>
-
-        <div class="gallery-item">
-            <h3 data-i18n="gallery2_title"></h3>
-            <img src="style_screenshot.png" loading="lazy" alt="Visual style editor with instant WYSIWYG feedback"
-                class="gallery-img">
-            <p data-i18n="gallery2_desc"></p>
-        </div>
-
-        <div class="gallery-item">
-            <h3 data-i18n="gallery3_title"></h3>
-            <img src="caddy_screenshot.png" loading="lazy" alt="Visual picker for website translation selection"
-                class="gallery-img">
-            <p data-i18n="gallery3_desc"></p>
-        </div>
-
-        <div class="gallery-item">
-            <h3 data-i18n="gallery4_title"></h3>
-            <img src="vocab_screenshot.png" loading="lazy"
-                alt="Personal vocabulary book with phonetics, definitions and source context" class="gallery-img">
-            <p data-i18n="gallery4_desc"></p>
-        </div>
-
-        <div class="gallery-item">
-            <h3 data-i18n="gallery5_title"></h3>
-            <img src="settings_screenshot.png" loading="lazy" alt="AI cache and Google Drive sync settings"
-                class="gallery-img">
-            <p data-i18n="gallery5_desc"></p>
-        </div>
-
-        <hr>
 
         <footer>
-            <div class="footer-links">
-                <a href="https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn" target="_blank"
-                    class="text-link">Chrome Web Store</a>
-                <a href="https://microsoftedge.microsoft.com/addons/detail/ofhlbeoigddhlpompkgbmbdhpbffmife"
-                    target="_blank" class="text-link">Edge Add-ons</a>
-                <a href="https://github.com/os9sur/MiraTranslator" target="_blank" class="text-link">GitHub</a>
-            </div>
             <p>
-                <strong>Mira Translator</strong> — an open-source project by <strong>David Bai</strong>.
-                <span style="color: #888; margin-left: 8px;">
-                    Contact: <a href="mailto:mira.studio@proton.me"
-                        style="color: #4a9eff; text-decoration: none;">mira.studio@proton.me</a>
-                </span>
+                <strong>Mira Translator</strong> — Built by <a href="https://github.com/os9sur" target="_blank">David Bai</a>. Licensed under AGPL-3.0.
+                <br><span style="font-size: 0.8rem; margin-top: 10px; display: inline-block;">Contact: mira.studio@proton.me</span>
             </p>
-            <div class="trademark-notice" data-i18n="trademark"></div>
         </footer>
-
     </div>
 
     <script>
-        // ─────────────────────────────────────────────
-        //  i18n strings
-        // ─────────────────────────────────────────────
         const i18n = {
-            'zh-Hans': {
-                hero_title: 'Mira Translator | 沉浸式翻译 · YouTube 双语字幕',
-                hero_tagline: '沉浸式翻译 · YouTube™ 双语字幕 · 生词本 · 开源免费',
-                open_source: 'Open Source 开源项目',
-                lightweight: '极致轻量 (0.3MB)',
-                privacy_first: '隐私至上',
-                cta_button: 'Add to Chrome — Free',
-                cta_button_edge: 'Add to Edge — Free',
-                cta_button_firefox: 'Add to Firefox — Free',
-                story: `我厌倦了那些臃肿、需要注册、到处追踪数据的翻译插件，更厌倦了那些把「开始使用」变成一场<strong style="color:var(--accent-blue)">复杂工程</strong>的工具——于是自己动手做了 Mira。<br><br>这里没有服务器，没有会员墙。代码 <a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer" class="story-link">完全开源</a>，支持自定义 API 密钥。打开即用，你的数据只属于你。`,
-                features_title: '🌟 核心亮点',
-                feat1_title: 'Visual Element Picker（可视化拾取）',
-                feat1_desc: '一键精确定义翻译区域，直观高效。',
-                feat2_title: 'Innovative Learning Flow（创新学习流）',
-                feat2_desc: '在 YouTube™ 字幕上即时查词，与 Google Drive 同步。',
-                feat3_title: 'Personal Vocabulary Book（个人生词本）',
-                feat3_desc: '每个查过的单词自动收入生词本，附音标、词性、来源语境与时间戳，存于你的 Google Drive，随时导出 CSV。',
-                feat4_title: 'High-Quality Cache（智能缓存）',
-                feat4_desc: '智能锁定高质量 AI 翻译缓存，节省 API 费用。',
-                feat5_title: 'Privacy Centric（隐私至上）',
-                feat5_desc: '无服务器架构，通过你自己的 Google Drive 私密同步。',
-                gallery_title: '📸 功能图赏',
-                gallery1_title: '1. 沉浸式视频学习',
-                gallery1_desc: '在 YouTube™ 上优雅呈现双语字幕，即时查词。',
-                gallery2_title: '2. 即时样式编辑（WYSIWYG）',
-                gallery2_desc: '所见即所得：直接在当前页面调整颜色、下划线样式与高亮范围，点击即刻应用，效果实时呈现。支持网页翻译与 YouTube™ 字幕独立配置。',
-                gallery3_title: '3. 精准可视化拾取',
-                gallery3_desc: '一键在任意网站定义翻译区域。',
-                gallery4_title: '4. 个人生词本',
-                gallery4_desc: '自动保存生词，附音标、释义与来源语境，随时导出 CSV。',
-                gallery5_title: '5. 智能引擎与私密同步',
-                gallery5_desc: '强大的 AI 持久化缓存与 Google Drive 同步。',
-                trademark: 'YouTube™ 是 Google LLC 的商标。本项目为独立增强工具，与 Google Inc. 无关联。',
-            },
-
-            'zh-Hant': {
-                hero_title: 'Mira Translator | 沉浸式翻譯 · YouTube 雙語字幕',
-                hero_tagline: '沉浸式翻譯 · YouTube™ 雙語字幕 · 單字本 · 開源免費',
-                open_source: 'Open Source 開源項目',
-                lightweight: '極致輕量 (0.3MB)',
-                privacy_first: '隱私至上',
-                cta_button: 'Add to Chrome — Free',
-                cta_button_edge: 'Add to Edge — Free',
-                cta_button_firefox: 'Add to Firefox — Free',
-                story: `我厭倦了那些臃腫、需要註冊、到處追蹤數據的翻譯插件，更厭倦了那些把「開始使用」變成一場<strong style="color:var(--accent-blue)">超搞工差事</strong>的工具——於是自己動手做了 Mira。<br><br>這裡沒有伺服器，沒有會員牆。代碼 <a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer" class="story-link">完全開源</a>，支持自定義 API 密鑰。打開即用，你的數據只屬於你。`,
-                features_title: '🌟 核心亮點',
-                feat1_title: 'Visual Element Picker（可視化拾取）',
-                feat1_desc: '一鍵精確定義翻譯區域，直觀高效。',
-                feat2_title: 'Innovative Learning Flow（創新學習流）',
-                feat2_desc: '在 YouTube™ 字幕上即時查詞，與 Google Drive 同步。',
-                feat3_title: 'Personal Vocabulary Book（個人生詞本）',
-                feat3_desc: '每個查過的單字自動收入生詞本，附音標、詞性、來源語境與時間戳，存於你的 Google Drive，隨時匯出 CSV。',
-                feat4_title: 'High-Quality Cache（智能緩存）',
-                feat4_desc: '智能鎖定高品質 AI 翻譯緩存，節省 API 費用。',
-                feat5_title: 'Privacy Centric（隱私至上）',
-                feat5_desc: '無伺服器架構，通過你自己的 Google Drive 私密同步。',
-                gallery_title: '📸 功能圖賞',
-                gallery1_title: '1. 沉浸式影片學習',
-                gallery1_desc: '在 YouTube™ 上優雅呈現雙語字幕，即時查詞。',
-                gallery2_title: '2. 即時樣式編輯（WYSIWYG）',
-                gallery2_desc: '所見即所得：直接在當前頁面調整顏色、底線樣式與高亮範圍，點擊即刻應用，效果即時呈現。支持網頁翻譯與 YouTube™ 字幕獨立配置。',
-                gallery3_title: '3. 精準可視化拾取',
-                gallery3_desc: '一鍵在任意網站定義翻譯區域。',
-                gallery4_title: '4. 個人生詞本',
-                gallery4_desc: '自動保存生詞，附音標、釋義與來源語境，隨時匯出 CSV。',
-                gallery5_title: '5. 智能引擎與私密同步',
-                gallery5_desc: '強大的 AI 持久化緩存與 Google Drive 同步。',
-                trademark: 'YouTube™ 是 Google LLC 的商標。本項目為獨立增強工具，與 Google Inc. 無關聯。',
-            },
-
-            'ja': {
-                hero_title: 'Mira Translator | 沉浸式 YouTube 翻訳',
-                hero_tagline: '没入型ウェブ翻訳と YouTube™ 2言語字幕 · オープンソース',
-                open_source: 'オープンソース',
-                lightweight: '超軽量 (0.3MB)',
-                privacy_first: 'プライバシー重視',
-                cta_button: 'Chrome に追加（無料）',
-                cta_button_edge: 'Edge に追加（無料）',
-                cta_button_edge: 'Firefox に追加（無料）',
-                story: `肥大化したツールや登録の強制にうんざりし、使い始めるまでの「導入のハードル」を極限まで削ぎ落とした Mira を開発しました。サーバーなし、広告なし。代码は<a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer" class="story-link">完全オープンソース</a>で、独自の API キーも利用可能。あなたのデータは、あなただけのものです。`,
-                features_title: '🌟 主な機能',
-                feat1_title: 'ビジュアル選択（Visual Element Picker）',
-                feat1_desc: '直感的なクリックで翻訳範囲を自由に設定できます。',
-                feat2_title: '革新的な学習フロー（Innovative Learning Flow）',
-                feat2_desc: 'YouTube™ 字幕の単語をダブルクリックで即座に検索、Google ドライブと同期。',
-                feat3_title: '個人単語帳（Personal Vocabulary Book）',
-                feat3_desc: '調べた単語を音標・品詞・文脈とともに自動保存。Google ドライブに同期し、CSV エクスポートも可能。',
-                feat4_title: 'AIキャッシュ（High-Quality Cache）',
-                feat4_desc: '高品質 AI 翻訳をスマートにキャッシュし、API コストを節約。',
-                feat5_title: 'プライバシー重視（Privacy Centric）',
-                feat5_desc: 'サーバーなしの設計。Google ドライブ経由でプライベートに同期。',
-                gallery_title: '📸 ギャラリー',
-                gallery1_title: '1. 没入型動画学習',
-                gallery1_desc: 'YouTube™ での優雅な2ヶ国語字幕と即時単語検索。',
-                gallery2_title: '2. リアルタイムスタイル編集（WYSIWYG）',
-                gallery2_desc: 'WYSIWYG 編集：設定画面との往復は不要。テキスト色・下線・ハイライトをリアルタイムに確認しながら設定。ウェブ翻訳と YouTube™ 字幕の独立設定に対応。',
-                gallery3_title: '3. 精確ビジュアル選択',
-                gallery3_desc: 'クリック一つでウェブサイトの翻訳範囲を設定。',
-                gallery4_title: '4. 個人単語帳',
-                gallery4_desc: '単語を音標・釋義・来源文脈とともに自動保存。いつでも CSV エクスポート可能。',
-                gallery5_title: '5. スマートエンジンとプライベート同期',
-                gallery5_desc: '強力な AI 永続キャッシュと Google ドライブ同期。',
-                trademark: 'YouTube™ は Google LLC の商標です。本プロジェクトは独立したツールであり、Google Inc. とは一切関係ありません。',
-            },
-
             'en': {
-                hero_title: 'Mira Translator | Immersive YouTube & Web Translation',
-                hero_tagline: 'Immersive Webpage Translation & YouTube™ Bilingual Subtitles · Open source',
-                open_source: 'Open Source',
-                lightweight: 'Ultra-lightweight (0.3MB)',
-                privacy_first: 'Privacy-First',
-                cta_button: 'Add to Chrome — Free',
-                cta_button_edge: 'Add to Edge — Free',
-                cta_button_firefox: 'Add to Firefox — Free',
-                story: `I was tired of bloated, account-gated tools that treat your data as their product. So I built Mira: a 0.3MB, serverless, and <a href="https://github.com/os9sur/MiraTranslator" target="_blank" rel="noopener noreferrer" class="story-link">open-source</a> translator. No setup nightmares, no tracking. Your words, your keys, your privacy.`,
-                features_title: '🌟 Core Features',
-                feat1_title: 'Visual Element Picker',
-                feat1_desc: 'Precisely define translation areas with a single click — intuitive and fast.',
-                feat2_title: 'Innovative Learning Flow',
-                feat2_desc: 'Instant word lookup on YouTube™ subtitles, synced with Google Drive.',
-                feat3_title: 'Personal Vocabulary Book',
-                feat3_desc: 'Every word you look up is saved with its definition, part of speech, phonetics, source context, and timestamp — stored privately in your Google Drive. Export to CSV anytime.',
-                feat4_title: 'High-Quality Cache',
-                feat4_desc: 'Smartly locks high-quality AI translations to save API costs.',
-                feat5_title: 'Privacy Centric',
-                feat5_desc: 'Serverless architecture. Private sync via your own Google Drive.',
-                gallery_title: '📸 Gallery',
-                gallery1_title: '1. Immersive Video Learning',
-                gallery1_desc: 'Elegant bilingual subtitles and instant word lookup on YouTube™.',
-                gallery2_title: '2. Instant Style Editor (WYSIWYG)',
-                gallery2_desc: 'True WYSIWYG: modify colors, underline styles, and highlights with instant visual feedback on the same page — no back-and-forth settings. Independent configs for website translation and YouTube™ subtitles.',
-                gallery3_title: '3. Precision Visual Picker',
-                gallery3_desc: 'Define translation areas on any website with one click.',
-                gallery4_title: '4. Personal Vocabulary Book',
-                gallery4_desc: 'Auto-saved vocabulary with phonetics, definitions, and source context. Export to CSV anytime.',
-                gallery5_title: '5. Smart Engine & Private Sync',
-                gallery5_desc: 'Powerful AI persistent cache and Google Drive sync.',
-                trademark: 'YouTube™ is a trademark of Google LLC. This project is an independent enhancement tool and is not affiliated with Google Inc.',
+                hero_title: 'Mira Translator',
+                hero_tagline: 'Ultra-lightweight AI Gateway — Vanilla JS for immersive reading.',
+                badge_size: '📦 ~300KB Ultra-lightweight',
+                badge_privacy: '🔒 Privacy First (Local API)',
+                badge_open: '💻 100% Open Source',
+                hero_desc: 'Designed around personal workflows. No bloat, no intermediary servers, just pure vanilla JavaScript connecting your browser directly to LLMs.',
+                features_title: 'Core Features & Architecture',
+                feat_engine_title: '🤖 Multi-Engine Support',
+                feat_engine_desc: 'Compatible with ChatGPT, Claude, Gemini, DeepL, SiliconFlow, and local models (Ollama). Configure custom API endpoints seamlessly.',
+                feat_visual_title: '🎯 Visual Element Picker',
+                feat_visual_desc: 'Skip layout breakage. Mira focuses on main content areas out of the box. Select or exclude specific DOM elements visually without coding.',
+                feat_youtube_title: '▶️ YouTube Integration',
+                feat_youtube_desc: 'Dual-language subtitle rendering with player adjustments. Click any word to translate via AI context-awareness.',
+                feat_sync_title: '☁️ WebDAV & Drive Sync',
+                feat_sync_desc: 'Supports syncing your customized API configurations and saved vocabulary lists securely via Google Drive or WebDAV.',
+                feat_vocab_title: '📚 Vocabulary Learning',
+                feat_vocab_desc: 'Save words directly from translated text into a local list with context and phonetics. Review and cross-device sync ready.',
+                feat_mobile_title: '📱 Mobile Support',
+                feat_mobile_desc: 'Fully compatible with mobile browsers supporting extensions (e.g., Firefox and Edge on Android) for on-the-go translation.'
             },
-        };
-(function() {
-        const linkElement = document.getElementById('download-link');
-        const userAgent = navigator.userAgent.toLowerCase();
-        
-        const links = {
-            chrome: "https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn",
-            firefox: "https://addons.mozilla.org/zh-CN/firefox/addon/mira-translator/",
-            edge: "https://microsoftedge.microsoft.com/addons/detail/ofhlbeoigddhlpompkgbmbdhpbffmife"
-        };
-
-        // 检测逻辑
-        if (userAgent.indexOf("firefox") > -1) {
-            linkElement.href = links.firefox;
-        } else if (userAgent.indexOf("edg") > -1) {
-            linkElement.href = links.edge;
-        } else {
-            // 默认指向 Chrome（或者其他 Chromium 内核浏览器）
-            linkElement.href = links.chrome;
-        }
-    })();
-        // ─────────────────────────────────────────────
-        //  Language detection
-        // ─────────────────────────────────────────────
-        function detectLang() {
-            const langs = navigator.languages || [navigator.language || 'en'];
-            for (const l of langs) {
-                const lower = l.toLowerCase();
-                if (lower === 'zh-tw' || lower === 'zh-hk' || lower === 'zh-hant') return 'zh-Hant';
-                if (lower.startsWith('zh')) return 'zh-Hans';
-                if (lower.startsWith('ja')) return 'ja';
-                if (lower.startsWith('en')) return 'en';
+            'zh-Hans': {
+                hero_title: 'Mira 翻译',
+                hero_tagline: '极致轻量的 AI 翻译网关 — 沉浸式阅读体验',
+                badge_size: '📦 仅 ~300KB 极致轻量',
+                badge_privacy: '🔒 隐私至上 (本地密钥)',
+                badge_open: '💻 100% 开源',
+                hero_desc: '无中转服务器，无追踪代码。使用原生 JavaScript 构建，将浏览器与大语言模型直接连接。',
+                features_title: '核心功能与技术架构',
+                feat_engine_title: '🤖 多引擎与本地大模型',
+                feat_engine_desc: '全面支持 ChatGPT、Claude、Gemini、DeepL、SiliconFlow 以及 Ollama 等本地模型。支持自定义 API 代理节点。',
+                feat_visual_title: '🎯 可视化区域拾取',
+                feat_visual_desc: '告别排版错乱。默认聚焦主内容区，并支持通过所见即所得的方式，一键包含或排除特定的网页元素。',
+                feat_youtube_title: '▶️ YouTube 深度集成',
+                feat_youtube_desc: '原生级双语字幕渲染与播放器样式优化，结合 AI 上下文感知，支持在字幕上即时点按查词。',
+                feat_sync_title: '☁️ WebDAV 与云盘同步',
+                feat_sync_desc: '通过 Google Drive 或自定义 WebDAV 私密同步你的 API 配置、自定义外观样式与个人生词本。',
+                feat_vocab_title: '📚 沉浸式生词本',
+                feat_vocab_desc: '在阅读与观看视频时，一键将单词、音标及所在语境原句一并存入本地生词本，随时复习与导出。',
+                feat_mobile_title: '📱 移动端扩展支持',
+                feat_mobile_desc: '完美适配支持扩展程序的移动端浏览器（如 Android 端的 Firefox 与 Microsoft Edge），随时随地无缝翻译。'
+            },
+            'zh-Hant': {
+                hero_title: 'Mira 翻譯',
+                hero_tagline: '極致輕量的 AI 翻譯網關 — 沉浸式閱讀體驗',
+                badge_size: '📦 僅 ~300KB 極致輕量',
+                badge_privacy: '🔒 隱私至上 (本地密鑰)',
+                badge_open: '💻 100% 開源',
+                hero_desc: '無中轉伺服器，無追蹤代碼。使用原生 JavaScript 構建，將瀏覽器與大型語言模型直接連接。',
+                features_title: '核心功能與技術架構',
+                feat_engine_title: '🤖 多引擎與本地大模型',
+                feat_engine_desc: '全面支援 ChatGPT、Claude、Gemini、DeepL、SiliconFlow 以及 Ollama 等本地模型。支援自定義 API 代理節點。',
+                feat_visual_title: '🎯 可視化區域拾取',
+                feat_visual_desc: '告別排版錯亂。默認聚焦主內容區，並支援透過所見即所得的方式，一鍵包含或排除特定的網頁元素。',
+                feat_youtube_title: '▶️ YouTube 深度整合',
+                feat_youtube_desc: '原生級雙語字幕渲染與播放器樣式優化，結合 AI 上下文感知，支援在字幕上即時點按查詞。',
+                feat_sync_title: '☁️ WebDAV 與雲端同步',
+                feat_sync_desc: '透過 Google Drive 或自定義 WebDAV 私密同步你的 API 配置、自定義外觀樣式與個人單字本。',
+                feat_vocab_title: '📚 沉浸式單字本',
+                feat_vocab_desc: '在閱讀與觀看影片時，一鍵將單字、音標及所在語境原句一併存入本地單字本，隨時複習與匯出。',
+                feat_mobile_title: '📱 移動端擴充功能支援',
+                feat_mobile_desc: '完美適配支援擴充功能的移動端瀏覽器（如 Android 端的 Firefox 與 Microsoft Edge），隨時隨地無縫翻譯。'
+            },
+            'ja': {
+                hero_title: 'Mira Translator',
+                hero_tagline: '超軽量 AI ゲートウェイ — 没入型リーディング',
+                badge_size: '📦 約 300KB の超軽量',
+                badge_privacy: '🔒 プライバシー重視 (ローカル API)',
+                badge_open: '💻 100% オープンソース',
+                hero_desc: '中間サーバーやトラッキングはありません。ネイティブ JavaScript で構築され、ブラウザと LLM を直接接続します。',
+                features_title: '主な機能とアーキテクチャ',
+                feat_engine_title: '🤖 マルチエンジン対応',
+                feat_engine_desc: 'ChatGPT、Claude、Gemini、DeepL、SiliconFlow、および Ollama などのローカルモデルをサポート。カスタム API エンドポイントも設定可能。',
+                feat_visual_title: '🎯 ビジュアル要素選択',
+                feat_visual_desc: 'レイアウト崩れを防止。デフォルトで主要コンテンツにフォーカスし、視覚的な操作で翻訳範囲を自由に設定できます。',
+                feat_youtube_title: '▶️ YouTube 統合',
+                feat_youtube_desc: '2言語字幕のレンダリングとプレイヤーの最適化。AI の文脈把握を活用し、字幕上の単語をクリックするだけで即座に翻訳。',
+                feat_sync_title: '☁️ WebDAV & ドライブ同期',
+                feat_sync_desc: 'Google ドライブまたは WebDAV を介して、カスタマイズされた API 設定と単語帳を安全に同期します。',
+                feat_vocab_title: '📚 単語学習機能',
+                feat_vocab_desc: '翻訳テキストから単語を文脈や発音記号とともにローカルリストに直接保存。復習やデバイス間の同期に対応。',
+                feat_mobile_title: '📱 モバイルサポート',
+                feat_mobile_desc: '拡張機能をサポートするモバイルブラウザ（Android 版の Firefox や Edge など）と完全に互換性があり、外出先でもシームレスに翻訳。'
             }
-            return 'en'; // fallback
-        }
+        };
 
-        // ─────────────────────────────────────────────
-        //  Apply translations
-        // ─────────────────────────────────────────────
-        let currentLang = detectLang();
-
-        function applyLang(lang) {
-            currentLang = lang;
+        function setLang(lang) {
             const strings = i18n[lang] || i18n['en'];
-
-            // Update all [data-i18n] elements
+            
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
-                if (strings[key] !== undefined) {
+                if (strings[key]) {
                     el.innerHTML = strings[key];
                 }
             });
 
-            // Update <html lang>
-            const htmlLangMap = { 'zh-Hans': 'zh-Hans', 'zh-Hant': 'zh-Hant', 'ja': 'ja', 'en': 'en' };
-            document.documentElement.lang = htmlLangMap[lang] || 'en';
-
-            // Highlight active button
+            document.documentElement.lang = lang;
+            
             document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.getAttribute('onclick').includes(`'${lang}'`));
+                btn.classList.remove('active');
+                if (btn.getAttribute('onclick').includes(lang)) {
+                    btn.classList.add('active');
+                }
             });
+
+            try { localStorage.setItem('mira_website_lang', lang); } catch(e) {}
         }
 
-        function setLang(lang) {
-            applyLang(lang);
-            try { localStorage.setItem('mira_lang', lang); } catch (e) { }
-        }
-
-        // Init: prefer saved preference, then browser detection
+        // Initialize language
         (function init() {
-            let saved = null;
-            try { saved = localStorage.getItem('mira_lang'); } catch (e) { }
-            applyLang(saved && i18n[saved] ? saved : detectLang());
+            let userLang = 'en';
+            try { 
+                const saved = localStorage.getItem('mira_website_lang');
+                if (saved && i18n[saved]) userLang = saved;
+                else {
+                    const browserLang = navigator.language.toLowerCase();
+                    if (browserLang.startsWith('zh-tw') || browserLang.startsWith('zh-hk')) userLang = 'zh-Hant';
+                    else if (browserLang.startsWith('zh')) userLang = 'zh-Hans';
+                    else if (browserLang.startsWith('ja')) userLang = 'ja';
+                }
+            } catch(e) {}
+            setLang(userLang);
         })();
     </script>
-
 </body>
-
 </html>
