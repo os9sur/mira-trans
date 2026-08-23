@@ -266,6 +266,53 @@
       background: rgba(0, 0, 0, 0.75);
       transform: translate(-50%, -50%) scale(1.08);
     }
+
+    .progress-wrap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      z-index: 2;
+      transition: height 0.15s ease;
+      touch-action: none; 
+    }
+
+    .progress-wrap:hover,
+    .progress-wrap.dragging {
+      height: 10px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #06b6d4, #38bdf8);
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+      transition: width 0.1s linear;
+    }
+
+    .progress-handle {
+      position: absolute;
+      top: 50%;
+      left: 0%;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.4), 0 0 10px rgba(56, 189, 248, 0.9);
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s ease;
+      z-index: 3;
+    }
+
+    .progress-wrap:hover .progress-handle,
+    .progress-wrap.dragging .progress-handle {
+      opacity: 1;
+    }
   </style>
 </head>
 
@@ -290,6 +337,12 @@
       <div class="gif-inner">
         <video id="guide-gif" muted loop playsinline></video>
         <button id="play-overlay" class="play-overlay" aria-label="Play">▶</button>
+
+        <!--  播放进度条 -->
+        <div id="progress-wrap" class="progress-wrap">
+          <div id="progress-bar" class="progress-bar"></div>
+          <div id="progress-handle" class="progress-handle"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -454,17 +507,112 @@
     // 页面从"不可见"(被遮挡/最小化/切走)变回可见时,自动重试播放
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden && video.paused) {
-        hasPlayed = false; // 允许重新尝试
+        hasPlayed = false;  
         attemptPlay();
       }
     });
-
-    // 窗口尺寸变化(如取消最大化、拖拽变小)后也重试一次
+ 
     window.addEventListener('resize', () => {
       if (video.paused) {
         hasPlayed = false;
         attemptPlay();
       }
+    });
+    const progressWrap = document.getElementById('progress-wrap');
+    const progressBar = document.getElementById('progress-bar');
+
+    // 播放进度更新
+    video.addEventListener('timeupdate', () => {
+      if (!video.duration) return;
+      const pct = (video.currentTime / video.duration) * 100;
+      progressBar.style.width = pct + '%';
+    });
+
+    video.addEventListener('ended', () => {
+      progressBar.style.width = '100%';
+    });
+
+    // 点击进度条跳转
+    const progressHandle = document.getElementById('progress-handle');
+
+    let isDragging = false;
+
+    function setProgressUI(ratio) {
+      const pct = Math.min(Math.max(ratio, 0), 1) * 100;
+      progressBar.style.width = pct + '%';
+      progressHandle.style.left = pct + '%';
+    }
+ 
+    video.addEventListener('timeupdate', () => {
+      if (isDragging || !video.duration) return;
+      setProgressUI(video.currentTime / video.duration);
+    });
+
+    video.addEventListener('ended', () => {
+      setProgressUI(1);
+    });
+
+    function ratioFromEvent(e) {
+      const rect = progressWrap.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      return Math.min(Math.max(x / rect.width, 0), 1);
+    }
+ 
+    function startDrag(e) {
+      if (!video.duration) return;
+      isDragging = true;
+
+      progressWrap.classList.add('dragging');
+      progressBar.style.transition = 'none';  
+
+      setProgressUI(ratioFromEvent(e));
+      progressWrap.setPointerCapture(e.pointerId);
+      e.stopPropagation();  
+    }
+
+    function duringDrag(e) {
+      if (!isDragging) return;
+      const ratio = ratioFromEvent(e);
+      setProgressUI(ratio);  
+
+      requestAnimationFrame(() => {
+        if (isDragging) video.currentTime = ratio * video.duration;
+      });
+    }
+
+    function endDrag(e) {
+      if (!isDragging) return;
+      isDragging = false;
+      progressWrap.classList.remove('dragging');
+      progressBar.style.transition = ''; // 恢复正常过渡
+
+      const ratio = ratioFromEvent(e);
+      video.currentTime = ratio * video.duration; 
+    }
+
+    progressWrap.addEventListener('pointerdown', startDrag);
+    window.addEventListener('pointermove', duringDrag);
+    window.addEventListener('pointerup', endDrag);
+ 
+    function togglePlay() {
+      if (video.paused) {
+        video.play();
+      } else {
+        video.pause();
+      }
+    }
+
+    video.addEventListener('click', togglePlay);
+    playOverlay.addEventListener('click', (e) => {
+      e.stopPropagation();
+      togglePlay();
+    });
+ 
+    video.addEventListener('pause', () => {
+      playOverlay.style.display = 'flex';
+    });
+    video.addEventListener('play', () => {
+      playOverlay.style.display = 'none';
     });
   </script>
 </body>
