@@ -103,7 +103,7 @@
       }
     ]
   },
-"notices": {
+ "notices": {
     "enabled": true,
     "minDays": 0,
     "zh-CN": [
@@ -111,7 +111,7 @@
         "id": "notice_20260817_free_ai",
         "title": "💡 如何免费/原价用上顶级 AI 翻译？",
         "level": "info",
-        "content": "作为一个开源项目，扩展本身不收任何费用。建议你直接使用 AI 公司（如 Google、OpenAI）或 OpenRouter 平台的服务：\n\n• 零成本试用：Google (Gemini)、OpenRouter 等均提供免费模型与额度，填入密钥即可用。\n• 进阶按量付：后续若需高级模型，去官网按实际用量扣费，无月费与溢价，数据直连更安全。\n\n👉 点击下方「添加自定义翻译服务 (API Key)」按钮，选择模型后点击「获取 API Key」即可直达官网申请。",
+        "content": "作为一个开源项目，扩展本身不收任何费用。建议你直接使用以下服务：\n\n• 长期免费：Groq、谷歌 (Gemini) 长期免费，仅限每分钟调用次数（超频稍等即可恢复）。\n• 聚合平台：嫌到处注册麻烦？可用 OpenRouter 聚合平台，一个 Key 即可体验海量模型。\n• 进阶付费：若想解除限制或用高级模型，去官网按量购买，无月费与溢价更省钱。\n\n👉 点击下方「添加自定义翻译服务 (API Key)」，选择模型后点击「获取 API Key」直达官网申请。",
         "gotIt": "知道了",
         "scope": "settings"
       }
@@ -121,7 +121,7 @@
         "id": "notice_20260817_free_ai",
         "title": "💡 如何免費/原價用上頂級 AI 翻譯？",
         "level": "info",
-        "content": "作為一個開源專案，擴充功能本身不收任何費用。建議你直接使用 AI 公司（如 Google、OpenAI）或 OpenRouter 平台的服務：\n\n• 零成本試用：Google (Gemini)、OpenRouter 等均提供免費模型與額度，填入金鑰即可用。\n• 進階按量付：後續若需高級模型，去官網按實際用量扣費，無月費與溢價，資料直連更安全。\n\n👉 點擊下方「新增自訂翻譯服務 (API Key)」按鈕，選擇模型後點擊「取得 API Key」即可直達官網申請。",
+        "content": "作為一個開源專案，擴充功能本身不收任何費用。建議你直接使用以下服務：\n\n• 長期免費：Groq、Google (Gemini) 長期免費，僅限每分鐘呼叫次數（超頻稍等即可恢復）。\n• 聚合平台：嫌到處註冊麻煩？可用 OpenRouter 聚合平台，一個 Key 即可體驗海量模型。\n• 進階付費：若想解除限制或用進階模型，去官網按量購買，無月費與溢價更省錢。\n\n👉 點擊下方「新增自訂翻譯服務 (API Key)」，選擇模型後點擊「取得 API Key」直達官網申請。",
         "gotIt": "知道了",
         "scope": "settings"
       }
@@ -131,7 +131,7 @@
         "id": "notice_20260817_free_ai",
         "title": "💡 How to get top-tier AI translation for free or at cost?",
         "level": "info",
-        "content": "As an open-source project, this extension is completely free. We recommend using services directly from AI providers (like Google, OpenAI) or the OpenRouter platform:\n\n• Try for Free: Platforms like Google (Gemini) and OpenRouter offer free models and quotas — just paste your key to start.\n• Pay-as-You-Go: For advanced models later, pay only for what you use directly on official sites. No monthly fees, no markup, and direct connection is more secure.\n\n👉 Click the 'Add Custom Service (API Key)' button below, select a model, and click 'Get API Key' to jump directly to official sites.",
+        "content": "As an open-source project, this extension is completely free. We recommend using the following options:\n\n• Free Tier: Groq and Google (Gemini) offer permanent free tiers with rate limits per minute (if rate-limited, just wait a moment).\n• Aggregator: Tired of signing up everywhere? Use OpenRouter to access massive models with a single API key.\n• Pay-as-You-Go: For fewer restrictions or advanced models, buy directly from official sites. No monthly fees, no markup.\n\n👉 Click 'Add Custom Service (API Key)' below, select a model, and click 'Get API Key' to apply.",
         "gotIt": "Got it",
         "scope": "settings"
       }
@@ -141,7 +141,7 @@
         "id": "notice_20260817_free_ai",
         "title": "💡 最高峰の AI 翻訳を無料・原価で使うには？",
         "level": "info",
-        "content": "オープンソースプロジェクトとして、本拡張機能は完全無料です。AI 開発元（Google、OpenAI など）や OpenRouter プラットフォームの直接利用をおすすめします：\n\n• 無料でお試し：Google (Gemini) や OpenRouter などで無料モデル・利用枠が提供されています。キーを入力するだけで使えます。\n• 従量課金で賢く：高機能モデルが必要な場合も、公式サイトの従量課金（使った分だけ）なら月額固定費や上乗せ料金がなく、直接通信で安心です。\n\n👉 下の「カスタム翻訳サービスを追加 (API Key)」ボタンを押し、モデルを選択して「API Key を取得」をクリックすると公式ページへ直行できます。",
+        "content": "オープンソースプロジェクトとして、本拡張機能は完全無料です。以下のサービスのご利用をおすすめします：\n\n• 常時無料：Groq と Google (Gemini) は無期限で無料ですが、1分あたりの呼び出し回数に制限があります（制限を超えた場合は少し待てば復旧します）。\n• 集約プラットフォーム：あちこちに登録するのが面倒ですか？OpenRouter なら1つのキーで豊富なモデルを利用できます。\n• 従量課金：制限を解除したい場合や高機能モデルを使いたい場合は、公式サイトで従量購入を。月額固定費や上乗せ料金がなくお得です。\n\n👉 下の「カスタム翻訳サービスを追加 (API Key)」ボタンを押し、モデルを選択して「API Key を取得」をクリックして申請してください。",
         "gotIt": "了解",
         "scope": "settings"
       }
@@ -151,7 +151,7 @@
         "id": "notice_20260817_free_ai",
         "title": "💡 최고급 AI 번역을 무료 또는 정가로 사용하는 방법",
         "level": "info",
-        "content": "오픈소스 프로젝트로서 본 확장 프로그램은 어떠한 수수료도 받지 않습니다. AI 기업(Google, OpenAI 등)이나 OpenRouter 플랫폼의 서비스를 직접 이용하는 것을 추천합니다:\n\n• 무료 체험: Google(Gemini), OpenRouter 등에서 무료 모델과 제공량을 지원합니다. 키만 입력하면 바로 사용 가능합니다.\n• 알뜰한 종량제: 고급 모델이 필요할 때도 공식 사이트에서 사용한 만큼만 지불하세요. 월 구독료나 중간 마진이 없으며 직접 연결되어 안전합니다.\n\n👉 아래 '사용자 지정 번역 서비스 추가 (API Key)' 버튼을 누른 후, 모델을 선택하고 'API Key 받기'를 클릭하여 공식 사이트에서 신청하세요.",
+        "content": "오픈소스 프로젝트로서 본 확장 프로그램은 어떠한 수수료도 받지 않습니다. 다음 서비스를 이용하시는 것을 추천합니다:\n\n• 상시 무료: Groq, Google(Gemini)은 영구 무료이며, 분당 호출 횟수만 제한됩니다 (초과 시 잠시 후 복구됨).\n• 통합 플랫폼: 여러 곳에 가입하기 귀찮으신가요? OpenRouter를 이용하면 하나의 키로 수많은 모델을 경험할 수 있습니다.\n• 유료 업그레이드: 제한을 풀고 싶거나 고급 모델을 원하시면 공식 사이트에서 종량제로 구매하세요. 월 구독료와 마진이 없어 더 저렴합니다.\n\n👉 아래 '사용자 지정 번역 서비스 추가 (API Key)'를 클릭하고, 모델을 선택한 뒤 'API Key 받기'를 눌러 신청하세요.",
         "gotIt": "확인",
         "scope": "settings"
       }
@@ -161,7 +161,7 @@
         "id": "notice_20260817_free_ai",
         "title": "💡 ¿Cómo usar traducción IA de nivel superior gratis o al costo?",
         "level": "info",
-        "content": "Como proyecto de código abierto, esta extensión no cobra ninguna tarifa. Recomendamos usar directamente servicios de empresas de IA (como Google, OpenAI) o la plataforma OpenRouter:\n\n• Prueba Gratis: Google (Gemini) y OpenRouter ofrecen modelos y cuotas gratuitas; solo pega tu clave para empezar.\n• Pago por Uso: Si necesitas modelos avanzados más adelante, paga solo por lo que usas en las webs oficiales. Sin cuotas mensuales ni sobrecostes, y más seguro.\n\n👉 Haz clic en el botón 'Añadir servicio personalizado (API Key)' abajo, selecciona un modelo y pulsa 'Obtener API Key' para ir directo a la web oficial.",
+        "content": "Como proyecto de código abierto, esta extensión no cobra ninguna tarifa. Recomendamos usar los siguientes servicios:\n\n• Gratis permanente: Groq y Google (Gemini) son gratuitos a largo plazo, con límites por minuto (si se excede, solo espera un momento).\n• Plataforma agregadora: ¿Cansado de registrarte en todas partes? Usa OpenRouter para acceder a una gran variedad de modelos con una sola clave.\n• Pago por uso: Si deseas eliminar restricciones o usar modelos avanzados, cómpralo directamente en la web oficial. Sin cuotas mensuales ni sobrecostes.\n\n👉 Haz clic en 'Añadir servicio personalizado (API Key)' abajo, selecciona un modelo y pulsa 'Obtener API Key'.",
         "gotIt": "Entendido",
         "scope": "settings"
       }
@@ -171,7 +171,7 @@
         "id": "notice_20260817_free_ai",
         "title": "💡 Como usar tradução com IA de ponta de graça ou pelo preço de custo?",
         "level": "info",
-        "content": "Como um projeto de código aberto, esta extensão é totalmente gratuita. Recomendamos usar serviços diretamente de empresas de IA (como Google, OpenAI) ou da plataforma OpenRouter:\n\n• Teste Grátis: Google (Gemini) e OpenRouter oferecem modelos e cotas gratuitas — basta colar sua chave para usar.\n• Pague pelo Uso: Se precisar de modelos avançados depois, pague apenas pelo que usar nos sites oficiais. Sem mensalidades, sem sobretaxas e com conexão direta mais segura.\n\n👉 Clique no botão 'Adicionar serviço personalizado (API Key)' abaixo, escolha o modelo e clique em 'Obter API Key' para ir direto ao site oficial.",
+        "content": "Como um projeto de código aberto, esta extensão é totalmente gratuita. Recomendamos usar os seguintes serviços:\n\n• Grátis permanente: Groq e Google (Gemini) são gratuitos a longo prazo, com limite de chamadas por minuto (se exceder, basta aguardar um momento).\n• Plataforma agregadora: Carto de se cadastrar em vários lugares? Use o OpenRouter para acessar diversos modelos com uma única chave.\n• Pague pelo uso: Para remover limites ou usar modelos avançados, compre diretamente no site oficial. Sem mensalidades e sem sobretaxas.\n\n👉 Clique em 'Adicionar serviço personalizado (API Key)' abaixo, escolha o modelo e clique em 'Obter API Key'.",
         "gotIt": "Entendi",
         "scope": "settings"
       }
@@ -181,7 +181,7 @@
         "id": "notice_20260817_free_ai",
         "title": "💡 Как использовать топовый ИИ-перевод бесплатно или по себестоимости?",
         "level": "info",
-        "content": "Как опенсорс-проект, расширение абсолютно бесплатно. Мы рекомендуем использовать сервисы напрямую у ИИ-компаний (Google, OpenAI) или через OpenRouter:\n\n• Бесплатный старт: Google (Gemini) и OpenRouter дают бесплатные модели и лимиты — просто вставьте ключ.\n• Оплата за использование: Для продвинутых моделей платите только за фактический расход на официальных сайтах. Без подписок, наценок и с безопасным прямым подключением.\n\n👉 Нажмите кнопку «Добавить пользовательскую службу (API Key)» ниже, выберите модель и нажмите «Получить API Key» для перехода на официальный сайт.",
+        "content": "Как опенсорс-проект, расширение абсолютно бесплатно. Мы рекомендуем следующие варианты:\n\n• Бессрочно бесплатно: Groq и Google (Gemini) бесплатны на постоянной основе, с ограничением запросов в минуту (при превышении просто подождите немного).\n• Агрегатор: Надоело регистрируясь везде? Используйте OpenRouter — один ключ открывает доступ к множеству моделей.\n• Оплата за использование: Если нужно снять ограничения или использовать продвинутые модели, покупайте напрямую на официальном сайте. Без подписок и наценок.\n\n👉 Нажмите «Добавить пользовательскую службу (API Key)» ниже, выберите модель и нажмите «Получить API Key».",
         "gotIt": "Понятно",
         "scope": "settings"
       }
@@ -191,7 +191,7 @@
         "id": "notice_20260817_free_ai",
         "title": "💡 كيف تستخدم ترجمة الذكاء الاصطناعي الممتازة مجانًا أو بسعر التكلفة؟",
         "level": "info",
-        "content": "بصفتنا مشروعًا مفتوح المصدر، فإن هذه الإضافة مجانية تمامًا. نوصي باستخدام الخدمات مباشرة من شركات الذكاء الاصطناعي (مثل Google وOpenAI) أو منصة OpenRouter:\n\n• تجربة مجانية: توفر Google (Gemini) وOpenRouter نماذج وحصصًا مجانية — فقط أدخل المفتاح للبدء.\n• الدفع حسب الاستخدام: إذا احتجت لنماذج متقدمة لاحقًا، ادفع فقط مقابل ما تستخدمه في المواقع الرسمية. بدون رسوم شهرية أو زيادات في السعر، وباتصال مباشر أكثر أمانًا.\n\n👉 اضغط على زر «إضافة خدمة ترجمة مخصصة (API Key)» أدناه، اختر النموذج ثم اضغط «الحصول على API Key» للانتقال مباشرة إلى الموقع الرسمي.",
+        "content": "بصفتنا مشروعًا مفتوح المصدر، فإن هذه الإضافة مجانية تمامًا. نوصي باستخدام الخيارات التالية:\n\n• مجاني دائمًا: توفر Groq وGoogle (Gemini) حصصًا مجانية على المدى الطويل مع حدود لعدد الطلبات في الدقيقة (إذا تم تجاوزها، فقط انتظر قليلاً).\n• منصة التجميع: هل مللت من التسجيل في كل مكان؟ استخدم منصة OpenRouter لتجربة عدد هائل من النماذج بمفتاح واحد.\n• الدفع حسب الاستخدام: إذا أردت إزالة القيود أو استخدام نماذج متقدمة، فاشتريها مباشرة من الموقع الرسمي. بدون رسوم شهرية أو زيادات.\n\n👉 اضغط على «إضافة خدمة ترجمة مخصصة (API Key)» أدناه، اختر النموذج ثم اضغط «الحصول على API Key».",
         "gotIt": "حسنًا",
         "scope": "settings"
       }
@@ -201,7 +201,7 @@
         "id": "notice_20260817_free_ai",
         "title": "💡 Üst düzey AI çevirisini ücretsiz veya maliyetine nasıl kullanırsınız?",
         "level": "info",
-        "content": "Açık kaynaklı bir proje olarak bu eklenti tamamen ücretsizdir. Doğrudan AI şirketlerinin (Google, OpenAI gibi) veya OpenRouter platformunun hizmetlerini kullanmanızı öneririz:\n\n• Ücretsiz Deneyin: Google (Gemini) ve OpenRouter ücretsiz modeller ve kotalar sunar — anahtarınızı yapıştırıp hemen kullanın.\n• Kullandığın Kadar Öde: İleride gelişmiş modellere ihtiyaç duyarsanız, doğrudan resmi sitelerde sadece kullandığınız kadar ödeyin. Aylık ücret yok, ekstra kar yok ve doğrudan bağlantı daha güvenli.\n\n👉 Aşağıdaki 'Özel çeviri hizmeti ekle (API Key)' butonuna tıklayın, modeli seçip 'API Key al' butonuna basarak doğrudan resmi siteye ulaşın.",
+        "content": "Açık kaynaklı bir proje olarak bu eklenti tamamen ücretsizdir. Aşağıdaki hizmetleri kullanmanızı öneririz:\n\n• Kalıcı olarak ücretsiz: Groq ve Google (Gemini) uzun vadede ücretsizdir, yalnızca dakikalık istek sınırı vardır (aşım durumunda biraz bekleyin).\n• Toplayıcı platform: Her yere kayıt olmaktan sıkıldınız mı? OpenRouter ile tek bir anahtarla devasa modellere erişebilirsiniz.\n• İleri düzey ödeme: Sınırları kaldırmak veya gelişmiş modelleri kullanmak istiyorsanız, resmi siteden doğrudan satın alın. Aylık ücret ve ekstra kar yoktur.\n\n👉 Aşağıdaki 'Özel çeviri hizmeti ekle (API Key)' butonuna tıklayın, modeli seçip 'API Key al' butonuna basın.",
         "gotIt": "Anladım",
         "scope": "settings"
       }
