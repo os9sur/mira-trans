@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noai, noimageai">
     <title>Mira Translator | Immersive Web & YouTube Translation</title>
 
-    <meta name="description" content="Mira Translator: A free, 0.3MB ultra-lightweight open-source translation extension. Supports immersive web translation, YouTube bilingual subtitles, and multi-engine AI (ChatGPT, Claude, Gemini).">
+    <meta name="description"
+        content="Mira Translator: A free, 0.3MB ultra-lightweight open-source translation extension. Supports immersive web translation, YouTube bilingual subtitles, and multi-engine AI (ChatGPT, Claude, Gemini).">
     <meta name="author" content="David Bai">
 
     <style>
@@ -21,7 +23,9 @@
             --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             background-color: var(--bg-color);
@@ -121,13 +125,18 @@
         .download-link::before {
             content: '';
             position: absolute;
-            top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
             transition: 0.5s;
         }
 
-        .download-link:hover::before { left: 100%; }
-        
+        .download-link:hover::before {
+            left: 100%;
+        }
+
         .download-link:hover {
             background: rgba(88, 166, 255, 0.15);
             border-color: rgba(88, 166, 255, 0.5);
@@ -194,7 +203,8 @@
             font-weight: 500;
         }
 
-        .lang-btn:hover, .lang-btn.active {
+        .lang-btn:hover,
+        .lang-btn.active {
             background: rgba(88, 166, 255, 0.15);
             color: var(--accent-blue);
         }
@@ -208,13 +218,24 @@
             color: #8b949e;
             font-size: 0.9rem;
         }
-        
-        footer a { color: var(--accent-blue); text-decoration: none; }
-        footer a:hover { text-decoration: underline; }
+
+        footer a {
+            color: var(--accent-blue);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
 
         @media (max-width: 768px) {
-            h1 { font-size: 2rem; }
-            .features-grid { grid-template-columns: 1fr; }
+            h1 {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -232,11 +253,13 @@
         <!-- Hero -->
         <div class="hero">
             <a href="https://github.com/os9sur/MiraTranslator" target="_blank" class="logo-link">
-                <img src="logo.png" alt="Mira Translator Logo" class="main-logo" onerror="this.src='https://via.placeholder.com/100/161b22/58a6ff?text=Mira'">
+                <img src="logo.png" alt="Mira Translator Logo" class="main-logo"
+                    onerror="this.src='https://via.placeholder.com/100/161b22/58a6ff?text=Mira'">
             </a>
-            
+
             <h1 data-i18n="hero_title">Mira Translator</h1>
-            <div class="sub-tagline" data-i18n="hero_tagline">Ultra-lightweight AI Gateway — Vanilla JS for immersive reading.</div>
+            <div class="sub-tagline" data-i18n="hero_tagline">Ultra-lightweight AI Gateway — Vanilla JS for immersive
+                reading.</div>
 
             <div class="badges-container">
                 <div class="badge" data-i18n="badge_size">📦 0.3MB Ultra-lightweight</div>
@@ -245,55 +268,68 @@
             </div>
 
             <p style="max-width: 600px; margin: 0 auto; color: #8b949e;" data-i18n="hero_desc">
-                Designed around personal workflows. No bloat, no servers, just pure vanilla JavaScript connecting your browser directly to LLMs.
+                Designed around personal workflows. No bloat, no servers, just pure vanilla JavaScript connecting your
+                browser directly to LLMs.
             </p>
 
             <div class="cta-wrapper">
-                <a href="https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn" target="_blank" class="download-link">Chrome</a>
-                <a href="https://microsoftedge.microsoft.com/addons/detail/ofhlbeoigddhlpompkgbmbdhpbffmife" target="_blank" class="download-link">Edge</a>
-                <a href="https://addons.mozilla.org/zh-CN/firefox/addon/mira-translator/" target="_blank" class="download-link">Firefox</a>
+                <a href="https://chromewebstore.google.com/detail/hmmllfdmkbmmfffjekhmmbhhfhhnocmn" target="_blank"
+                    class="download-link">Chrome</a>
+                <a href="https://microsoftedge.microsoft.com/addons/detail/ofhlbeoigddhlpompkgbmbdhpbffmife"
+                    target="_blank" class="download-link">Edge</a>
+                <a href="https://addons.mozilla.org/zh-CN/firefox/addon/mira-translator/" target="_blank"
+                    class="download-link">Firefox</a>
             </div>
         </div>
 
-        <h2 style="text-align: center; color: var(--text-bright); margin-bottom: 40px;" data-i18n="features_title">Core Features & Architecture</h2>
+        <h2 style="text-align: center; color: var(--text-bright); margin-bottom: 40px;" data-i18n="features_title">Core
+            Features & Architecture</h2>
 
         <!-- Features Matrix -->
         <div class="features-grid">
             <div class="feature-card">
                 <h3 data-i18n="feat_engine_title">🤖 Multi-Engine Support</h3>
-                <p data-i18n="feat_engine_desc">Compatible with ChatGPT, Claude, Gemini, DeepL, SiliconFlow, and local models (Ollama). Configure custom API endpoints seamlessly.</p>
+                <p data-i18n="feat_engine_desc">Compatible with ChatGPT, Claude, Gemini, DeepL, SiliconFlow, and local
+                    models (Ollama). Configure custom API endpoints seamlessly.</p>
             </div>
-            
+
             <div class="feature-card">
                 <h3 data-i18n="feat_visual_title">🎯 Visual Element Picker</h3>
-                <p data-i18n="feat_visual_desc">Skip layout breakage. Mira focuses on main content areas out of the box. Select or exclude specific DOM elements visually without coding.</p>
+                <p data-i18n="feat_visual_desc">Skip layout breakage. Mira focuses on main content areas out of the box.
+                    Select or exclude specific DOM elements visually without coding.</p>
             </div>
 
             <div class="feature-card">
                 <h3 data-i18n="feat_youtube_title">▶️ YouTube Integration</h3>
-                <p data-i18n="feat_youtube_desc">Dual-language subtitle rendering with player adjustments. Click any word to translate via AI context-awareness.</p>
+                <p data-i18n="feat_youtube_desc">Dual-language subtitle rendering with player adjustments. Click any
+                    word to translate via AI context-awareness.</p>
             </div>
 
             <div class="feature-card">
                 <h3 data-i18n="feat_sync_title">☁️ WebDAV & Drive Sync</h3>
-                <p data-i18n="feat_sync_desc">Supports syncing your customized API configurations and saved vocabulary lists securely via Google Drive or WebDAV.</p>
+                <p data-i18n="feat_sync_desc">Supports syncing your customized API configurations and saved vocabulary
+                    lists securely via Google Drive or WebDAV.</p>
             </div>
 
             <div class="feature-card">
                 <h3 data-i18n="feat_vocab_title">📚 Vocabulary Learning</h3>
-                <p data-i18n="feat_vocab_desc">Save words directly from translated text into a local list with context and phonetics. Review and cross-device sync ready.</p>
+                <p data-i18n="feat_vocab_desc">Save words directly from translated text into a local list with context
+                    and phonetics. Review and cross-device sync ready.</p>
             </div>
 
             <div class="feature-card">
                 <h3 data-i18n="feat_mobile_title">📱 Mobile Support</h3>
-                <p data-i18n="feat_mobile_desc">Fully compatible with mobile browsers supporting extensions (e.g., Firefox and Edge on Android) for on-the-go translation.</p>
+                <p data-i18n="feat_mobile_desc">Fully compatible with mobile browsers supporting extensions (e.g.,
+                    Firefox and Edge on Android) for on-the-go translation.</p>
             </div>
         </div>
 
         <footer>
             <p>
-                <strong>Mira Translator</strong> — Built by <a href="https://github.com/os9sur" target="_blank">David Bai</a>. Licensed under AGPL-3.0.
-                <br><span style="font-size: 0.8rem; margin-top: 10px; display: inline-block;">Contact: mira.studio@proton.me</span>
+                <strong>Mira Translator</strong> — Built by <a href="https://github.com/os9sur" target="_blank">David
+                    Bai</a>. Copyright © 2026 David Bai. All rights reserved.
+                <br><span style="font-size: 0.8rem; margin-top: 10px; display: inline-block;">Contact: <a
+                        href="mailto:mira.studio@proton.me">mira.studio@proton.me</a></span>
             </p>
         </footer>
     </div>
@@ -388,7 +424,7 @@
 
         function setLang(lang) {
             const strings = i18n[lang] || i18n['en'];
-            
+
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
                 if (strings[key]) {
@@ -397,7 +433,7 @@
             });
 
             document.documentElement.lang = lang;
-            
+
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.getAttribute('onclick').includes(lang)) {
@@ -405,13 +441,13 @@
                 }
             });
 
-            try { localStorage.setItem('mira_website_lang', lang); } catch(e) {}
+            try { localStorage.setItem('mira_website_lang', lang); } catch (e) { }
         }
 
         // Initialize language
         (function init() {
             let userLang = 'en';
-            try { 
+            try {
                 const saved = localStorage.getItem('mira_website_lang');
                 if (saved && i18n[saved]) userLang = saved;
                 else {
@@ -420,9 +456,10 @@
                     else if (browserLang.startsWith('zh')) userLang = 'zh-Hans';
                     else if (browserLang.startsWith('ja')) userLang = 'ja';
                 }
-            } catch(e) {}
+            } catch (e) { }
             setLang(userLang);
         })();
     </script>
 </body>
+
 </html>
