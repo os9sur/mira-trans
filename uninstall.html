@@ -28,9 +28,7 @@
     location.href = redirectUrl;
   }
 });
-
-    //  如果用户的浏览器拦截了 GA (如使用了广告拦截器)，
-    // 确保 0.8 秒后依然能跳到 Tally 问卷
+ 
     setTimeout(() => {
       location.href = redirectUrl;
     }, 800);
