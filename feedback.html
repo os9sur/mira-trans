@@ -10,6 +10,7 @@
       background:#f8fafc;color:#1e293b}
     .box{max-width:560px;width:100%;margin:16px;padding:32px;background:#fff;border-radius:16px;
       box-shadow:0 10px 30px rgba(0,0,0,.08)}
+        .logo{display:block;width:64px;height:64px;border-radius:14px;margin:0 0 20px}
     h2{margin:0 0 20px;font-size:20px;line-height:1.6;font-weight:600}
     label{display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:15px;line-height:1.6;cursor:pointer;color:#334155}
     label input{margin-top:5px;flex-shrink:0}
@@ -24,6 +25,7 @@
 </head>
 <body>
 <div class="box" id="box">
+  <img class="logo" src="logo.png" alt="Mira Translator" width="64" height="64">
   <h2 id="title"></h2>
   <div id="reasons"></div>
   <div class="hint" id="hint"></div>
@@ -191,7 +193,7 @@ const reasonsEl = document.getElementById('reasons');
 REASONS.forEach(([key, text], i) => {
   const label = document.createElement('label');
   const input = document.createElement('input');
-  input.type = 'radio';
+  input.type = 'checkbox';
   input.name = 'reason';
   input.value = key;
   const span = document.createElement('span');
@@ -202,9 +204,9 @@ REASONS.forEach(([key, text], i) => {
 
 document.getElementById('submit').addEventListener('click', async (e) => {
   if (document.getElementById('website').value) return; // honeypot
-  const reason = (document.querySelector('input[name="reason"]:checked') || {}).value || '';
+  const reasons = [...document.querySelectorAll('input[name="reason"]:checked')].map(i => i.value);
   const comment = document.getElementById('comment').value.trim();
-  if (!reason && !comment) return;
+  if (!reasons.length && !comment) return;
 
   e.target.disabled = true;
   try {
@@ -212,7 +214,7 @@ document.getElementById('submit').addEventListener('click', async (e) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        reason, comment,
+        reasons, comment,
         client_id: params.get('client_id'),
         version: params.get('version'),
         days_used: Number(params.get('days_used')) || 0,
@@ -227,7 +229,7 @@ document.getElementById('submit').addEventListener('click', async (e) => {
     console.error('feedback error:', err);
   }
   const box = document.getElementById('box');
-  box.innerHTML = '';
+  box.querySelectorAll(':scope > :not(.logo)').forEach(el => el.remove());
   const h = document.createElement('h2');
   h.textContent = t.thanks;
   box.appendChild(h);
