@@ -208,7 +208,7 @@ document.getElementById('submit').addEventListener('click', async (e) => {
 
   e.target.disabled = true;
   try {
-    await fetch(API, {
+    const res = await fetch(API, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -222,7 +222,10 @@ document.getElementById('submit').addEventListener('click', async (e) => {
         browser_lang: params.get('browser_lang')
       })
     });
-  } catch (_) {}
+    if (!res.ok) console.error('feedback failed:', res.status, await res.text());
+  } catch (err) {
+    console.error('feedback error:', err);
+  }
   const box = document.getElementById('box');
   box.innerHTML = '';
   const h = document.createElement('h2');
