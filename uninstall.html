@@ -11,56 +11,92 @@
     gtag('config', 'G-H2MZR2NP56');
 
     const params = new URLSearchParams(location.search);
-    const lang = (navigator.language || "").toLowerCase();
+
+    const lang = (
+      params.get('browser_lang') || ''
+    ).toLowerCase();
+
     const redirectUrl = `https://tally.so/r/68xBrJ${location.search}`;
 
-    if (lang === "zh-cn") {
+    const eventData = {
+      version: params.get('version'),
+      days_used: Number(params.get('days_used')),
+      minutes_used: Number(params.get('minutes_used')),
+      usage_count: Number(params.get('usage_count')),
+      browser: params.get('browser'),
+      browser_version: params.get('browser_version'),
+      os: params.get('os'),
+      timezone: params.get('timezone'),
+      browser_lang: params.get('browser_lang'),
+      client_id: params.get('client_id')
+    };
 
-        document.addEventListener("DOMContentLoaded", () => {
-            document.body.innerHTML = `
-                <h2>已完成卸载！再见！</h2>
-                <p>
-                小提示：如果你正在寻找完全免费且免配置的 AI 翻译，
-                Edge 侧边栏 Copilot 或 Chrome 侧边栏 Gemini 已经很好用，
-                可以分析网页，甚至是 YouTube 视频字幕总结。
-                </p>
-            `;
-        });
 
-        gtag('event', 'extension_uninstalled', {
-            version: params.get('version'),
-            days_used: Number(params.get('days_used')),
-            minutes_used: Number(params.get('minutes_used')),
-            usage_count: Number(params.get('usage_count')),
-            browser: params.get('browser'),
-            browser_version: params.get('browser_version'),
-            os: params.get('os'),
-            timezone: params.get('timezone'),
-            browser_lang: params.get('browser_lang'),
-            client_id: params.get('client_id')
-        });
+    if (lang === 'zh-cn') {
+
+      gtag('event', 'extension_uninstalled', eventData);
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.body.innerHTML = `
+          <style>
+            body {
+              margin: 0;
+              min-height: 100vh;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                           "Microsoft YaHei", sans-serif;
+              background: #f8fafc;
+              color: #1e293b;
+            }
+
+            .box {
+              max-width: 520px;
+              padding: 36px 40px;
+              background: white;
+              border-radius: 16px;
+              box-shadow: 0 10px 30px rgba(0,0,0,.08);
+              text-align: center;
+            }
+
+            h2 {
+              margin: 0 0 20px;
+              font-size: 26px;
+              font-weight: 600;
+            }
+
+            p {
+              margin: 0;
+              line-height: 1.8;
+              font-size: 15px;
+              color: #475569;
+            }
+          </style>
+
+          <div class="box">
+            <h2>已完成卸载！再见！</h2>
+            <p>
+              小提示：如果你正在寻找完全免费且免配置的 AI 翻译，
+              Edge 侧边栏 Copilot 或 Chrome 侧边栏 Gemini 已经很好用，
+              可以分析网页，甚至是 YouTube 视频字幕总结。
+            </p>
+          </div>
+        `;
+      });
 
     } else {
 
-        gtag('event', 'extension_uninstalled', {
-            version: params.get('version'),
-            days_used: Number(params.get('days_used')),
-            minutes_used: Number(params.get('minutes_used')),
-            usage_count: Number(params.get('usage_count')),
-            browser: params.get('browser'),
-            browser_version: params.get('browser_version'),
-            os: params.get('os'),
-            timezone: params.get('timezone'),
-            browser_lang: params.get('browser_lang'),
-            client_id: params.get('client_id'),
-            event_callback: function() {
-                location.href = redirectUrl;
-            }
-        });
+      eventData.event_callback = function() {
+        location.href = redirectUrl;
+      };
 
-        setTimeout(() => {
-            location.href = redirectUrl;
-        }, 800);
+      gtag('event', 'extension_uninstalled', eventData);
+
+      setTimeout(() => {
+        location.href = redirectUrl;
+      }, 800);
+
     }
 
   </script>
