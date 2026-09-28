@@ -29,7 +29,7 @@
   <h2 id="title"></h2>
   <div id="reasons"></div>
   <div class="hint" id="hint"></div>
-  <textarea id="comment"></textarea>
+    <textarea id="comment" maxlength="2000"></textarea>
   <input class="hp" id="website" tabindex="-1" autocomplete="off">
   <button id="submit"></button>
 </div>
@@ -165,7 +165,7 @@ const RTL = ['ar', 'fa'];
 function pickLang(raw) {
   const l = (raw || 'en').toLowerCase();
   if (I18N[l]) return l;
-  if (l.startsWith('zh')) return 'zh-tw';   // 简体已在 uninstall.html 分流
+  if (l.startsWith('zh')) return 'zh-tw'; 
   const p = l.split('-')[0];
   if (p === 'pt') return 'pt-br';
   return I18N[p] ? p : 'en';
@@ -202,32 +202,33 @@ REASONS.forEach(([key, text], i) => {
   reasonsEl.appendChild(label);
 });
 
-document.getElementById('submit').addEventListener('click', async (e) => {
+document.getElementById('submit').addEventListener('click', (e) => {
   if (document.getElementById('website').value) return; // honeypot
   const reasons = [...document.querySelectorAll('input[name="reason"]:checked')].map(i => i.value);
   const comment = document.getElementById('comment').value.trim();
   if (!reasons.length && !comment) return;
 
   e.target.disabled = true;
-  try {
-    const res = await fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        reasons, comment,
-        client_id: params.get('client_id'),
-        version: params.get('version'),
-        days_used: Number(params.get('days_used')) || 0,
-        usage_count: Number(params.get('usage_count')) || 0,
-        browser: params.get('browser'),
-        os: params.get('os'),
-        browser_lang: params.get('browser_lang')
-      })
-    });
+
+  // keepalive 
+  fetch(API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+    keepalive: true,
+    body: JSON.stringify({
+      reasons, comment,
+      client_id: params.get('client_id'),
+      version: params.get('version'),
+      days_used: Number(params.get('days_used')) || 0,
+      usage_count: Number(params.get('usage_count')) || 0,
+      browser: params.get('browser'),
+      os: params.get('os'),
+      browser_lang: params.get('browser_lang')
+    })
+  }).then(async (res) => {
     if (!res.ok) console.error('feedback failed:', res.status, await res.text());
-  } catch (err) {
-    console.error('feedback error:', err);
-  }
+  }).catch((err) => console.error('feedback error:', err));
+ 
   const box = document.getElementById('box');
   box.querySelectorAll(':scope > :not(.logo)').forEach(el => el.remove());
   const h = document.createElement('h2');
