@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
-  <title>Uninstalling Mira Translator...</title> 
+  <title>Uninstalling Mira Translator...</title>
   <script src="https://www.googletagmanager.com/gtag/js?id=G-H2MZR2NP56"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date()); 
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
     gtag('config', 'G-H2MZR2NP56');
 
     const params = new URLSearchParams(location.search);
@@ -39,55 +40,64 @@
       document.addEventListener("DOMContentLoaded", () => {
         document.body.innerHTML = `
           <style>
-            body {
-              margin: 0;
-              min-height: 100vh;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-                           "Microsoft YaHei", sans-serif;
-              background: #f8fafc;
-              color: #1e293b;
-            }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                 "Microsoft YaHei", sans-serif;
+    background: #f8fafc;
+    color: #1e293b;
+  }
 
-            .box {
-              max-width: 520px;
-              padding: 36px 40px;
-              background: white;
-              border-radius: 16px;
-              box-shadow: 0 10px 30px rgba(0,0,0,.08);
-              text-align: center;
-            }
+  .box {
+    max-width: 520px;
+    padding: 36px 40px;
+    background: white; 
+    box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    text-align: center;
+  }
 
-            h2 {
-              margin: 0 0 20px;
-              font-size: 26px;
-              font-weight: 600;
-            }
+  .logo {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+  }
 
-            p {
-              margin: 0;
-              line-height: 1.8;
-              font-size: 15px;
-              color: #475569;
-            }
-          </style>
+  h2 {
+    margin: 0 0 20px;
+    font-size: 26px;
+    font-weight: 600;
+  }
 
-          <div class="box">
-            <h2>已完成卸载！再见！</h2>
-            <p>
-              小提示：如果你正在寻找完全免费且免配置的 AI 翻译，
-              Edge 侧边栏 Copilot 或 Chrome 侧边栏 Gemini 已经很好用，
-              可以分析网页，甚至是 YouTube 视频字幕总结。
-            </p>
-          </div>
+  p {
+    margin: 0;
+    line-height: 1.8;
+    font-size: 15px;
+    color: #475569;
+  }
+</style>
+
+<div class="box">
+  <img class="logo" src="logo.png" alt="Mira Translator">
+
+  <h2>已完成卸载！再见！</h2>
+
+  <p>
+    小提示：如果你正在寻找完全免费且免配置的 AI 翻译，
+    Edge 侧边栏 Copilot 或 Chrome 侧边栏 Gemini 已经很好用，
+    可以分析网页，甚至是 YouTube 视频字幕总结。
+  </p>
+</div>
         `;
       });
 
     } else {
 
-      eventData.event_callback = function() {
+      eventData.event_callback = function () {
         location.href = redirectUrl;
       };
 
@@ -101,6 +111,8 @@
 
   </script>
 </head>
+
 <body>
 </body>
+
 </html>
