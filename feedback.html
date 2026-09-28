@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mira Translator</title>
+  <style>
+    body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei","Noto Sans Arabic","Noto Sans Thai",sans-serif;
+      background:#f8fafc;color:#1e293b}
+    .box{max-width:560px;width:100%;margin:16px;padding:32px;background:#fff;border-radius:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,.08)}
+    h2{margin:0 0 20px;font-size:20px;line-height:1.6;font-weight:600}
+    label{display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:15px;line-height:1.6;cursor:pointer;color:#334155}
+    label input{margin-top:5px;flex-shrink:0}
+    .hint{margin:20px 0 8px;font-size:14px;line-height:1.7;color:#64748b}
+    textarea{width:100%;box-sizing:border-box;height:100px;padding:10px;border:1px solid #cbd5e1;
+      border-radius:8px;font:inherit;font-size:15px}
+    button{margin-top:16px;padding:10px 28px;border:0;border-radius:8px;background:#2563eb;
+      color:#fff;font-size:15px;cursor:pointer}
+    button:disabled{opacity:.5;cursor:default}
+    .hp{position:absolute;left:-9999px}
+  </style>
+</head>
+<body>
+<div class="box" id="box">
+  <h2 id="title"></h2>
+  <div id="reasons"></div>
+  <div class="hint" id="hint"></div>
+  <textarea id="comment"></textarea>
+  <input class="hp" id="website" tabindex="-1" autocomplete="off">
+  <button id="submit"></button>
+</div>
+
+<script>
+const API = 'https://mira-feedback.we35850.workers.dev/'; 
+
+const I18N = {
+  en: {
+    title: 'Uninstallation complete. You can close this page, or share your feedback below to help me make it better...',
+    o1: 'Translation stopped working on a specific site — paste the URL below 👇',
+    o2: "Looking for a completely free alternative AI translation with zero setup (Tip: Your browser's built-in Edge Copilot or Chrome sidebar AI work great too).",
+    o3: 'Missing a feature I need — for example? 👇',
+    hint: "If there's a specific site or feature you'd like to mention, feel free to let me know here — thank you!",
+    submit: 'Submit', thanks: 'Thanks for your feedback!'
+  },
+  de: {
+    title: 'Deinstallation abgeschlossen. Du kannst diese Seite schließen oder unten Feedback geben, damit ich die Erweiterung verbessern kann...',
+    o1: 'Die Übersetzung funktioniert auf einer bestimmten Website nicht mehr – bitte URL unten einfügen 👇',
+    o2: 'Ich suche eine komplett kostenlose KI-Übersetzung ohne Einrichtung (Tipp: Edge Copilot oder die KI in der Chrome-Seitenleiste funktionieren auch gut).',
+    o3: 'Mir fehlt eine Funktion – zum Beispiel? 👇',
+    hint: 'Wenn du eine bestimmte Website oder Funktion nennen möchtest, schreib es gern hier – danke!',
+    submit: 'Absenden', thanks: 'Danke für dein Feedback!'
+  },
+  vi: {
+    title: 'Đã gỡ cài đặt xong. Bạn có thể đóng trang này, hoặc chia sẻ phản hồi bên dưới để giúp mình cải thiện nhé...',
+    o1: 'Dịch không còn hoạt động trên một trang web cụ thể — hãy dán URL bên dưới 👇',
+    o2: 'Tôi đang tìm một công cụ dịch AI hoàn toàn miễn phí, không cần cài đặt (Mẹo: Edge Copilot hoặc AI ở thanh bên Chrome tích hợp sẵn cũng rất tốt).',
+    o3: 'Thiếu một tính năng tôi cần — ví dụ là gì? 👇',
+    hint: 'Nếu bạn muốn nói rõ trang web hoặc tính năng cụ thể, cứ viết vào đây — cảm ơn bạn!',
+    submit: 'Gửi', thanks: 'Cảm ơn phản hồi của bạn!'
+  },
+  tr: {
+    title: 'Kaldırma işlemi tamamlandı. Bu sayfayı kapatabilir ya da geliştirmeme yardımcı olmak için aşağıdan geri bildirim paylaşabilirsin...',
+    o1: 'Çeviri belirli bir sitede çalışmayı bıraktı — URL\'yi aşağıya yapıştır 👇',
+    o2: 'Kurulum gerektirmeyen, tamamen ücretsiz bir yapay zekâ çeviri arıyorum (İpucu: Tarayıcının yerleşik Edge Copilot\'u veya Chrome kenar çubuğu yapay zekâsı da çok iyi).',
+    o3: 'İhtiyacım olan bir özellik eksik — örneğin? 👇',
+    hint: 'Belirli bir site veya özellik belirtmek istersen buraya yazabilirsin — teşekkürler!',
+    submit: 'Gönder', thanks: 'Geri bildirimin için teşekkürler!'
+  },
+  es: {
+    title: 'Desinstalación completada. Puedes cerrar esta página o compartir tus comentarios abajo para ayudarme a mejorar...',
+    o1: 'La traducción dejó de funcionar en un sitio concreto — pega la URL abajo 👇',
+    o2: 'Busco una traducción con IA totalmente gratuita y sin configuración (Consejo: Edge Copilot o la IA de la barra lateral de Chrome también funcionan muy bien).',
+    o3: 'Falta una función que necesito — ¿por ejemplo? 👇',
+    hint: 'Si quieres mencionar un sitio o una función concreta, cuéntamelo aquí — ¡gracias!',
+    submit: 'Enviar', thanks: '¡Gracias por tus comentarios!'
+  },
+  fr: {
+    title: "Désinstallation terminée. Vous pouvez fermer cette page ou partager vos commentaires ci-dessous pour m'aider à m'améliorer...",
+    o1: "La traduction ne fonctionne plus sur un site précis — collez l'URL ci-dessous 👇",
+    o2: "Je cherche une traduction IA entièrement gratuite et sans configuration (Astuce : Edge Copilot ou l'IA de la barre latérale de Chrome fonctionnent aussi très bien).",
+    o3: "Il manque une fonctionnalité dont j'ai besoin — par exemple ? 👇",
+    hint: 'Si vous souhaitez mentionner un site ou une fonctionnalité précise, écrivez-le ici — merci !',
+    submit: 'Envoyer', thanks: 'Merci pour vos commentaires !'
+  },
+  it: {
+    title: 'Disinstallazione completata. Puoi chiudere questa pagina o condividere un feedback qui sotto per aiutarmi a migliorare...',
+    o1: "La traduzione ha smesso di funzionare su un sito specifico — incolla l'URL qui sotto 👇",
+    o2: "Cerco una traduzione IA completamente gratuita e senza configurazione (Suggerimento: anche Edge Copilot o l'IA nella barra laterale di Chrome funzionano bene).",
+    o3: 'Manca una funzione che mi serve — ad esempio? 👇',
+    hint: 'Se vuoi indicare un sito o una funzione specifica, scrivilo pure qui — grazie!',
+    submit: 'Invia', thanks: 'Grazie per il tuo feedback!'
+  },
+  'pt-br': {
+    title: 'Desinstalação concluída. Você pode fechar esta página ou compartilhar seu feedback abaixo para me ajudar a melhorar...',
+    o1: 'A tradução parou de funcionar em um site específico — cole a URL abaixo 👇',
+    o2: 'Estou procurando uma tradução com IA totalmente gratuita e sem configuração (Dica: o Edge Copilot ou a IA da barra lateral do Chrome também funcionam muito bem).',
+    o3: 'Falta um recurso de que preciso — por exemplo? 👇',
+    hint: 'Se quiser mencionar um site ou recurso específico, fique à vontade para escrever aqui — obrigado!',
+    submit: 'Enviar', thanks: 'Obrigado pelo seu feedback!'
+  },
+  ru: {
+    title: 'Удаление завершено. Вы можете закрыть эту страницу или оставить отзыв ниже, чтобы помочь мне стать лучше...',
+    o1: 'Перевод перестал работать на определённом сайте — вставьте URL ниже 👇',
+    o2: 'Ищу полностью бесплатный ИИ-переводчик без настройки (Совет: встроенный Edge Copilot или ИИ в боковой панели Chrome тоже отлично подходят).',
+    o3: 'Не хватает нужной мне функции — например, какой? 👇',
+    hint: 'Если хотите указать конкретный сайт или функцию, напишите здесь — спасибо!',
+    submit: 'Отправить', thanks: 'Спасибо за отзыв!'
+  },
+  ar: {
+    title: 'اكتملت إزالة التثبيت. يمكنك إغلاق هذه الصفحة أو مشاركة ملاحظاتك أدناه لمساعدتي على التحسين...',
+    o1: 'توقفت الترجمة عن العمل في موقع معيّن — الصق الرابط أدناه 👇',
+    o2: 'أبحث عن ترجمة بالذكاء الاصطناعي مجانية تمامًا وبدون أي إعداد (نصيحة: Edge Copilot المدمج في المتصفح أو الذكاء الاصطناعي في الشريط الجانبي لـ Chrome يعملان جيدًا أيضًا).',
+    o3: 'تنقصني ميزة أحتاجها — مثل ماذا؟ 👇',
+    hint: 'إذا أردت ذكر موقع أو ميزة معيّنة، فلا تتردد في كتابتها هنا — شكرًا لك!',
+    submit: 'إرسال', thanks: 'شكرًا على ملاحظاتك!'
+  },
+  fa: {
+    title: 'حذف افزونه کامل شد. می‌توانید این صفحه را ببندید یا برای کمک به بهتر شدن افزونه، در زیر بازخورد خود را بنویسید...',
+    o1: 'ترجمه در یک سایت مشخص از کار افتاد — آدرس (URL) را در زیر بچسبانید 👇',
+    o2: 'دنبال ترجمه هوش مصنوعی کاملاً رایگان و بدون نیاز به تنظیمات هستم (نکته: Edge Copilot داخلی مرورگر یا هوش مصنوعی نوار کناری Chrome هم عالی کار می‌کنند).',
+    o3: 'قابلیتی که لازم دارم وجود ندارد — مثلاً چه چیزی؟ 👇',
+    hint: 'اگر می‌خواهید سایت یا قابلیت خاصی را ذکر کنید، همین‌جا بنویسید — ممنون!',
+    submit: 'ارسال', thanks: 'از بازخورد شما سپاسگزاریم!'
+  },
+  th: {
+    title: 'ถอนการติดตั้งเสร็จสมบูรณ์ คุณปิดหน้านี้ได้เลย หรือแบ่งปันความคิดเห็นด้านล่างเพื่อช่วยให้ฉันพัฒนาให้ดีขึ้น...',
+    o1: 'การแปลหยุดทำงานบนเว็บไซต์เฉพาะแห่ง — วาง URL ด้านล่าง 👇',
+    o2: 'กำลังมองหาบริการแปลด้วย AI ที่ฟรีทั้งหมดและไม่ต้องตั้งค่า (เคล็ดลับ: Edge Copilot ในเบราว์เซอร์หรือ AI ในแถบด้านข้างของ Chrome ก็ใช้ได้ดีเช่นกัน)',
+    o3: 'ขาดฟีเจอร์ที่ฉันต้องการ — เช่นอะไร? 👇',
+    hint: 'หากต้องการระบุเว็บไซต์หรือฟีเจอร์เฉพาะ เขียนบอกได้ที่นี่เลย — ขอบคุณ!',
+    submit: 'ส่ง', thanks: 'ขอบคุณสำหรับความคิดเห็น!'
+  },
+  'zh-tw': {
+    title: '已完成解除安裝。你可以關閉此頁面，或在下方留下意見，幫助我做得更好...',
+    o1: '翻譯在特定網站上失效了 — 請在下方貼上網址 👇',
+    o2: '想找完全免費、免設定的 AI 翻譯（小提示：瀏覽器內建的 Edge Copilot 或 Chrome 側邊欄 AI 也很好用）',
+    o3: '缺少我需要的功能 — 例如？ 👇',
+    hint: '如果有想提到的特定網站或功能，歡迎在這裡告訴我，謝謝！',
+    submit: '送出', thanks: '感謝你的回饋！'
+  },
+  ja: {
+    title: 'アンインストールが完了しました。このページを閉じるか、下にご意見をお寄せください。改善の参考にさせていただきます...',
+    o1: '特定のサイトで翻訳が動作しなくなった — 下に URL を貼り付けてください 👇',
+    o2: '設定不要で完全無料の AI 翻訳を探している（ヒント：ブラウザ内蔵の Edge Copilot や Chrome サイドバーの AI も便利です）',
+    o3: '必要な機能が足りない — 例えばどんな機能ですか？ 👇',
+    hint: '特定のサイトや機能があれば、ここに書いてください。ありがとうございます！',
+    submit: '送信', thanks: 'ご意見ありがとうございました！'
+  },
+  ko: {
+    title: '삭제가 완료되었습니다. 이 페이지를 닫으셔도 되고, 아래에 의견을 남겨 개선에 도움을 주셔도 좋습니다...',
+    o1: '특정 사이트에서 번역이 작동하지 않음 — 아래에 URL을 붙여넣어 주세요 👇',
+    o2: '설정이 필요 없는 완전 무료 AI 번역을 찾고 있음 (팁: 브라우저 내장 Edge Copilot이나 Chrome 사이드바 AI도 훌륭합니다)',
+    o3: '필요한 기능이 없음 — 예를 들어 어떤 기능인가요? 👇',
+    hint: '특정 사이트나 기능이 있다면 여기에 자유롭게 적어 주세요. 감사합니다!',
+    submit: '제출', thanks: '의견 감사합니다!'
+  }
+};
+
+const RTL = ['ar', 'fa'];
+
+function pickLang(raw) {
+  const l = (raw || 'en').toLowerCase();
+  if (I18N[l]) return l;
+  if (l.startsWith('zh')) return 'zh-tw';   // 简体已在 uninstall.html 分流
+  const p = l.split('-')[0];
+  if (p === 'pt') return 'pt-br';
+  return I18N[p] ? p : 'en';
+}
+
+const params = new URLSearchParams(location.search);
+const langKey = pickLang(params.get('browser_lang') || params.get('lang'));
+const t = I18N[langKey];
+
+document.documentElement.lang = langKey;
+document.documentElement.dir = RTL.includes(langKey) ? 'rtl' : 'ltr';
+document.title = 'Mira Translator';
+
+const REASONS = [
+  ['site_broken', t.o1],
+  ['want_free', t.o2],
+  ['missing_feature', t.o3]
+];
+
+document.getElementById('title').textContent = t.title;
+document.getElementById('hint').textContent = t.hint;
+document.getElementById('submit').textContent = t.submit;
+
+const reasonsEl = document.getElementById('reasons');
+REASONS.forEach(([key, text], i) => {
+  const label = document.createElement('label');
+  const input = document.createElement('input');
+  input.type = 'radio';
+  input.name = 'reason';
+  input.value = key;
+  const span = document.createElement('span');
+  span.textContent = `${i + 1}. ${text}`;
+  label.append(input, span);
+  reasonsEl.appendChild(label);
+});
+
+document.getElementById('submit').addEventListener('click', async (e) => {
+  if (document.getElementById('website').value) return; // honeypot
+  const reason = (document.querySelector('input[name="reason"]:checked') || {}).value || '';
+  const comment = document.getElementById('comment').value.trim();
+  if (!reason && !comment) return;
+
+  e.target.disabled = true;
+  try {
+    await fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        reason, comment,
+        client_id: params.get('client_id'),
+        version: params.get('version'),
+        days_used: Number(params.get('days_used')) || 0,
+        usage_count: Number(params.get('usage_count')) || 0,
+        browser: params.get('browser'),
+        os: params.get('os'),
+        browser_lang: params.get('browser_lang')
+      })
+    });
+  } catch (_) {}
+  const box = document.getElementById('box');
+  box.innerHTML = '';
+  const h = document.createElement('h2');
+  h.textContent = t.thanks;
+  box.appendChild(h);
+});
+</script>
+</body>
+</html>
