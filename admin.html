@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Feedback Admin</title>
+<style>
+  body{margin:0;padding:24px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;background:#f8fafc;color:#1e293b}
+  .bar{display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+  input{padding:8px 10px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;min-width:280px}
+  button{padding:8px 18px;border:0;border-radius:8px;background:#2563eb;color:#fff;font:inherit;cursor:pointer}
+  #info{color:#64748b;font-size:14px}
+  .wrap{overflow-x:auto;background:#fff;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.06)}
+  table{border-collapse:collapse;width:100%;font-size:14px}
+  th,td{padding:10px 12px;text-align:left;border-bottom:1px solid #e2e8f0;vertical-align:top}
+  th{background:#f1f5f9;white-space:nowrap}
+  td.c{min-width:260px;white-space:pre-wrap;word-break:break-word}
+  .tag{display:inline-block;margin:0 4px 4px 0;padding:2px 8px;border-radius:999px;background:#e0e7ff;color:#3730a3;font-size:12px;white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="bar">
+  <input id="token" type="password" placeholder="ADMIN_TOKEN">
+  <button id="load">加载</button>
+  <span id="info"></span>
+</div>
+<div class="wrap"><table>
+  <thead><tr>
+    <th>时间</th><th>原因</th><th>留言</th><th>语言</th><th>版本</th>
+    <th>使用天数</th><th>次数</th><th>浏览器</th><th>系统</th><th>client_id</th>
+  </tr></thead>
+  <tbody id="rows"></tbody>
+</table></div>
+
+<script>
+const API = 'https://mira-feedback.we35850.workers.dev/admin/list';
+const LABELS = { site_broken: '网站失效', want_free: '想要免费', missing_feature: '缺少功能' };
+const tokenEl = document.getElementById('token');
+tokenEl.value = sessionStorage.getItem('adm') || '';
+
+function td(text, cls) {
+  const el = document.createElement('td');
+  if (cls) el.className = cls;
+  el.textContent = text ?? '';
+  return el;
+}
+
+async function load() {
+  const info = document.getElementById('info');
+  const tbody = document.getElementById('rows');
+  info.textContent = '加载中...';
+  try {
+    const res = await fetch(API, { headers: { Authorization: 'Bearer ' + tokenEl.value.trim() } });
+    if (!res.ok) { info.textContent = '失败：' + res.status + (res.status === 401 ? '（口令不对）' : ''); return; }
+    sessionStorage.setItem('adm', tokenEl.value.trim());
+    const data = await res.json();
+    tbody.innerHTML = '';
+    data.rows.forEach(r => {
+      const tr = document.createElement('tr');
+      tr.appendChild(td(new Date(r.ts).toLocaleString()));
+      const reasonCell = document.createElement('td');
+      (r.reasons || []).forEach(k => {
+        const s = document.createElement('span');
+        s.className = 'tag';
+        s.textContent = LABELS[k] || k;
+        reasonCell.appendChild(s);
+      });
+      tr.appendChild(reasonCell);
+      tr.appendChild(td(r.comment, 'c'));
+      tr.appendChild(td(r.browser_lang));
+      tr.appendChild(td(r.version));
+      tr.appendChild(td(r.days_used));
+      tr.appendChild(td(r.usage_count));
+      tr.appendChild(td(r.browser));
+      tr.appendChild(td(r.os));
+      tr.appendChild(td(r.client_id));
+      tbody.appendChild(tr);
+    });
+    info.textContent = '共 ' + data.count + ' 条';
+  } catch (e) {
+    info.textContent = '请求出错：' + e.message;
+  }
+}
+document.getElementById('load').addEventListener('click', load);
+tokenEl.addEventListener('keydown', e => { if (e.key === 'Enter') load(); });
+</script>
+</body>
+</html>
