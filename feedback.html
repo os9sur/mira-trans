@@ -4,7 +4,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mira Translator</title>
+  <title>Mira Translator - Feedback</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" href="logo.png">
   <style>
     body {
       margin: 0;
@@ -124,7 +126,7 @@
 
     textarea.active,
     textarea:focus {
-      outline:none;
+      outline: none;
       border-color: transparent;
       box-shadow: 0 0 0 2px rgb(17 24 39 / 0%), 0 0 14px 4px rgba(17, 24, 39, .35), 0 0 28px 10px rgba(17, 24, 39, .15);
     }
@@ -147,111 +149,146 @@
       animation: flashBorder .6s ease-out
     }
 
-    #submit{
-      display:flex;align-items:center;justify-content:center;gap:10px;
-            margin:16px auto 0;padding:12px 85px;
-      border:none;border-radius:50px;
-      background:linear-gradient(135deg,#1a3a0a 0%,#35a52b 50%,#0f2a05 100%);
-      background-size:200% 200%;background-position:0% center;
-      color:#fff;font-size:15px;font-weight:600;font-family:inherit;
-      cursor:pointer;position:relative;overflow:hidden;
-      box-shadow:0 4px 12px rgba(0,0,0,.3);
-      transition:background-position .6s ease,box-shadow .4s ease,background-color .4s ease
-    }
-    #submit::before{
-      content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
-      background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);
-      transition:.5s
-    }
-    #submit:hover:not(:disabled){
-      background-position:100% center;
-      animation:submit-glow-pulse 1.6s ease-in-out infinite
-    }
-    #submit:hover:not(:disabled)::before{ left:100% }
-    #submit:active:not(:disabled){
-      background:#1c5c30;box-shadow:0 2px 4px rgba(0,0,0,.5);
-      transition:background .1s
-    }
-    #submit:disabled{
-      opacity:.5;cursor:default;animation:none;box-shadow:0 4px 12px rgba(0,0,0,.3)
-    }
-    @keyframes submit-glow-pulse{
-      0%,100%{box-shadow:0 0 8px rgba(53,165,43,.5),0 0 20px rgba(53,165,43,.35),inset 0 0 12px rgba(255,255,255,.2)}
-      50%{box-shadow:0 0 14px rgba(53,165,43,.8),0 0 36px rgba(53,165,43,.6),inset 0 0 18px rgba(255,255,255,.3)}
+    #submit {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 16px auto 0;
+      padding: 12px 85px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #1a3a0a 0%, #35a52b 50%, #0f2a05 100%);
+      background-size: 200% 200%;
+      background-position: 0% center;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+      transition: background-position .6s ease, box-shadow .4s ease, background-color .4s ease
     }
 
+    #submit::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .15), transparent);
+      transition: .5s
+    }
 
-.openNotebook {
-  width: 100%;
-  background: linear-gradient(135deg, #1a3a0a 0%, #35a52b 50%, #0f2a05 100%);
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  transition:
-    background-position 0.6s ease,
-    box-shadow 0.4s ease,
-    border-color 0.4s ease,
-    background-color 0.4s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  position: relative;
-  overflow: hidden;
-}
+    #submit:hover:not(:disabled) {
+      background-position: 100% center;
+      animation: submit-glow-pulse 1.6s ease-in-out infinite
+    }
 
-#openNotebook:hover,
-#openNotebookSecondary:hover {
-  background-position: 100% center;
-  border-color: rgba(203, 213, 225, 0.8);
-  animation: notebook-glow-pulse 1.6s ease-in-out infinite;
-}
+    #submit:hover:not(:disabled)::before {
+      left: 100%
+    }
 
-@keyframes notebook-glow-pulse {
+    #submit:active:not(:disabled) {
+      background: #1c5c30;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, .5);
+      transition: background .1s
+    }
 
-  0%,
-  100% {
-    box-shadow:
-      0 0 8px rgba(53, 165, 43, 0.5),
-      0 0 20px rgba(53, 165, 43, 0.35),
-      inset 0 0 12px rgba(255, 255, 255, 0.2);
-  }
+    #submit:disabled {
+      opacity: .5;
+      cursor: default;
+      animation: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .3)
+    }
 
-  50% {
-    box-shadow:
-      0 0 14px rgba(53, 165, 43, 0.8),
-      0 0 36px rgba(53, 165, 43, 0.6),
-      inset 0 0 18px rgba(255, 255, 255, 0.3);
-  }
-}
+    @keyframes submit-glow-pulse {
 
-.openNotebook::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg,
-      transparent,
-      rgba(255, 255, 255, 0.15),
-      transparent);
-  transition: 0.5s;
-}
+      0%,
+      100% {
+        box-shadow: 0 0 8px rgba(53, 165, 43, .5), 0 0 20px rgba(53, 165, 43, .35), inset 0 0 12px rgba(255, 255, 255, .2)
+      }
 
-.openNotebook:hover::before {
-  left: 100%;
-}
+      50% {
+        box-shadow: 0 0 14px rgba(53, 165, 43, .8), 0 0 36px rgba(53, 165, 43, .6), inset 0 0 18px rgba(255, 255, 255, .3)
+      }
+    }
 
-.openNotebook:active {
-  background: #1c5c30;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  transition: background 0.1s;
-}
+
+    .openNotebook {
+      width: 100%;
+      background: linear-gradient(135deg, #1a3a0a 0%, #35a52b 50%, #0f2a05 100%);
+      color: white;
+      border: none;
+      padding: 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition:
+        background-position 0.6s ease,
+        box-shadow 0.4s ease,
+        border-color 0.4s ease,
+        background-color 0.4s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    #openNotebook:hover,
+    #openNotebookSecondary:hover {
+      background-position: 100% center;
+      border-color: rgba(203, 213, 225, 0.8);
+      animation: notebook-glow-pulse 1.6s ease-in-out infinite;
+    }
+
+    @keyframes notebook-glow-pulse {
+
+      0%,
+      100% {
+        box-shadow:
+          0 0 8px rgba(53, 165, 43, 0.5),
+          0 0 20px rgba(53, 165, 43, 0.35),
+          inset 0 0 12px rgba(255, 255, 255, 0.2);
+      }
+
+      50% {
+        box-shadow:
+          0 0 14px rgba(53, 165, 43, 0.8),
+          0 0 36px rgba(53, 165, 43, 0.6),
+          inset 0 0 18px rgba(255, 255, 255, 0.3);
+      }
+    }
+
+    .openNotebook::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg,
+          transparent,
+          rgba(255, 255, 255, 0.15),
+          transparent);
+      transition: 0.5s;
+    }
+
+    .openNotebook:hover::before {
+      left: 100%;
+    }
+
+    .openNotebook:active {
+      background: #1c5c30;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      transition: background 0.1s;
+    }
 
     .hp {
       position: absolute;
@@ -457,7 +494,7 @@
       if (needText) {
         commentEl.classList.add('active');
         commentEl.classList.remove('flash');
-        void commentEl.offsetWidth; 
+        void commentEl.offsetWidth;
         commentEl.classList.add('flash');
       } else {
         commentEl.classList.remove('active', 'flash');
