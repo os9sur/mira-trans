@@ -481,17 +481,18 @@
     const NEEDS_TEXT = ['site_broken', 'missing_feature'];
     const commentEl = document.getElementById('comment');
     reasonsEl.addEventListener('change', () => {
-      const checked = [...document.querySelectorAll('input[name="reason"]:checked')].map(i => i.value);
-      const needText = checked.some(v => NEEDS_TEXT.includes(v));
-      if (needText) {
-        commentEl.classList.add('active');
-        commentEl.classList.remove('flash');
-        void commentEl.offsetWidth;
-        commentEl.classList.add('flash');
-      } else {
-        commentEl.classList.remove('active', 'flash');
-      }
-    });
+  const checked = [...document.querySelectorAll('input[name="reason"]:checked')].map(i => i.value);
+  const needText = checked.some(v => NEEDS_TEXT.includes(v));
+  if (needText) {
+    commentEl.classList.add('active');
+    commentEl.classList.remove('flash');
+    void commentEl.offsetWidth;  
+    commentEl.classList.add('flash');
+    commentEl.focus();
+  } else {
+    commentEl.classList.remove('active', 'flash');
+  }
+});
 
     document.getElementById('submit').addEventListener('click', (e) => {
       if (document.getElementById('website').value) return; // honeypot
