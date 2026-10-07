@@ -127,71 +127,89 @@
       color: #64748b
     }
 
-    textarea {
-      width: 100%;
+    .reason-item {
+      margin: 0;
+    }
+
+    .reason-input {
+      display: block;
+      width: calc(100% - 62px);
+      height: 72px;
+      max-height: 0;
       box-sizing: border-box;
-      height: 100px;
-      padding: 10px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
+      margin: 0 12px 0 50px;
+      padding: 0 12px;
+      border: 0 solid #22c55e;
+      border-radius: 9px;
+      background: rgba(255, 255, 255, .92);
+      color: #1d1d1f;
       font: inherit;
       font-size: 15px;
-      transition: box-shadow .25s, border-color .25s
+      opacity: 0;
+      overflow: hidden;
+      pointer-events: none;
+      transform: translateY(-8px) scale(.98);
+      box-shadow: 0 0 0 rgba(34, 197, 94, 0);
+
+      transition:
+        max-height .32s cubic-bezier(.22, 1, .36, 1),
+        margin .32s cubic-bezier(.22, 1, .36, 1),
+        padding .32s cubic-bezier(.22, 1, .36, 1),
+        opacity .22s ease,
+        transform .32s cubic-bezier(.22, 1, .36, 1),
+        border-width .2s ease,
+        box-shadow .3s ease,
+        background-color .2s ease;
     }
 
-    textarea.active,
-    textarea:focus {
-      outline: none;
-      border: 2px solid #22c55e;
-      background: #ffffff;
-    }
-
-    textarea.active {
+    .reason-input.active {
+      max-height: 72px;
+      margin: -2px 12px 14px 50px;
+      padding: 9px 12px;
+      border-width: 2px;
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0) scale(1);
+      background: #fff;
       box-shadow:
-        0 0 0 4px rgba(34, 197, 94, .28),
-        0 0 0 8px rgba(34, 197, 94, .12),
-        0 8px 28px rgba(34, 197, 94, .30),
-        inset 0 0 0 1px rgba(255, 255, 255, .9);
-      transform: translateY(-1px);
+        0 0 0 4px rgba(34, 197, 94, .20),
+        0 5px 18px rgba(34, 197, 94, .16);
+      resize: vertical;
     }
 
     @keyframes flashBorder {
       0% {
-        transform: scale(1);
+        transform: translateY(0) scale(1);
         box-shadow:
-          0 0 0 0 rgba(34, 197, 94, 0),
           0 0 0 0 rgba(34, 197, 94, 0),
           0 0 0 rgba(34, 197, 94, 0);
       }
 
-      30% {
-        transform: scale(1.015);
+      35% {
+        transform: translateY(0) scale(1.012);
         box-shadow:
-          0 0 0 7px rgba(34, 197, 94, .38),
-          0 0 0 13px rgba(34, 197, 94, .16),
-          0 10px 36px rgba(34, 197, 94, .42);
-      }
-
-      55% {
-        transform: scale(1.008);
-        box-shadow:
-          0 0 0 5px rgba(34, 197, 94, .30),
-          0 0 0 10px rgba(34, 197, 94, .12),
-          0 8px 30px rgba(34, 197, 94, .34);
+          0 0 0 6px rgba(34, 197, 94, .28),
+          0 8px 28px rgba(34, 197, 94, .28);
       }
 
       100% {
-        transform: translateY(-1px) scale(1);
+        transform: translateY(0) scale(1);
         box-shadow:
-          0 0 0 4px rgba(34, 197, 94, .28),
-          0 0 0 8px rgba(34, 197, 94, .12),
-          0 8px 28px rgba(34, 197, 94, .30),
-          inset 0 0 0 1px rgba(255, 255, 255, .9);
+          0 0 0 4px rgba(34, 197, 94, .20),
+          0 5px 18px rgba(34, 197, 94, .16);
       }
     }
 
-    textarea.flash {
+    .reason-input.flash {
+      animation: flashBorder .65s cubic-bezier(.22, 1, .36, 1);
+    }
+
+    .reason-input.flash {
       animation: flashBorder .7s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .reason-input:focus {
+      outline: none;
     }
 
     #submit {
@@ -348,7 +366,7 @@
     <h2 id="title"></h2>
     <div id="reasons"></div>
     <!-- <div class="hint" id="hint"></div> -->
-    <textarea id="comment" maxlength="2000"></textarea>
+    <!-- <textarea id="comment" maxlength="2000"></textarea> -->
     <input class="hp" id="website" tabindex="-1" autocomplete="off">
     <button id="submit"></button>
   </div>
@@ -359,163 +377,163 @@
 
     const I18N = {
       en: {
-        title: 'Mira has been uninstalled. Share your feedback to help make it better.',
+        title: 'Uninstallation complete. Your feedback will help make it better.',
         o1: 'Translation stopped working on a specific site — which site? Paste the URL below 👇',
         o2: "Looking for a free AI with no setup? (Tip: Edge Copilot and Chrome’s built-in sidebar AI are already very powerful and can understand and analyze web pages directly.)",
         o3: 'Missing a feature you need — what is it? Tell me below 👇',
         hint: '',
         submit: 'Submit',
-        thanks: 'Thanks for your feedback!'
+        thanks: 'Goodbye!'
       },
 
       de: {
-        title: 'Mira wurde deinstalliert. Dein Feedback hilft, die Erweiterung zu verbessern.',
+        title: 'Deinstallation abgeschlossen. Dein Feedback hilft, die Erweiterung zu verbessern.',
         o1: 'Die Übersetzung funktioniert auf einer bestimmten Website nicht mehr – welche? Füge die URL unten ein 👇',
         o2: 'Du suchst eine kostenlose KI ohne Einrichtung? (Tipp: Edge Copilot und die integrierte KI-Seitenleiste von Chrome sind inzwischen sehr leistungsfähig und können Webseiten direkt verstehen und analysieren.)',
         o3: 'Dir fehlt eine bestimmte Funktion – welche? Schreib sie unten hinein 👇',
         hint: '',
         submit: 'Absenden',
-        thanks: 'Danke für dein Feedback!'
+        thanks: 'Tschüss!'
       },
 
       vi: {
-        title: 'Mira đã được gỡ cài đặt. Phản hồi của bạn sẽ giúp mình cải thiện sản phẩm.',
+        title: 'Đã gỡ cài đặt xong. Phản hồi của bạn sẽ giúp mình cải thiện sản phẩm.',
         o1: 'Bản dịch không còn hoạt động trên một trang web cụ thể — đó là trang nào? Hãy dán URL bên dưới 👇',
         o2: 'Bạn đang tìm một công cụ AI miễn phí, không cần thiết lập? (Mẹo: Edge Copilot và AI tích hợp trong thanh bên Chrome hiện đã rất mạnh, có thể trực tiếp hiểu và phân tích nội dung trang web.)',
         o3: 'Có tính năng bạn cần nhưng chưa có? Đó là tính năng gì? Hãy cho mình biết bên dưới 👇',
         hint: '',
         submit: 'Gửi',
-        thanks: 'Cảm ơn bạn đã phản hồi!'
+        thanks: 'Tạm biệt!'
       },
 
       tr: {
-        title: 'Mira kaldırıldı. Geri bildirimin, geliştirmeme yardımcı olur.',
+        title: 'Kaldırma işlemi tamamlandı. Geri bildirimin geliştirmeme yardımcı olur.',
         o1: 'Çeviri belirli bir sitede çalışmayı bıraktı — hangi site? URL\'yi aşağıya yapıştır 👇',
         o2: 'Kurulum gerektirmeyen ücretsiz bir yapay zekâ mı arıyorsun? (İpucu: Edge Copilot ve Chrome’un yerleşik kenar çubuğu yapay zekâsı artık oldukça güçlü; web sayfalarını doğrudan anlayıp analiz edebiliyorlar.)',
         o3: 'İhtiyacın olan bir özellik eksik — hangi özellik? Aşağıya yaz 👇',
         hint: '',
         submit: 'Gönder',
-        thanks: 'Geri bildirimin için teşekkürler!'
+        thanks: 'Güle güle!'
       },
 
       es: {
-        title: 'Mira se ha desinstalado. Tus comentarios me ayudan a mejorarlo.',
+        title: 'Desinstalación completada. Tus comentarios me ayudan a mejorarlo.',
         o1: 'La traducción dejó de funcionar en un sitio concreto — ¿qué sitio? Pega la URL abajo 👇',
         o2: '¿Buscas una IA gratuita y sin configuración? (Consejo: Edge Copilot y la IA integrada en la barra lateral de Chrome son muy potentes y pueden entender y analizar páginas web directamente.)',
         o3: 'Falta una función que necesitas — ¿cuál? Cuéntamela abajo 👇',
         hint: '',
         submit: 'Enviar',
-        thanks: '¡Gracias por tus comentarios!'
+        thanks: '¡Hasta luego!'
       },
 
       fr: {
-        title: "Mira a été désinstallé. Vos retours m'aident à l'améliorer.",
+        title: "Désinstallation terminée. Vos retours m'aident à l'améliorer.",
         o1: "La traduction ne fonctionne plus sur un site précis — lequel ? Collez l'URL ci-dessous 👇",
         o2: "Vous cherchez une IA gratuite et sans configuration ? (Astuce : Edge Copilot et l'IA intégrée à la barre latérale de Chrome sont désormais très performants et peuvent comprendre et analyser directement les pages web.)",
         o3: "Il manque une fonctionnalité dont vous avez besoin — laquelle ? Dites-moi laquelle ci-dessous 👇",
         hint: '',
         submit: 'Envoyer',
-        thanks: 'Merci pour vos retours !'
+        thanks: 'Au revoir !'
       },
 
       it: {
-        title: 'Mira è stato disinstallato. Il tuo feedback mi aiuta a migliorarlo.',
+        title: 'Disinstallazione completata. Il tuo feedback mi aiuta a migliorarlo.',
         o1: "La traduzione ha smesso di funzionare su un sito specifico — quale? Incolla l'URL qui sotto 👇",
         o2: 'Cerchi un’IA gratuita e senza configurazione? (Suggerimento: Edge Copilot e l’IA integrata nella barra laterale di Chrome sono ormai molto potenti e possono comprendere e analizzare direttamente le pagine web.)',
         o3: 'Manca una funzione di cui hai bisogno — quale? Scrivila qui sotto 👇',
         hint: '',
         submit: 'Invia',
-        thanks: 'Grazie per il tuo feedback!'
+        thanks: 'A presto!'
       },
 
       'pt-br': {
-        title: 'O Mira foi desinstalado. Seu feedback ajuda a melhorar o produto.',
+        title: 'Desinstalação concluída. Seu feedback ajuda a melhorar o produto.',
         o1: 'A tradução parou de funcionar em um site específico — qual? Cole a URL abaixo 👇',
         o2: 'Procurando uma IA gratuita e sem configuração? (Dica: o Edge Copilot e a IA integrada à barra lateral do Chrome já são muito poderosos e conseguem entender e analisar páginas da web diretamente.)',
         o3: 'Falta algum recurso de que você precisa — qual? Conte aqui embaixo 👇',
         hint: '',
         submit: 'Enviar',
-        thanks: 'Obrigado pelo seu feedback!'
+        thanks: 'Até logo!'
       },
 
       ru: {
-        title: 'Mira удалён. Ваш отзыв поможет улучшить расширение.',
+        title: 'Удаление завершено. Ваш отзыв поможет улучшить расширение.',
         o1: 'Перевод перестал работать на определённом сайте — на каком? Вставьте URL ниже 👇',
         o2: 'Ищете бесплатный ИИ без настройки? (Совет: Edge Copilot и встроенный ИИ в боковой панели Chrome уже достаточно мощные и могут напрямую понимать и анализировать веб-страницы.)',
         o3: 'Не хватает нужной функции — какой именно? Напишите ниже 👇',
         hint: '',
         submit: 'Отправить',
-        thanks: 'Спасибо за ваш отзыв!'
+        thanks: 'До свидания!'
       },
 
       ar: {
-        title: 'تم إلغاء تثبيت Mira. ستساعدني ملاحظاتك في تحسينه.',
+        title: 'اكتملت إزالة التثبيت. ستساعدني ملاحظاتك على تحسينه.',
         o1: 'توقفت الترجمة عن العمل في موقع معيّن — ما هو الموقع؟ الصق الرابط أدناه 👇',
         o2: 'هل تبحث عن ذكاء اصطناعي مجاني ومن دون إعداد؟ (نصيحة: أصبح Edge Copilot والذكاء الاصطناعي المدمج في الشريط الجانبي لـ Chrome قويين جدًا، ويمكنهما فهم صفحات الويب وتحليلها مباشرة.)',
         o3: 'هل تفتقد ميزة تحتاج إليها — ما هي؟ اكتبها أدناه 👇',
         hint: '',
         submit: 'إرسال',
-        thanks: 'شكرًا على ملاحظاتك!'
+        thanks: 'إلى اللقاء!'
       },
 
       fa: {
-        title: 'Mira حذف شد. بازخورد شما به بهتر شدن آن کمک می‌کند.',
+        title: 'حذف افزونه کامل شد. بازخورد شما به بهتر شدن آن کمک می‌کند.',
         o1: 'ترجمه در یک سایت مشخص از کار افتاده است — کدام سایت؟ آدرس (URL) را در زیر وارد کنید 👇',
         o2: 'دنبال یک هوش مصنوعی رایگان و بدون نیاز به تنظیمات هستید؟ (نکته: Edge Copilot و هوش مصنوعی داخلی نوار کناری Chrome اکنون بسیار قدرتمند هستند و می‌توانند صفحات وب را مستقیماً درک و تحلیل کنند.)',
         o3: 'قابلیتی که به آن نیاز دارید وجود ندارد — چه قابلیتی؟ در زیر بنویسید 👇',
         hint: '',
         submit: 'ارسال',
-        thanks: 'از بازخورد شما سپاسگزارم!'
+        thanks: 'خداحافظ!'
       },
 
       th: {
-        title: 'ถอนการติดตั้ง Mira แล้ว ความคิดเห็นของคุณจะช่วยให้เราปรับปรุงให้ดีขึ้น',
+        title: 'ถอนการติดตั้งเสร็จสมบูรณ์ ความคิดเห็นของคุณจะช่วยให้เราพัฒนาให้ดีขึ้น',
         o1: 'การแปลใช้งานไม่ได้บนเว็บไซต์บางแห่ง — เว็บไซต์ไหน? วาง URL ไว้ด้านล่าง 👇',
         o2: 'กำลังมองหา AI ฟรีที่ไม่ต้องตั้งค่าใช่ไหม? (เคล็ดลับ: ตอนนี้ Edge Copilot และ AI ในแถบด้านข้างของ Chrome มีความสามารถมาก และสามารถทำความเข้าใจและวิเคราะห์หน้าเว็บได้โดยตรง)',
         o3: 'มีฟีเจอร์ที่คุณต้องการแต่ยังไม่มีใช่ไหม — ฟีเจอร์อะไร? เขียนบอกด้านล่าง 👇',
         hint: '',
         submit: 'ส่ง',
-        thanks: 'ขอบคุณสำหรับความคิดเห็น!'
+        thanks: 'แล้วพบกันใหม่!'
       },
 
       'zh-cn': {
-        title: 'Mira 已卸载。你的反馈会帮助我把它做得更好。',
+        title: '已卸载。你的反馈会帮助我把它做得更好。',
         o1: '翻译在某个网站上无法使用了 — 是哪个网站？请在下方粘贴网址 👇',
         o2: '想试试免费、无需设置的 AI？（小提示：现在 Edge Copilot 和 Chrome 内置的侧边栏 AI 已经很强，可以直接理解和分析网页内容。）',
-        o3: '缺少你需要的功能 — 具体是什么？请在下方告诉我 👇',
+        o3: '缺少我需要的功能 — 具体是什么？请在下方告诉我 👇',
         hint: '',
         submit: '提交',
-        thanks: '感谢你的反馈！'
+        thanks: '再见！'
       },
 
       'zh-tw': {
-        title: 'Mira 已解除安裝。你的意見會幫助我把它做得更好。',
+        title: '已解除安裝。你的意見能幫助我把它做得更好。',
         o1: '翻譯在某個網站上無法使用了 — 是哪個網站？請在下方貼上網址 👇',
         o2: '想試試免費、免設定的 AI？（小提示：現在 Edge Copilot 和 Chrome 內建的側邊欄 AI 已經很強，可以直接理解和分析網頁內容。）',
-        o3: '缺少你需要的功能 — 具體是什麼？請在下方告訴我 👇',
+        o3: '缺少我需要的功能 — 具體是什麼？請在下方告訴我 👇',
         hint: '',
         submit: '送出',
-        thanks: '感謝你的回饋！'
+        thanks: '再見！'
       },
 
       ja: {
-        title: 'Mira のアンインストールが完了しました。ご意見をいただけると、今後の改善に役立ちます。',
+        title: 'アンインストールが完了しました。ご意見をいただけると、今後の改善に役立ちます。',
         o1: '特定のサイトで翻訳が動作しなくなった — どのサイトですか？下に URL を貼り付けてください 👇',
         o2: '無料で設定不要の AI を試してみませんか？（ヒント：Edge Copilot や Chrome のサイドバー AI は、今ではかなり高性能で、ウェブページを直接理解・分析できます。）',
         o3: '必要な機能が足りない — どんな機能ですか？下に書いてください 👇',
         hint: '',
         submit: '送信',
-        thanks: 'ご意見ありがとうございます！'
+        thanks: 'またね！'
       },
 
       ko: {
-        title: 'Mira가 삭제되었습니다. 여러분의 의견이 더 나은 서비스로 만드는 데 도움이 됩니다.',
+        title: '삭제가 완료되었습니다. 여러분의 의견이 더 나은 서비스로 만드는 데 도움이 됩니다.',
         o1: '특정 사이트에서 번역이 작동하지 않음 — 어떤 사이트인가요? 아래에 URL을 붙여 넣어 주세요 👇',
         o2: '무료로 별도 설정 없이 사용할 수 있는 AI를 찾고 있나요? (팁: Edge Copilot과 Chrome 사이드바 AI는 이제 꽤 강력해서 웹페이지를 직접 이해하고 분석할 수 있습니다.)',
         o3: '필요한 기능이 빠져 있나요? 어떤 기능인가요? 아래에 적어 주세요 👇',
         hint: '',
         submit: '제출',
-        thanks: '의견을 남겨 주셔서 감사합니다!'
+        thanks: '또 만나요!'
       }
     };
 
@@ -550,39 +568,78 @@
     document.getElementById('submit').textContent = 'OK';
 
     const reasonsEl = document.getElementById('reasons');
+
     REASONS.forEach(([key, text], i) => {
+      const item = document.createElement('div');
+      item.className = 'reason-item';
+
       const label = document.createElement('label');
+
       const input = document.createElement('input');
       input.type = 'checkbox';
       input.name = 'reason';
       input.value = key;
+
       const span = document.createElement('span');
       span.textContent = `${i + 1}. ${text}`;
+
       label.append(input, span);
-      reasonsEl.appendChild(label);
+      item.appendChild(label);
+
+      if (key === 'site_broken' || key === 'missing_feature') {
+        const detailInput = document.createElement('textarea');
+
+        detailInput.className = 'reason-input';
+        detailInput.rows = 2;
+        detailInput.dataset.reason = key;
+        detailInput.maxLength = 1000;
+        detailInput.autocomplete = 'off';
+
+        item.appendChild(detailInput);
+      }
+
+      reasonsEl.appendChild(item);
     });
 
-    // 选第 1、3 项
-    const NEEDS_TEXT = ['site_broken', 'missing_feature'];
-    const commentEl = document.getElementById('comment');
-    reasonsEl.addEventListener('change', () => {
-      const checked = [...document.querySelectorAll('input[name="reason"]:checked')].map(i => i.value);
-      const needText = checked.some(v => NEEDS_TEXT.includes(v));
-      if (needText) {
-        commentEl.classList.add('active');
-        commentEl.classList.remove('flash');
-        void commentEl.offsetWidth;
-        commentEl.classList.add('flash');
-        commentEl.focus();
+    reasonsEl.addEventListener('change', (e) => {
+      if (
+        !e.target.matches('input[name="reason"]')
+      ) {
+        return;
+      }
+
+      const key = e.target.value;
+      const detailInput = reasonsEl.querySelector(
+        `.reason-input[data-reason="${key}"]`
+      );
+
+      if (!detailInput) return;
+
+      if (e.target.checked) {
+        detailInput.classList.add('active');
+        detailInput.classList.remove('flash');
+
+        void detailInput.offsetWidth;
+
+        detailInput.classList.add('flash');
+        detailInput.focus();
       } else {
-        commentEl.classList.remove('active', 'flash');
+        detailInput.classList.remove('active', 'flash');
       }
     });
 
     document.getElementById('submit').addEventListener('click', (e) => {
       if (document.getElementById('website').value) return; // honeypot
       const reasons = [...document.querySelectorAll('input[name="reason"]:checked')].map(i => i.value);
-      const comment = document.getElementById('comment').value.trim();
+      const comment = reasons
+        .map(key => {
+          const input = reasonsEl.querySelector(
+            `.reason-input[data-reason="${key}"]`
+          );
+          return input ? input.value.trim() : '';
+        })
+        .filter(Boolean)
+        .join(' ');
       if (!reasons.length && !comment) return;
 
       e.target.disabled = true;
