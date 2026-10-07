@@ -110,6 +110,8 @@
                     <th>原因</th>
                     <th>留言</th>
                     <th>语言</th>
+                    <th>国家</th>
+                    <th>城市</th>
                     <th>版本</th>
                     <th>使用天数</th>
                     <th>使用分钟</th>
@@ -163,6 +165,8 @@
                 tr.appendChild(reasonCell);
                 tr.appendChild(td(r.comment, 'c'));
                 tr.appendChild(td(r.browser_lang));
+                tr.appendChild(td(r.country));
+                tr.appendChild(td(r.city));
                 tr.appendChild(td(r.version));
                 tr.appendChild(td(r.days_used));
                 tr.appendChild(td(r.minutes_used));
