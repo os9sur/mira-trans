@@ -146,7 +146,11 @@
             el.textContent = text ?? '';
             return el;
         }
-
+        const countryDisplay = new Intl.DisplayNames(['zh'], { type: 'region' });
+        function countryName(code) {
+            if (!code) return '';
+            try { return countryDisplay.of(code); } catch { return code; }
+        }
         function render() {
             const tbody = document.getElementById('rows');
             const pages = Math.max(1, Math.ceil(allRows.length / PAGE_SIZE));
@@ -165,7 +169,7 @@
                 tr.appendChild(reasonCell);
                 tr.appendChild(td(r.comment, 'c'));
                 tr.appendChild(td(r.browser_lang));
-                tr.appendChild(td(r.country));
+                tr.appendChild(td(countryName(r.country)));
                 tr.appendChild(td(r.city));
                 tr.appendChild(td(r.version));
                 tr.appendChild(td(r.days_used));
