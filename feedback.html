@@ -375,169 +375,169 @@
     const API = 'https://mira-feedback.we35850.workers.dev/feedback';
 
 
-    const I18N = {
-      en: {
-        title: 'Uninstallation complete. Your feedback will help make it better.',
-        o1: 'Translation stopped working on a specific site — which site? Paste the URL below 👇',
-        o2: "Looking for a free AI with no setup? (Tip: Edge Copilot and Chrome’s built-in sidebar AI are already very powerful and can understand and analyze web pages directly.)",
-        o3: 'Missing a feature you need — what is it? Tell me below 👇',
-        hint: '',
-        submit: 'Submit',
-        thanks: 'Goodbye!'
-      },
+const I18N = {
+  en: {
+    title: 'Uninstallation complete. Your feedback will help make it better.',
+    o1: 'Translation stopped working on a specific site — which site? Paste the URL below 👇',
+    o2: "Looking for a free AI with no setup? (Tip: Edge Copilot and Chrome’s built-in sidebar AI are already very powerful and can understand and analyze web pages directly.)",
+    o3: 'Missing a feature — what is it? Tell me below 👇',
+    hint: '',
+    submit: 'Submit',
+    thanks: 'Goodbye!'
+  },
 
-      de: {
-        title: 'Deinstallation abgeschlossen. Dein Feedback hilft, die Erweiterung zu verbessern.',
-        o1: 'Die Übersetzung funktioniert auf einer bestimmten Website nicht mehr – welche? Füge die URL unten ein 👇',
-        o2: 'Du suchst eine kostenlose KI ohne Einrichtung? (Tipp: Edge Copilot und die integrierte KI-Seitenleiste von Chrome sind inzwischen sehr leistungsfähig und können Webseiten direkt verstehen und analysieren.)',
-        o3: 'Dir fehlt eine bestimmte Funktion – welche? Schreib sie unten hinein 👇',
-        hint: '',
-        submit: 'Absenden',
-        thanks: 'Tschüss!'
-      },
+  de: {
+    title: 'Deinstallation abgeschlossen. Dein Feedback hilft, die Erweiterung zu verbessern.',
+    o1: 'Die Übersetzung funktioniert auf einer bestimmten Website nicht mehr – welche? Füge die URL unten ein 👇',
+    o2: 'Du suchst eine kostenlose KI ohne Einrichtung? (Tipp: Edge Copilot und die integrierte KI-Seitenleiste von Chrome sind inzwischen sehr leistungsfähig und können Webseiten direkt verstehen und analysieren.)',
+    o3: 'Eine Funktion fehlt – welche? Schreib sie unten hinein 👇',
+    hint: '',
+    submit: 'Absenden',
+    thanks: 'Tschüss!'
+  },
 
-      vi: {
-        title: 'Đã gỡ cài đặt xong. Phản hồi của bạn sẽ giúp mình cải thiện sản phẩm.',
-        o1: 'Bản dịch không còn hoạt động trên một trang web cụ thể — đó là trang nào? Hãy dán URL bên dưới 👇',
-        o2: 'Bạn đang tìm một công cụ AI miễn phí, không cần thiết lập? (Mẹo: Edge Copilot và AI tích hợp trong thanh bên Chrome hiện đã rất mạnh, có thể trực tiếp hiểu và phân tích nội dung trang web.)',
-        o3: 'Có tính năng bạn cần nhưng chưa có? Đó là tính năng gì? Hãy cho mình biết bên dưới 👇',
-        hint: '',
-        submit: 'Gửi',
-        thanks: 'Tạm biệt!'
-      },
+  vi: {
+    title: 'Đã gỡ cài đặt xong. Phản hồi của bạn sẽ giúp mình cải thiện sản phẩm.',
+    o1: 'Bản dịch không còn hoạt động trên một trang web cụ thể — đó là trang nào? Hãy dán URL bên dưới 👇',
+    o2: 'Bạn đang tìm một công cụ AI miễn phí, không cần thiết lập? (Mẹo: Edge Copilot và AI tích hợp trong thanh bên Chrome hiện đã rất mạnh, có thể trực tiếp hiểu và phân tích nội dung trang web.)',
+    o3: 'Thiếu một tính năng — đó là tính năng gì? Hãy cho mình biết bên dưới 👇',
+    hint: '',
+    submit: 'Gửi',
+    thanks: 'Tạm biệt!'
+  },
 
-      tr: {
-        title: 'Kaldırma işlemi tamamlandı. Geri bildirimin geliştirmeme yardımcı olur.',
-        o1: 'Çeviri belirli bir sitede çalışmayı bıraktı — hangi site? URL\'yi aşağıya yapıştır 👇',
-        o2: 'Kurulum gerektirmeyen ücretsiz bir yapay zekâ mı arıyorsun? (İpucu: Edge Copilot ve Chrome’un yerleşik kenar çubuğu yapay zekâsı artık oldukça güçlü; web sayfalarını doğrudan anlayıp analiz edebiliyorlar.)',
-        o3: 'İhtiyacın olan bir özellik eksik — hangi özellik? Aşağıya yaz 👇',
-        hint: '',
-        submit: 'Gönder',
-        thanks: 'Güle güle!'
-      },
+  tr: {
+    title: 'Kaldırma işlemi tamamlandı. Geri bildirimin geliştirmeme yardımcı olur.',
+    o1: 'Çeviri belirli bir sitede çalışmayı bıraktı — hangi site? URL\'yi aşağıya yapıştır 👇',
+    o2: 'Kurulum gerektirmeyen ücretsiz bir yapay zekâ mı arıyorsun? (İpucu: Edge Copilot ve Chrome’un yerleşik kenar çubuğu yapay zekâsı artık oldukça güçlü; web sayfalarını doğrudan anlayıp analiz edebiliyorlar.)',
+    o3: 'Bir özellik eksik — hangisi? Aşağıya yaz 👇',
+    hint: '',
+    submit: 'Gönder',
+    thanks: 'Güle güle!'
+  },
 
-      es: {
-        title: 'Desinstalación completada. Tus comentarios me ayudan a mejorarlo.',
-        o1: 'La traducción dejó de funcionar en un sitio concreto — ¿qué sitio? Pega la URL abajo 👇',
-        o2: '¿Buscas una IA gratuita y sin configuración? (Consejo: Edge Copilot y la IA integrada en la barra lateral de Chrome son muy potentes y pueden entender y analizar páginas web directamente.)',
-        o3: 'Falta una función que necesitas — ¿cuál? Cuéntamela abajo 👇',
-        hint: '',
-        submit: 'Enviar',
-        thanks: '¡Hasta luego!'
-      },
+  es: {
+    title: 'Desinstalación completada. Tus comentarios me ayudan a mejorarlo.',
+    o1: 'La traducción dejó de funcionar en un sitio concreto — ¿qué sitio? Pega la URL abajo 👇',
+    o2: '¿Buscas una IA gratuita y sin configuración? (Consejo: Edge Copilot y la IA integrada en la barra lateral de Chrome son muy potentes y pueden entender y analizar páginas web directamente.)',
+    o3: 'Falta una función — ¿cuál? Cuéntamela abajo 👇',
+    hint: '',
+    submit: 'Enviar',
+    thanks: '¡Hasta luego!'
+  },
 
-      fr: {
-        title: "Désinstallation terminée. Vos retours m'aident à l'améliorer.",
-        o1: "La traduction ne fonctionne plus sur un site précis — lequel ? Collez l'URL ci-dessous 👇",
-        o2: "Vous cherchez une IA gratuite et sans configuration ? (Astuce : Edge Copilot et l'IA intégrée à la barre latérale de Chrome sont désormais très performants et peuvent comprendre et analyser directement les pages web.)",
-        o3: "Il manque une fonctionnalité dont vous avez besoin — laquelle ? Dites-moi laquelle ci-dessous 👇",
-        hint: '',
-        submit: 'Envoyer',
-        thanks: 'Au revoir !'
-      },
+  fr: {
+    title: "Désinstallation terminée. Vos retours m'aident à l'améliorer.",
+    o1: "La traduction ne fonctionne plus sur un site précis — lequel ? Collez l'URL ci-dessous 👇",
+    o2: "Vous cherchez une IA gratuite et sans configuration ? (Astuce : Edge Copilot et l'IA intégrée à la barre latérale de Chrome sont désormais très performants et peuvent comprendre et analyser directement les pages web.)",
+    o3: "Il manque une fonctionnalité — laquelle ? Dites-moi laquelle ci-dessous 👇",
+    hint: '',
+    submit: 'Envoyer',
+    thanks: 'Au revoir !'
+  },
 
-      it: {
-        title: 'Disinstallazione completata. Il tuo feedback mi aiuta a migliorarlo.',
-        o1: "La traduzione ha smesso di funzionare su un sito specifico — quale? Incolla l'URL qui sotto 👇",
-        o2: 'Cerchi un’IA gratuita e senza configurazione? (Suggerimento: Edge Copilot e l’IA integrata nella barra laterale di Chrome sono ormai molto potenti e possono comprendere e analizzare direttamente le pagine web.)',
-        o3: 'Manca una funzione di cui hai bisogno — quale? Scrivila qui sotto 👇',
-        hint: '',
-        submit: 'Invia',
-        thanks: 'A presto!'
-      },
+  it: {
+    title: 'Disinstallazione completata. Il tuo feedback mi aiuta a migliorarlo.',
+    o1: "La traduzione ha smesso di funzionare su un sito specifico — quale? Incolla l'URL qui sotto 👇",
+    o2: 'Cerchi un’IA gratuita e senza configurazione? (Suggerimento: Edge Copilot e l’IA integrata nella barra laterale di Chrome sono ormai molto potenti e possono comprendere e analizzare direttamente le pagine web.)',
+    o3: 'Manca una funzione — quale? Scrivila qui sotto 👇',
+    hint: '',
+    submit: 'Invia',
+    thanks: 'A presto!'
+  },
 
-      'pt-br': {
-        title: 'Desinstalação concluída. Seu feedback ajuda a melhorar o produto.',
-        o1: 'A tradução parou de funcionar em um site específico — qual? Cole a URL abaixo 👇',
-        o2: 'Procurando uma IA gratuita e sem configuração? (Dica: o Edge Copilot e a IA integrada à barra lateral do Chrome já são muito poderosos e conseguem entender e analisar páginas da web diretamente.)',
-        o3: 'Falta algum recurso de que você precisa — qual? Conte aqui embaixo 👇',
-        hint: '',
-        submit: 'Enviar',
-        thanks: 'Até logo!'
-      },
+  'pt-br': {
+    title: 'Desinstalação concluída. Seu feedback ajuda a melhorar o produto.',
+    o1: 'A tradução parou de funcionar em um site específico — qual? Cole a URL abaixo 👇',
+    o2: 'Procurando uma IA gratuita e sem configuração? (Dica: o Edge Copilot e a IA integrada à barra lateral do Chrome já são muito poderosos e conseguem entender e analisar páginas da web diretamente.)',
+    o3: 'Falta um recurso — qual? Conte aqui embaixo 👇',
+    hint: '',
+    submit: 'Enviar',
+    thanks: 'Até logo!'
+  },
 
-      ru: {
-        title: 'Удаление завершено. Ваш отзыв поможет улучшить расширение.',
-        o1: 'Перевод перестал работать на определённом сайте — на каком? Вставьте URL ниже 👇',
-        o2: 'Ищете бесплатный ИИ без настройки? (Совет: Edge Copilot и встроенный ИИ в боковой панели Chrome уже достаточно мощные и могут напрямую понимать и анализировать веб-страницы.)',
-        o3: 'Не хватает нужной функции — какой именно? Напишите ниже 👇',
-        hint: '',
-        submit: 'Отправить',
-        thanks: 'До свидания!'
-      },
+  ru: {
+    title: 'Удаление завершено. Ваш отзыв поможет улучшить расширение.',
+    o1: 'Перевод перестал работать на определённом сайте — на каком? Вставьте URL ниже 👇',
+    o2: 'Ищете бесплатный ИИ без настройки? (Совет: Edge Copilot и встроенный ИИ в боковой панели Chrome уже достаточно мощные и могут напрямую понимать и анализировать веб-страницы.)',
+    o3: 'Не хватает функции — какой именно? Напишите ниже 👇',
+    hint: '',
+    submit: 'Отправить',
+    thanks: 'До свидания!'
+  },
 
-      ar: {
-        title: 'اكتملت إزالة التثبيت. ستساعدني ملاحظاتك على تحسينه.',
-        o1: 'توقفت الترجمة عن العمل في موقع معيّن — ما هو الموقع؟ الصق الرابط أدناه 👇',
-        o2: 'هل تبحث عن ذكاء اصطناعي مجاني ومن دون إعداد؟ (نصيحة: أصبح Edge Copilot والذكاء الاصطناعي المدمج في الشريط الجانبي لـ Chrome قويين جدًا، ويمكنهما فهم صفحات الويب وتحليلها مباشرة.)',
-        o3: 'هل تفتقد ميزة تحتاج إليها — ما هي؟ اكتبها أدناه 👇',
-        hint: '',
-        submit: 'إرسال',
-        thanks: 'إلى اللقاء!'
-      },
+  ar: {
+    title: 'اكتملت إزالة التثبيت. ستساعدني ملاحظاتك على تحسينه.',
+    o1: 'توقفت الترجمة عن العمل في موقع معيّن — ما هو الموقع؟ الصق الرابط أدناه 👇',
+    o2: 'هل تبحث عن ذكاء اصطناعي مجاني ومن دون إعداد؟ (نصيحة: أصبح Edge Copilot والذكاء الاصطناعي المدمج في الشريط الجانبي لـ Chrome قويين جدًا، ويمكنهما فهم صفحات الويب وتحليلها مباشرة.)',
+    o3: 'تنقص ميزة — ما هي؟ اكتبها أدناه 👇',
+    hint: '',
+    submit: 'إرسال',
+    thanks: 'إلى اللقاء!'
+  },
 
-      fa: {
-        title: 'حذف افزونه کامل شد. بازخورد شما به بهتر شدن آن کمک می‌کند.',
-        o1: 'ترجمه در یک سایت مشخص از کار افتاده است — کدام سایت؟ آدرس (URL) را در زیر وارد کنید 👇',
-        o2: 'دنبال یک هوش مصنوعی رایگان و بدون نیاز به تنظیمات هستید؟ (نکته: Edge Copilot و هوش مصنوعی داخلی نوار کناری Chrome اکنون بسیار قدرتمند هستند و می‌توانند صفحات وب را مستقیماً درک و تحلیل کنند.)',
-        o3: 'قابلیتی که به آن نیاز دارید وجود ندارد — چه قابلیتی؟ در زیر بنویسید 👇',
-        hint: '',
-        submit: 'ارسال',
-        thanks: 'خداحافظ!'
-      },
+  fa: {
+    title: 'حذف افزونه کامل شد. بازخورد شما به بهتر شدن آن کمک می‌کند.',
+    o1: 'ترجمه در یک سایت مشخص از کار افتاده است — کدام سایت؟ آدرس (URL) را در زیر وارد کنید 👇',
+    o2: 'دنبال یک هوش مصنوعی رایگان و بدون نیاز به تنظیمات هستید؟ (نکته: Edge Copilot و هوش مصنوعی داخلی نوار کناری Chrome اکنون بسیار قدرتمند هستند و می‌توانند صفحات وب را مستقیماً درک و تحلیل کنند.)',
+    o3: 'قابلیتی کم است — کدام قابلیت؟ در زیر بنویسید 👇',
+    hint: '',
+    submit: 'ارسال',
+    thanks: 'خداحافظ!'
+  },
 
-      th: {
-        title: 'ถอนการติดตั้งเสร็จสมบูรณ์ ความคิดเห็นของคุณจะช่วยให้เราพัฒนาให้ดีขึ้น',
-        o1: 'การแปลใช้งานไม่ได้บนเว็บไซต์บางแห่ง — เว็บไซต์ไหน? วาง URL ไว้ด้านล่าง 👇',
-        o2: 'กำลังมองหา AI ฟรีที่ไม่ต้องตั้งค่าใช่ไหม? (เคล็ดลับ: ตอนนี้ Edge Copilot และ AI ในแถบด้านข้างของ Chrome มีความสามารถมาก และสามารถทำความเข้าใจและวิเคราะห์หน้าเว็บได้โดยตรง)',
-        o3: 'มีฟีเจอร์ที่คุณต้องการแต่ยังไม่มีใช่ไหม — ฟีเจอร์อะไร? เขียนบอกด้านล่าง 👇',
-        hint: '',
-        submit: 'ส่ง',
-        thanks: 'แล้วพบกันใหม่!'
-      },
+  th: {
+    title: 'ถอนการติดตั้งเสร็จสมบูรณ์ ความคิดเห็นของคุณจะช่วยให้เราพัฒนาให้ดีขึ้น',
+    o1: 'การแปลใช้งานไม่ได้บนเว็บไซต์บางแห่ง — เว็บไซต์ไหน? วาง URL ไว้ด้านล่าง 👇',
+    o2: 'กำลังมองหา AI ฟรีที่ไม่ต้องตั้งค่าใช่ไหม? (เคล็ดลับ: ตอนนี้ Edge Copilot และ AI ในแถบด้านข้างของ Chrome มีความสามารถมาก และสามารถทำความเข้าใจและวิเคราะห์หน้าเว็บได้โดยตรง)',
+    o3: 'ขาดฟีเจอร์อะไรบางอย่าง — ฟีเจอร์อะไร? เขียนบอกด้านล่างได้เลย 👇',
+    hint: '',
+    submit: 'ส่ง',
+    thanks: 'แล้วพบกันใหม่!'
+  },
 
-      'zh-cn': {
-        title: '已卸载。你的反馈会帮助我把它做得更好。',
-        o1: '翻译在某个网站上无法使用了 — 是哪个网站？请在下方粘贴网址 👇',
-        o2: '想试试免费、无需设置的 AI？（小提示：现在 Edge Copilot 和 Chrome 内置的侧边栏 AI 已经很强，可以直接理解和分析网页内容。）',
-        o3: '缺少我需要的功能 — 具体是什么？请在下方告诉我 👇',
-        hint: '',
-        submit: '提交',
-        thanks: '再见！'
-      },
+  'zh-cn': {
+    title: '已卸载。你的反馈会帮助我把它做得更好。',
+    o1: '翻译在某个网站上无法使用了 — 是哪个网站？请在下方粘贴网址 👇',
+    o2: '想试试免费、无需设置的 AI？（小提示：现在 Edge Copilot 和 Chrome 内置的侧边栏 AI 已经很强，可以直接理解和分析网页内容。）',
+    o3: '缺少需要的功能 — 具体是什么？请在下方告诉我 👇',
+    hint: '',
+    submit: '提交',
+    thanks: '再见！'
+  },
 
-      'zh-tw': {
-        title: '已解除安裝。你的意見能幫助我把它做得更好。',
-        o1: '翻譯在某個網站上無法使用了 — 是哪個網站？請在下方貼上網址 👇',
-        o2: '想試試免費、免設定的 AI？（小提示：現在 Edge Copilot 和 Chrome 內建的側邊欄 AI 已經很強，可以直接理解和分析網頁內容。）',
-        o3: '缺少我需要的功能 — 具體是什麼？請在下方告訴我 👇',
-        hint: '',
-        submit: '送出',
-        thanks: '再見！'
-      },
+  'zh-tw': {
+    title: '已解除安裝。你的意見能幫助我把它做得更好。',
+    o1: '翻譯在某個網站上無法使用了 — 是哪個網站？請在下方貼上網址 👇',
+    o2: '想試試免費、免設定的 AI？（小提示：現在 Edge Copilot 和 Chrome 內建的側邊欄 AI 已經很強，可以直接理解和分析網頁內容。）',
+    o3: '缺少需要的功能 — 具體是什麼？請在下方告訴我 👇',
+    hint: '',
+    submit: '送出',
+    thanks: '再見！'
+  },
 
-      ja: {
-        title: 'アンインストールが完了しました。ご意見をいただけると、今後の改善に役立ちます。',
-        o1: '特定のサイトで翻訳が動作しなくなった — どのサイトですか？下に URL を貼り付けてください 👇',
-        o2: '無料で設定不要の AI を試してみませんか？（ヒント：Edge Copilot や Chrome のサイドバー AI は、今ではかなり高性能で、ウェブページを直接理解・分析できます。）',
-        o3: '必要な機能が足りない — どんな機能ですか？下に書いてください 👇',
-        hint: '',
-        submit: '送信',
-        thanks: 'またね！'
-      },
+  ja: {
+    title: 'アンインストールが完了しました。ご意見をいただけると、今後の改善に役立ちます。',
+    o1: '特定のサイトで翻訳が動作しなくなった — どのサイトですか？下に URL を貼り付けてください 👇',
+    o2: '無料で設定不要の AI を試してみませんか？（ヒント：Edge Copilot や Chrome のサイドバー AI は、今ではかなり高性能で、ウェブページを直接理解・分析できます。）',
+    o3: '足りない機能がある — どんな機能ですか？下に書いてください 👇',
+    hint: '',
+    submit: '送信',
+    thanks: 'またね！'
+  },
 
-      ko: {
-        title: '삭제가 완료되었습니다. 여러분의 의견이 더 나은 서비스로 만드는 데 도움이 됩니다.',
-        o1: '특정 사이트에서 번역이 작동하지 않음 — 어떤 사이트인가요? 아래에 URL을 붙여 넣어 주세요 👇',
-        o2: '무료로 별도 설정 없이 사용할 수 있는 AI를 찾고 있나요? (팁: Edge Copilot과 Chrome 사이드바 AI는 이제 꽤 강력해서 웹페이지를 직접 이해하고 분석할 수 있습니다.)',
-        o3: '필요한 기능이 빠져 있나요? 어떤 기능인가요? 아래에 적어 주세요 👇',
-        hint: '',
-        submit: '제출',
-        thanks: '또 만나요!'
-      }
-    };
+  ko: {
+    title: '삭제가 완료되었습니다. 여러분의 의견이 더 나은 서비스로 만드는 데 도움이 됩니다.',
+    o1: '특정 사이트에서 번역이 작동하지 않음 — 어떤 사이트인가요? 아래에 URL을 붙여 넣어 주세요 👇',
+    o2: '무료로 별도 설정 없이 사용할 수 있는 AI를 찾고 있나요? (팁: Edge Copilot과 Chrome 사이드바 AI는 이제 꽤 강력해서 웹페이지를 직접 이해하고 분석할 수 있습니다.)',
+    o3: '기능이 부족함 — 어떤 기능인가요? 아래에 적어 주세요 👇',
+    hint: '',
+    submit: '제출',
+    thanks: '또 만나요!'
+  }
+};
 
-    const RTL = ['ar', 'fa'];
+const RTL = ['ar', 'fa'];
 
     function pickLang(raw) {
       const l = (raw || 'en').toLowerCase();
