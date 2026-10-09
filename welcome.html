@@ -432,7 +432,44 @@
     let browser = 'chrome';
     if (ua.includes('Firefox')) browser = 'firefox';
     else if (ua.includes('Edg/')) browser = 'edge';
+function detectOS() {
+  const ua = navigator.userAgent;
 
+  if (/Windows NT/i.test(ua)) return 'Windows';
+  if (/Android/i.test(ua)) return 'Android';
+  if (/iPhone|iPad|iPod/i.test(ua)) return 'iOS';
+  if (/Macintosh|Mac OS X/i.test(ua)) return 'macOS';
+  if (/Linux/i.test(ua)) return 'Linux';
+
+  return 'Other';
+}
+
+function trackWelcomeVisit() {
+  let referrer = '';
+
+  try {
+    if (document.referrer) {
+      referrer = new URL(document.referrer).hostname;
+    }
+  } catch {}
+
+  fetch('https://mira-feedback.we35850.workers.dev/welcome-view', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain;charset=UTF-8'
+    },
+    keepalive: true,
+    body: JSON.stringify({
+      browser,
+      os: detectOS(),
+      browser_lang: navigator.language || '',
+      page_lang: document.documentElement.lang || 'en',
+      referrer
+    })
+  }).catch(() => {});
+}
+
+trackWelcomeVisit();
     const gifMap = {
       chrome: 'welcome-chrome.mp4',
       edge: 'welcome-edge.mp4',
