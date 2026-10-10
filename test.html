@@ -1,558 +1,281 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <title>Feedback Admin</title>
-
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
-      margin: 0;
-      padding: 24px;
+      margin: 0; padding: 24px;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
-      background: #f8fafc;
-      color: #1e293b;
+      background: #f8fafc; color: #1e293b;
     }
-
-    .bar {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
+    .bar { display:flex; gap:8px; align-items:center; margin-bottom:16px; flex-wrap:wrap; }
+    input:not([type="checkbox"]) {
+      padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px;
+      font:inherit; min-width:280px;
     }
-
-    input {
-      padding: 8px 10px;
-      border: 1px solid #cbd5e1;
-      border-radius: 8px;
-      font: inherit;
-      min-width: 280px;
-    }
-
+    input[type="checkbox"] { width:16px; height:16px; min-width:16px; margin:0; accent-color:#2563eb; cursor:pointer; }
     button {
-      padding: 8px 16px;
-      border: 0;
-      border-radius: 8px;
-      background: #2563eb;
-      color: #fff;
-      font: inherit;
-      cursor: pointer;
-      transition: background .15s, opacity .15s;
+      padding:8px 16px; border:0; border-radius:8px; background:#2563eb; color:#fff;
+      font:inherit; cursor:pointer; transition:background .15s, opacity .15s;
     }
-
-    button:hover:not(:disabled) {
-      background: #1d4ed8;
-    }
-
-    button:disabled {
-      opacity: .45;
-      cursor: default;
-    }
-
-    .delete-btn {
-      padding: 6px 12px;
-      background: #dc2626;
-      white-space: nowrap;
-    }
-
-    .delete-btn:hover:not(:disabled) {
-      background: #b91c1c;
-    }
-
-    #info {
-      color: #64748b;
-      font-size: 14px;
-      overflow-wrap: anywhere;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-      border-bottom: 1px solid #e2e8f0;
-    }
-
-    .tab {
-      padding: 11px 20px;
-      color: #64748b;
-      background: transparent;
-      border-radius: 8px 8px 0 0;
-      border-bottom: 3px solid transparent;
-      font-weight: 600;
-    }
-
-    .tab:hover:not(:disabled) {
-      color: #1d4ed8;
-      background: #eff6ff;
-    }
-
-    .tab.active {
-      color: #2563eb;
-      background: #eff6ff;
-      border-bottom-color: #2563eb;
-    }
-
-    .panel[hidden] {
-      display: none;
-    }
-
-    .wrap {
-      overflow-x: auto;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, .06);
-    }
-
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      font-size: 14px;
-    }
-
-    th,
-    td {
-      padding: 10px 12px;
-      text-align: left;
-      border-bottom: 1px solid #e2e8f0;
-      vertical-align: top;
-    }
-
-    th {
-      background: #f1f5f9;
-      white-space: nowrap;
-    }
-
-    tbody tr:hover {
-      background: #f8fafc;
-    }
-
-    td.c {
-      min-width: 260px;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-
-    td.action {
-      white-space: nowrap;
-    }
-
-    .tag {
-      display: inline-block;
-      margin: 0 4px 4px 0;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: #e0e7ff;
-      color: #3730a3;
-      font-size: 12px;
-      white-space: nowrap;
-    }
-
-    .summary {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(150px, 1fr));
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
-    .summary-card {
-      min-width: 0;
-      padding: 16px 18px;
-      background: #fff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      box-shadow: 0 3px 12px rgba(0, 0, 0, .035);
-    }
-
-    .summary-label {
-      color: #64748b;
-      font-size: 13px;
-    }
-
-    .summary-value {
-      margin-top: 6px;
-      font-size: 26px;
-      line-height: 1.2;
-      font-weight: 700;
-      color: #0f172a;
-      overflow-wrap: anywhere;
-    }
-
-    .section-title {
-      margin: 22px 0 10px;
-      font-size: 16px;
-      font-weight: 650;
-    }
-
-    .pagination {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .empty {
-      padding: 28px;
-      text-align: center;
-      color: #94a3b8;
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 14px;
-      }
-
-      input {
-        min-width: 0;
-        width: 100%;
-      }
-
-      .summary {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .tab {
-        flex: 1;
-        padding: 10px 8px;
-      }
+    button:hover:not(:disabled) { background:#1d4ed8; }
+    button:disabled { opacity:.45; cursor:default; }
+    .delete-btn { padding:6px 12px; background:#dc2626; white-space:nowrap; }
+    .delete-btn:hover:not(:disabled) { background:#b91c1c; }
+    #info { color:#64748b; font-size:14px; overflow-wrap:anywhere; }
+    .tabs { display:flex; gap:8px; margin-bottom:16px; border-bottom:1px solid #e2e8f0; }
+    .tab { padding:11px 20px; color:#64748b; background:transparent; border-radius:8px 8px 0 0; border-bottom:3px solid transparent; font-weight:600; }
+    .tab:hover:not(:disabled) { color:#1d4ed8; background:#eff6ff; }
+    .tab.active { color:#2563eb; background:#eff6ff; border-bottom-color:#2563eb; }
+    .panel[hidden] { display:none; }
+    .wrap { overflow-x:auto; background:#fff; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.06); }
+    table { border-collapse:collapse; width:100%; font-size:14px; }
+    th, td { padding:10px 12px; text-align:left; border-bottom:1px solid #e2e8f0; vertical-align:top; }
+    th { background:#f1f5f9; white-space:nowrap; }
+    tbody tr:hover { background:#f8fafc; }
+    td.c { min-width:260px; white-space:pre-wrap; word-break:break-word; }
+    td.action, td.select-cell { white-space:nowrap; }
+    td.select-cell { width:42px; text-align:center; }
+    th.select-head { width:42px; text-align:center; }
+    .tag { display:inline-block; margin:0 4px 4px 0; padding:2px 8px; border-radius:999px; background:#e0e7ff; color:#3730a3; font-size:12px; white-space:nowrap; }
+    .summary { display:grid; grid-template-columns:repeat(3,minmax(150px,1fr)); gap:12px; margin-bottom:18px; }
+    .summary-card { min-width:0; padding:16px 18px; background:#fff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 3px 12px rgba(0,0,0,.035); }
+    .summary-label { color:#64748b; font-size:13px; }
+    .summary-value { margin-top:6px; font-size:26px; line-height:1.2; font-weight:700; color:#0f172a; overflow-wrap:anywhere; }
+    .section-title { margin:22px 0 10px; font-size:16px; font-weight:650; }
+    .pagination { display:flex; justify-content:center; align-items:center; gap:12px; margin-top:14px; }
+    .empty { padding:28px; text-align:center; color:#94a3b8; }
+    .bulk-bar { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:0 0 10px; padding:10px 12px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; }
+    .select-all-label { display:inline-flex; align-items:center; gap:8px; font-size:14px; color:#334155; cursor:pointer; user-select:none; }
+    .selected-count { color:#64748b; font-size:13px; }
+    .bulk-bar .delete-btn { margin-left:auto; padding:7px 14px; }
+    @media (max-width:600px) {
+      body { padding:14px; }
+      input:not([type="checkbox"]) { min-width:0; width:100%; }
+      .summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .tab { flex:1; padding:10px 8px; }
+      .bulk-bar .delete-btn { margin-left:0; }
     }
   </style>
 </head>
-
 <body>
   <div class="bar">
-    <input
-      id="token"
-      type="password"
-      placeholder="ADMIN_TOKEN"
-      autocomplete="current-password"
-    >
+    <input id="token" type="password" placeholder="ADMIN_TOKEN" autocomplete="current-password">
     <button id="load">加载</button>
     <span id="info" role="status" aria-live="polite"></span>
   </div>
 
   <div class="tabs" role="tablist" aria-label="管理数据">
-    <button
-      class="tab active"
-      id="tab-feedback"
-      role="tab"
-      aria-selected="true"
-      aria-controls="panel-feedback"
-      data-tab="feedback"
-    >卸载反馈</button>
-
-    <button
-      class="tab"
-      id="tab-welcome"
-      role="tab"
-      aria-selected="false"
-      aria-controls="panel-welcome"
-      data-tab="welcome"
-    >欢迎页访问</button>
+    <button class="tab active" id="tab-feedback" role="tab" aria-selected="true" aria-controls="panel-feedback" data-tab="feedback">卸载反馈</button>
+    <button class="tab" id="tab-welcome" role="tab" aria-selected="false" aria-controls="panel-welcome" data-tab="welcome">欢迎页访问</button>
   </div>
 
   <!-- 卸载反馈 -->
-  <section
-    class="panel"
-    id="panel-feedback"
-    role="tabpanel"
-    aria-labelledby="tab-feedback"
-  >
+  <section class="panel" id="panel-feedback" role="tabpanel" aria-labelledby="tab-feedback">
+    <div class="bulk-bar">
+      <label class="select-all-label"><input type="checkbox" id="feedback-select-all"> 全选全部卸载反馈（包含其他页）</label>
+      <span id="feedback-selected-count" class="selected-count">已选择 0 条</span>
+      <button id="feedback-bulk-delete" class="delete-btn" disabled>删除所选</button>
+    </div>
     <div class="wrap">
       <table>
-        <thead>
-          <tr>
-            <th>时间</th>
-            <th>原因</th>
-            <th>留言</th>
-            <th>语言</th>
-            <th>国家</th>
-            <th>城市</th>
-            <th>版本</th>
-            <th>使用天数</th>
-            <th>使用分钟</th>
-            <th>次数</th>
-            <th>浏览器</th>
-            <th>系统</th>
-            <th>client_id</th>
-            <th>操作</th>
-          </tr>
-        </thead>
+        <thead><tr>
+          <th class="select-head">选择</th><th>时间</th><th>原因</th><th>留言</th><th>语言</th><th>国家</th><th>城市</th><th>版本</th><th>使用天数</th><th>使用分钟</th><th>次数</th><th>浏览器</th><th>系统</th><th>client_id</th><th>操作</th>
+        </tr></thead>
         <tbody id="feedback-rows"></tbody>
       </table>
     </div>
-
     <div class="pagination">
-      <button id="feedback-prev">上一页</button>
-      <span id="feedback-pageinfo"></span>
-      <button id="feedback-next">下一页</button>
+      <button id="feedback-prev">上一页</button><span id="feedback-pageinfo"></span><button id="feedback-next">下一页</button>
     </div>
   </section>
 
   <!-- 欢迎页访问 -->
-  <section
-    class="panel"
-    id="panel-welcome"
-    role="tabpanel"
-    aria-labelledby="tab-welcome"
-    hidden
-  >
+  <section class="panel" id="panel-welcome" role="tabpanel" aria-labelledby="tab-welcome" hidden>
     <div class="summary">
-      <div class="summary-card">
-        <div class="summary-label">访问记录</div>
-        <div class="summary-value" id="welcome-total">—</div>
-      </div>
-
-      <div class="summary-card">
-        <div class="summary-label">有城市信息的记录</div>
-        <div class="summary-value" id="welcome-geolocated">—</div>
-      </div>
-
-      <div class="summary-card">
-        <div class="summary-label">不同城市</div>
-        <div class="summary-value" id="welcome-cities">—</div>
-      </div>
+      <div class="summary-card"><div class="summary-label">访问记录</div><div class="summary-value" id="welcome-total">—</div></div>
+      <div class="summary-card"><div class="summary-label">有城市信息的记录</div><div class="summary-value" id="welcome-geolocated">—</div></div>
+      <div class="summary-card"><div class="summary-label">不同城市</div><div class="summary-value" id="welcome-cities">—</div></div>
     </div>
 
     <h3 class="section-title">访问城市排行</h3>
-
     <div class="wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>城市</th>
-            <th>地区</th>
-            <th>国家</th>
-            <th>访问次数</th>
-          </tr>
-        </thead>
-        <tbody id="city-rows"></tbody>
-      </table>
+      <table><thead><tr><th>城市</th><th>地区</th><th>国家</th><th>访问次数</th></tr></thead><tbody id="city-rows"></tbody></table>
     </div>
 
     <h3 class="section-title">访问记录明细</h3>
-
+    <div class="bulk-bar">
+      <label class="select-all-label"><input type="checkbox" id="welcome-select-all"> 全选全部欢迎页访问记录（包含其他页）</label>
+      <span id="welcome-selected-count" class="selected-count">已选择 0 条</span>
+      <button id="welcome-bulk-delete" class="delete-btn" disabled>删除所选</button>
+    </div>
     <div class="wrap">
       <table>
-        <thead>
-          <tr>
-            <th>时间</th>
-            <th>城市</th>
-            <th>地区</th>
-            <th>国家</th>
-            <th>时区</th>
-            <th>浏览器</th>
-            <th>系统</th>
-            <th>浏览器语言</th>
-            <th>页面语言</th>
-            <th>来源</th>
-            <th>操作</th>
-          </tr>
-        </thead>
+        <thead><tr>
+          <th class="select-head">选择</th><th>时间</th><th>城市</th><th>地区</th><th>国家</th><th>时区</th><th>浏览器</th><th>系统</th><th>浏览器语言</th><th>页面语言</th><th>来源</th><th>操作</th>
+        </tr></thead>
         <tbody id="welcome-rows"></tbody>
       </table>
     </div>
-
     <div class="pagination">
-      <button id="welcome-prev">上一页</button>
-      <span id="welcome-pageinfo"></span>
-      <button id="welcome-next">下一页</button>
+      <button id="welcome-prev">上一页</button><span id="welcome-pageinfo"></span><button id="welcome-next">下一页</button>
     </div>
   </section>
 
   <script>
     const API_BASE = 'https://mira-feedback.we35850.workers.dev';
-
     const PAGE_SIZE = 20;
-
-    const LABELS = {
-      site_broken: '网站失效',
-      want_free: '想要免费',
-      missing_feature: '缺少功能'
-    };
+    const LABELS = { site_broken: '网站失效', want_free: '想要免费', missing_feature: '缺少功能' };
 
     const tokenEl = document.getElementById('token');
     const infoEl = document.getElementById('info');
-
     tokenEl.value = localStorage.getItem('adm') || '';
 
     let activeTab = 'feedback';
-
     let feedbackRows = [];
     let welcomeRows = [];
-
     let feedbackPage = 0;
     let welcomePage = 0;
-
     let feedbackLoaded = false;
     let welcomeLoaded = false;
+    const selectedFeedback = new Set();
+    const selectedWelcome = new Set();
+    const batchDeleting = { feedback: false, welcome: false };
 
-    const countryDisplay = new Intl.DisplayNames(['zh'], {
-      type: 'region'
-    });
-
+    const countryDisplay = new Intl.DisplayNames(['zh'], { type: 'region' });
     function countryName(code) {
       if (!code) return '';
-      try {
-        return countryDisplay.of(code) || code;
-      } catch {
-        return code;
-      }
+      try { return countryDisplay.of(code) || code; } catch { return code; }
     }
-
     function cell(text, className) {
       const el = document.createElement('td');
       if (className) el.className = className;
       el.textContent = text == null ? '' : String(text);
       return el;
     }
-
     function emptyRow(tbody, colspan, message = '暂无记录') {
       const tr = document.createElement('tr');
       const td = document.createElement('td');
-
-      td.colSpan = colspan;
-      td.className = 'empty';
-      td.textContent = message;
-
-      tr.appendChild(td);
-      tbody.appendChild(tr);
+      td.colSpan = colspan; td.className = 'empty'; td.textContent = message;
+      tr.appendChild(td); tbody.appendChild(tr);
     }
-
+    function getRows(type) { return type === 'feedback' ? feedbackRows : welcomeRows; }
+    function getSelection(type) { return type === 'feedback' ? selectedFeedback : selectedWelcome; }
+    function getRecordKey(type, record) {
+      const value = type === 'feedback' ? record.client_id : record.kv_key;
+      return value == null ? '' : String(value);
+    }
+    function getSelectableRows(type) {
+      return getRows(type).filter(record => getRecordKey(type, record));
+    }
+    function getSelectedRows(type) {
+      const set = getSelection(type);
+      return getRows(type).filter(record => {
+        const key = getRecordKey(type, record);
+        return key && set.has(key);
+      });
+    }
+    function pruneSelection(type) {
+      const set = getSelection(type);
+      const valid = new Set(getSelectableRows(type).map(record => getRecordKey(type, record)));
+      for (const key of set) if (!valid.has(key)) set.delete(key);
+    }
+    function updateSelectionUI(type) {
+      const selectableCount = getSelectableRows(type).length;
+      const selectedCount = getSelectedRows(type).length;
+      const allCheckbox = document.getElementById(type + '-select-all');
+      const countEl = document.getElementById(type + '-selected-count');
+      const deleteButton = document.getElementById(type + '-bulk-delete');
+      allCheckbox.checked = selectableCount > 0 && selectedCount === selectableCount;
+      allCheckbox.indeterminate = selectedCount > 0 && selectedCount < selectableCount;
+      allCheckbox.disabled = selectableCount === 0 || batchDeleting[type];
+      countEl.textContent = `已选择 ${selectedCount} / ${selectableCount} 条`;
+      deleteButton.disabled = selectedCount === 0 || batchDeleting[type];
+      deleteButton.textContent = batchDeleting[type] ? '正在删除…' : '删除所选';
+    }
+    function createSelectCell(type, record) {
+      const td = document.createElement('td');
+      td.className = 'select-cell';
+      const key = getRecordKey(type, record);
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = !!key && getSelection(type).has(key);
+      checkbox.disabled = !key || batchDeleting[type];
+      checkbox.setAttribute('aria-label', '选择此条记录');
+      checkbox.addEventListener('change', () => {
+        const set = getSelection(type);
+        if (checkbox.checked) set.add(key); else set.delete(key);
+        updateSelectionUI(type);
+      });
+      td.appendChild(checkbox);
+      return td;
+    }
     function createDeleteButton(type, record) {
       const button = document.createElement('button');
-
-      button.className = 'delete-btn';
-      button.textContent = '删除';
-
-      button.addEventListener('click', () => {
-        deleteRecord(type, record, button);
-      });
-
+      button.className = 'delete-btn'; button.textContent = '删除';
+      button.addEventListener('click', () => deleteRecord(type, record, button));
       return button;
     }
-
     async function apiRequest(path, options = {}) {
-      const headers = {
-        ...(options.headers || {}),
-        Authorization: 'Bearer ' + tokenEl.value.trim()
-      };
-
-      const res = await fetch(API_BASE + path, {
-        ...options,
-        headers
-      });
-
+      const headers = { ...(options.headers || {}), Authorization: 'Bearer ' + tokenEl.value.trim() };
+      const res = await fetch(API_BASE + path, { ...options, headers });
       const data = await res.json().catch(() => null);
-
       if (!res.ok) {
-        const error = new Error(
-          data?.reason ||
-          (res.status === 401
-            ? '管理口令不正确'
-            : `请求失败：${res.status}`)
-        );
-
+        const error = new Error(data?.reason || (res.status === 401 ? '管理口令不正确' : `请求失败：${res.status}`));
         error.status = res.status;
         throw error;
       }
-
       return data;
     }
-
     function showError(prefix, error) {
-      if (error.status === 401) {
-        infoEl.textContent = prefix + '：管理口令不正确';
-      } else {
-        infoEl.textContent = prefix + '：' + error.message;
-      }
+      infoEl.textContent = error.status === 401 ? prefix + '：管理口令不正确' : prefix + '：' + error.message;
     }
-
     async function loadFeedback() {
-      infoEl.textContent = '正在加载卸载反馈...';
-
+      infoEl.textContent = '正在加载卸载反馈…';
       try {
         const data = await apiRequest('/admin/list');
-
         feedbackRows = Array.isArray(data.rows) ? data.rows : [];
         feedbackRows.sort((a, b) => b.ts - a.ts);
-
-        feedbackPage = 0;
-        feedbackLoaded = true;
-
+        feedbackPage = 0; feedbackLoaded = true; pruneSelection('feedback');
         localStorage.setItem('adm', tokenEl.value.trim());
-
         renderFeedback();
-
         infoEl.textContent = `卸载反馈：${feedbackRows.length} 条`;
-      } catch (error) {
-        showError('加载卸载反馈失败', error);
-      }
+      } catch (error) { showError('加载卸载反馈失败', error); }
     }
-
     async function loadWelcome() {
-      infoEl.textContent = '正在加载欢迎页访问记录...';
-
+      infoEl.textContent = '正在加载欢迎页访问记录…';
       try {
         const data = await apiRequest('/admin/welcome-list');
-
         welcomeRows = Array.isArray(data.rows) ? data.rows : [];
         welcomeRows.sort((a, b) => b.ts - a.ts);
-
-        welcomePage = 0;
-        welcomeLoaded = true;
-
+        welcomePage = 0; welcomeLoaded = true; pruneSelection('welcome');
         localStorage.setItem('adm', tokenEl.value.trim());
-
         renderWelcome();
-
         infoEl.textContent = `欢迎页访问：${welcomeRows.length} 条`;
-      } catch (error) {
-        showError('加载欢迎页访问记录失败', error);
-      }
+      } catch (error) { showError('加载欢迎页访问记录失败', error); }
     }
 
     function renderFeedback() {
       const tbody = document.getElementById('feedback-rows');
       const pages = Math.max(1, Math.ceil(feedbackRows.length / PAGE_SIZE));
-
-      feedbackPage = Math.min(
-        Math.max(feedbackPage, 0),
-        pages - 1
-      );
-
+      feedbackPage = Math.min(Math.max(feedbackPage, 0), pages - 1);
       tbody.replaceChildren();
-
       const start = feedbackPage * PAGE_SIZE;
       const currentRows = feedbackRows.slice(start, start + PAGE_SIZE);
-
-      if (!currentRows.length) {
-        emptyRow(tbody, 14);
-      }
-
+      if (!currentRows.length) emptyRow(tbody, 15);
       currentRows.forEach(record => {
         const tr = document.createElement('tr');
-
-        tr.appendChild(cell(
-          record.ts ? new Date(record.ts).toLocaleString() : ''
-        ));
-
+        tr.appendChild(createSelectCell('feedback', record));
+        tr.appendChild(cell(record.ts ? new Date(record.ts).toLocaleString() : ''));
         const reasonCell = document.createElement('td');
-
         (record.reasons || []).forEach(reason => {
-          const tag = document.createElement('span');
-          tag.className = 'tag';
-          tag.textContent = LABELS[reason] || reason;
+          const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = LABELS[reason] || reason;
           reasonCell.appendChild(tag);
         });
-
         tr.appendChild(reasonCell);
         tr.appendChild(cell(record.comment, 'c'));
         tr.appendChild(cell(record.browser_lang));
@@ -565,304 +288,185 @@
         tr.appendChild(cell(record.browser));
         tr.appendChild(cell(record.os));
         tr.appendChild(cell(record.client_id));
-
-        const action = cell('');
-        action.className = 'action';
-        action.appendChild(createDeleteButton('feedback', record));
-        tr.appendChild(action);
-
-        tbody.appendChild(tr);
+        const action = cell(''); action.className = 'action'; action.appendChild(createDeleteButton('feedback', record));
+        tr.appendChild(action); tbody.appendChild(tr);
       });
-
-      document.getElementById('feedback-pageinfo').textContent =
-        `${feedbackPage + 1} / ${pages}`;
-
-      document.getElementById('feedback-prev').disabled =
-        feedbackPage === 0;
-
-      document.getElementById('feedback-next').disabled =
-        feedbackPage >= pages - 1;
+      document.getElementById('feedback-pageinfo').textContent = `${feedbackPage + 1} / ${pages}`;
+      document.getElementById('feedback-prev').disabled = feedbackPage === 0;
+      document.getElementById('feedback-next').disabled = feedbackPage >= pages - 1;
+      updateSelectionUI('feedback');
     }
 
     function renderCityStats() {
       const tbody = document.getElementById('city-rows');
       const groups = new Map();
-
       let geolocated = 0;
-
       welcomeRows.forEach(record => {
-        const city = record.city || '';
-        const region = record.region || '';
-        const country = record.country || '';
-
+        const city = record.city || '', region = record.region || '', country = record.country || '';
         if (city) geolocated++;
-
         const key = JSON.stringify([country, region, city]);
-
-        if (!groups.has(key)) {
-          groups.set(key, {
-            city: city || '未知城市',
-            region,
-            country,
-            count: 0
-          });
-        }
-
+        if (!groups.has(key)) groups.set(key, { city: city || '未知城市', region, country, count: 0 });
         groups.get(key).count++;
       });
-
-      const locations = [...groups.values()]
-        .sort((a, b) => b.count - a.count);
-
-      document.getElementById('welcome-total').textContent =
-        welcomeRows.length.toLocaleString();
-
-      document.getElementById('welcome-geolocated').textContent =
-        geolocated.toLocaleString();
-
-      document.getElementById('welcome-cities').textContent =
-        new Set(
-          welcomeRows
-            .filter(record => record.city)
-            .map(record => JSON.stringify([
-              record.country || '',
-              record.region || '',
-              record.city
-            ]))
-        ).size.toLocaleString();
-
+      const locations = [...groups.values()].sort((a, b) => b.count - a.count);
+      document.getElementById('welcome-total').textContent = welcomeRows.length.toLocaleString();
+      document.getElementById('welcome-geolocated').textContent = geolocated.toLocaleString();
+      document.getElementById('welcome-cities').textContent = new Set(
+        welcomeRows.filter(record => record.city).map(record => JSON.stringify([record.country || '', record.region || '', record.city]))
+      ).size.toLocaleString();
       tbody.replaceChildren();
-
-      if (!locations.length) {
-        emptyRow(tbody, 4);
-        return;
-      }
-
+      if (!locations.length) { emptyRow(tbody, 4); return; }
       locations.slice(0, 20).forEach(location => {
         const tr = document.createElement('tr');
-
-        tr.appendChild(cell(location.city));
-        tr.appendChild(cell(location.region));
-        tr.appendChild(cell(countryName(location.country)));
-        tr.appendChild(cell(location.count));
-
+        tr.appendChild(cell(location.city)); tr.appendChild(cell(location.region));
+        tr.appendChild(cell(countryName(location.country))); tr.appendChild(cell(location.count));
         tbody.appendChild(tr);
       });
     }
-
     function renderWelcome() {
       const tbody = document.getElementById('welcome-rows');
       const pages = Math.max(1, Math.ceil(welcomeRows.length / PAGE_SIZE));
-
-      welcomePage = Math.min(
-        Math.max(welcomePage, 0),
-        pages - 1
-      );
-
-      renderCityStats();
-      tbody.replaceChildren();
-
+      welcomePage = Math.min(Math.max(welcomePage, 0), pages - 1);
+      renderCityStats(); tbody.replaceChildren();
       const start = welcomePage * PAGE_SIZE;
       const currentRows = welcomeRows.slice(start, start + PAGE_SIZE);
-
-      if (!currentRows.length) {
-        emptyRow(tbody, 11);
-      }
-
+      if (!currentRows.length) emptyRow(tbody, 12);
       currentRows.forEach(record => {
         const tr = document.createElement('tr');
-
-        tr.appendChild(cell(
-          record.ts ? new Date(record.ts).toLocaleString() : ''
-        ));
-
-        tr.appendChild(cell(record.city));
-        tr.appendChild(cell(record.region));
-        tr.appendChild(cell(countryName(record.country)));
-        tr.appendChild(cell(record.timezone));
-        tr.appendChild(cell(record.browser));
-        tr.appendChild(cell(record.os));
-        tr.appendChild(cell(record.browser_lang));
-        tr.appendChild(cell(record.page_lang));
+        tr.appendChild(createSelectCell('welcome', record));
+        tr.appendChild(cell(record.ts ? new Date(record.ts).toLocaleString() : ''));
+        tr.appendChild(cell(record.city)); tr.appendChild(cell(record.region));
+        tr.appendChild(cell(countryName(record.country))); tr.appendChild(cell(record.timezone));
+        tr.appendChild(cell(record.browser)); tr.appendChild(cell(record.os));
+        tr.appendChild(cell(record.browser_lang)); tr.appendChild(cell(record.page_lang));
         tr.appendChild(cell(record.referrer));
-
-        const action = cell('');
-        action.className = 'action';
-
+        const action = cell(''); action.className = 'action';
         const deleteButton = createDeleteButton('welcome', record);
-
         if (!record.kv_key) {
           deleteButton.disabled = true;
           deleteButton.title = 'Worker 未返回 KV 键，暂时无法删除此记录';
         }
-
-        action.appendChild(deleteButton);
-        tr.appendChild(action);
-
-        tbody.appendChild(tr);
+        action.appendChild(deleteButton); tr.appendChild(action); tbody.appendChild(tr);
       });
-
-      document.getElementById('welcome-pageinfo').textContent =
-        `${welcomePage + 1} / ${pages}`;
-
-      document.getElementById('welcome-prev').disabled =
-        welcomePage === 0;
-
-      document.getElementById('welcome-next').disabled =
-        welcomePage >= pages - 1;
+      document.getElementById('welcome-pageinfo').textContent = `${welcomePage + 1} / ${pages}`;
+      document.getElementById('welcome-prev').disabled = welcomePage === 0;
+      document.getElementById('welcome-next').disabled = welcomePage >= pages - 1;
+      updateSelectionUI('welcome');
     }
 
+    function deletePayload(type, record) {
+      return type === 'feedback'
+        ? { type: 'feedback', client_id: record.client_id }
+        : { type: 'welcome', key: record.kv_key };
+    }
     async function deleteRecord(type, record, button) {
       const isFeedback = type === 'feedback';
-
       if (!isFeedback && !record.kv_key) {
         alert('缺少 KV 记录键，无法删除。请更新 Worker 的欢迎页列表接口。');
         return;
       }
-
-      const preview = String(record.comment || '')
-        .trim()
-        .slice(0, 120);
-
+      const preview = String(record.comment || '').trim().slice(0, 120);
       const description = isFeedback
         ? `留言：${preview || '（无留言）'}\nclient_id：${record.client_id}`
         : `城市：${record.city || '未知'}\n国家：${countryName(record.country) || '未知'}\n时间：${record.ts ? new Date(record.ts).toLocaleString() : ''}`;
-
-      if (!confirm(
-        `确定删除这条${isFeedback ? '卸载反馈' : '欢迎页访问记录'}吗？此操作不可撤销。\n\n${description}`
-      )) {
-        return;
-      }
-
-      button.disabled = true;
-      infoEl.textContent = '正在删除...';
-
+      if (!confirm(`确定删除这条${isFeedback ? '卸载反馈' : '欢迎页访问记录'}吗？此操作不可撤销。\n\n${description}`)) return;
+      button.disabled = true; infoEl.textContent = '正在删除…';
       try {
-        const payload = isFeedback
-          ? {
-              type: 'feedback',
-              client_id: record.client_id
-            }
-          : {
-              type: 'welcome',
-              key: record.kv_key
-            };
-
         const data = await apiRequest('/admin/delete', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(payload)
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(deletePayload(type, record))
         });
-
-        if (!data?.ok) {
-          throw new Error(data?.reason || '删除失败');
-        }
-
+        if (!data?.ok) throw new Error(data?.reason || '删除失败');
+        getSelection(type).delete(getRecordKey(type, record));
         if (isFeedback) {
-          feedbackRows = feedbackRows.filter(
-            item => item.client_id !== record.client_id
-          );
-
-          renderFeedback();
-          infoEl.textContent = `卸载反馈已删除，剩余 ${feedbackRows.length} 条`;
+          feedbackRows = feedbackRows.filter(item => item.client_id !== record.client_id);
+          renderFeedback(); infoEl.textContent = `卸载反馈已删除，剩余 ${feedbackRows.length} 条`;
         } else {
-          welcomeRows = welcomeRows.filter(
-            item => item.kv_key !== record.kv_key
-          );
-
-          renderWelcome();
-          infoEl.textContent = `欢迎页访问记录已删除，剩余 ${welcomeRows.length} 条`;
+          welcomeRows = welcomeRows.filter(item => item.kv_key !== record.kv_key);
+          renderWelcome(); infoEl.textContent = `欢迎页访问记录已删除，剩余 ${welcomeRows.length} 条`;
         }
-      } catch (error) {
-        showError('删除失败', error);
-      } finally {
-        if (button.isConnected) {
-          button.disabled = false;
+      } catch (error) { showError('删除失败', error); }
+      finally { if (button.isConnected) button.disabled = false; }
+    }
+
+    async function deleteSelected(type) {
+      const records = getSelectedRows(type);
+      if (!records.length || batchDeleting[type]) return;
+      const label = type === 'feedback' ? '卸载反馈' : '欢迎页访问记录';
+      if (!confirm(`确定删除选中的 ${records.length} 条${label}吗？\n\n删除操作不可撤销。`)) return;
+      batchDeleting[type] = true; updateSelectionUI(type);
+      let succeeded = 0, failed = 0, stoppedForAuth = false, lastError = '';
+      const set = getSelection(type);
+      for (let i = 0; i < records.length; i++) {
+        const record = records[i];
+        infoEl.textContent = `正在批量删除${label}：${i + 1} / ${records.length}…`;
+        try {
+          const data = await apiRequest('/admin/delete', {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(deletePayload(type, record))
+          });
+          if (!data?.ok) throw new Error(data?.reason || '删除失败');
+          const key = getRecordKey(type, record); set.delete(key);
+          if (type === 'feedback') feedbackRows = feedbackRows.filter(item => item.client_id !== record.client_id);
+          else welcomeRows = welcomeRows.filter(item => item.kv_key !== record.kv_key);
+          succeeded++;
+        } catch (error) {
+          failed++; lastError = error.message || '请求失败';
+          if (error.status === 401) { stoppedForAuth = true; break; }
         }
       }
+      const notAttempted = records.length - succeeded - failed;
+      batchDeleting[type] = false;
+      if (type === 'feedback') renderFeedback(); else renderWelcome();
+      let message = `批量删除完成：成功 ${succeeded} 条，失败 ${failed} 条`;
+      if (notAttempted > 0) message += `，另有 ${notAttempted} 条未处理`;
+      if (stoppedForAuth) message += '；管理口令不正确，已停止后续操作';
+      else if (lastError && failed) message += `；${lastError}`;
+      infoEl.textContent = message;
     }
 
     async function loadActiveTab() {
-      if (activeTab === 'feedback') {
-        await loadFeedback();
-      } else {
-        await loadWelcome();
-      }
+      if (activeTab === 'feedback') await loadFeedback(); else await loadWelcome();
     }
-
     function switchTab(tab) {
       activeTab = tab;
-
       const isFeedback = tab === 'feedback';
-
       document.getElementById('tab-feedback').classList.toggle('active', isFeedback);
       document.getElementById('tab-welcome').classList.toggle('active', !isFeedback);
-
-      document.getElementById('tab-feedback').setAttribute(
-        'aria-selected',
-        String(isFeedback)
-      );
-
-      document.getElementById('tab-welcome').setAttribute(
-        'aria-selected',
-        String(!isFeedback)
-      );
-
+      document.getElementById('tab-feedback').setAttribute('aria-selected', String(isFeedback));
+      document.getElementById('tab-welcome').setAttribute('aria-selected', String(!isFeedback));
       document.getElementById('panel-feedback').hidden = !isFeedback;
       document.getElementById('panel-welcome').hidden = isFeedback;
-
-      if (isFeedback && !feedbackLoaded) {
-        loadFeedback();
-      } else if (!isFeedback && !welcomeLoaded) {
-        loadWelcome();
-      } else {
-        infoEl.textContent = isFeedback
-          ? `卸载反馈：${feedbackRows.length} 条`
-          : `欢迎页访问：${welcomeRows.length} 条`;
-      }
+      if (isFeedback && !feedbackLoaded) loadFeedback();
+      else if (!isFeedback && !welcomeLoaded) loadWelcome();
+      else infoEl.textContent = isFeedback ? `卸载反馈：${feedbackRows.length} 条` : `欢迎页访问：${welcomeRows.length} 条`;
     }
 
     document.querySelectorAll('[data-tab]').forEach(button => {
-      button.addEventListener('click', () => {
-        switchTab(button.dataset.tab);
-      });
+      button.addEventListener('click', () => switchTab(button.dataset.tab));
     });
-
     document.getElementById('load').addEventListener('click', loadActiveTab);
-
-    document.getElementById('prev').addEventListener?.('click', () => {});
-    document.getElementById('feedback-prev').addEventListener('click', () => {
-      feedbackPage--;
+    // 修复：原先绑定了不存在的 #prev 元素，导致脚本在这里中断。
+    document.getElementById('feedback-prev').addEventListener('click', () => { feedbackPage--; renderFeedback(); });
+    document.getElementById('feedback-next').addEventListener('click', () => { feedbackPage++; renderFeedback(); });
+    document.getElementById('welcome-prev').addEventListener('click', () => { welcomePage--; renderWelcome(); });
+    document.getElementById('welcome-next').addEventListener('click', () => { welcomePage++; renderWelcome(); });
+    document.getElementById('feedback-select-all').addEventListener('change', event => {
+      const set = selectedFeedback; set.clear();
+      if (event.target.checked) getSelectableRows('feedback').forEach(record => set.add(getRecordKey('feedback', record)));
       renderFeedback();
     });
-
-    document.getElementById('feedback-next').addEventListener('click', () => {
-      feedbackPage++;
-      renderFeedback();
-    });
-
-    document.getElementById('welcome-prev').addEventListener('click', () => {
-      welcomePage--;
+    document.getElementById('welcome-select-all').addEventListener('change', event => {
+      const set = selectedWelcome; set.clear();
+      if (event.target.checked) getSelectableRows('welcome').forEach(record => set.add(getRecordKey('welcome', record)));
       renderWelcome();
     });
+    document.getElementById('feedback-bulk-delete').addEventListener('click', () => deleteSelected('feedback'));
+    document.getElementById('welcome-bulk-delete').addEventListener('click', () => deleteSelected('welcome'));
+    tokenEl.addEventListener('keydown', event => { if (event.key === 'Enter') loadActiveTab(); });
 
-    document.getElementById('welcome-next').addEventListener('click', () => {
-      welcomePage++;
-      renderWelcome();
-    });
-
-    tokenEl.addEventListener('keydown', event => {
-      if (event.key === 'Enter') loadActiveTab();
-    });
-
-    if (tokenEl.value) {
-      loadFeedback();
-    } else {
-      renderFeedback();
-      renderWelcome();
-    }
+    if (tokenEl.value) loadFeedback();
+    else { renderFeedback(); renderWelcome(); }
   </script>
 </body>
 </html>
