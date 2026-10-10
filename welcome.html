@@ -4,8 +4,8 @@
 <head>
 <head>
   <meta charset="UTF-8">
-
-  <!-- 尽早发送欢迎页访问记录 -->
+ 
+  <!--注释测试代码开始-->
   <script>
     (() => {
       const API = 'https://mira-feedback.we35850.workers.dev/welcome-view';
@@ -59,8 +59,8 @@
       }).catch(() => {});
     })();
   </script>
+  <!--注释测试代码结束-->
 
-  <!-- 原有 GA4 统计保持不变 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2MZR2NP56"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -379,19 +379,16 @@
   <div class="glow-bg"></div>
 
   <div class="box">
-
-    <!-- 顶部：Logo + 放大文字 -->
+ 
     <div class="header">
       <img src="logo.png" alt="Mira">
       <h1 id="title" dir="auto"></h1>
     </div>
-
-    <!-- 中间：浮动图钉 -->
+ 
     <div class="pin-wrap">
       <div class="pin-bg">📌</div>
     </div>
-
-    <!-- 底部：预览图 -->
+ 
     <div class="gif-wrap">
       <div class="gif-inner">
         <video id="guide-gif" muted loop playsinline></video>
