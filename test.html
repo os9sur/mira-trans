@@ -5,62 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <title>Feedback Admin</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; padding: 24px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
-      background: #f8fafc; color: #1e293b;
-    }
-    .bar { display:flex; gap:8px; align-items:center; margin-bottom:16px; flex-wrap:wrap; }
-    input:not([type="checkbox"]) {
-      padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px;
-      font:inherit; min-width:280px;
-    }
-    input[type="checkbox"] { width:16px; height:16px; min-width:16px; margin:0; accent-color:#2563eb; cursor:pointer; }
-    button {
-      padding:8px 16px; border:0; border-radius:8px; background:#2563eb; color:#fff;
-      font:inherit; cursor:pointer; transition:background .15s, opacity .15s;
-    }
-    button:hover:not(:disabled) { background:#1d4ed8; }
-    button:disabled { opacity:.45; cursor:default; }
-    .delete-btn { padding:6px 12px; background:#dc2626; white-space:nowrap; }
-    .delete-btn:hover:not(:disabled) { background:#b91c1c; }
-    #info { color:#64748b; font-size:14px; overflow-wrap:anywhere; }
-    .tabs { display:flex; gap:8px; margin-bottom:16px; border-bottom:1px solid #e2e8f0; }
-    .tab { padding:11px 20px; color:#64748b; background:transparent; border-radius:8px 8px 0 0; border-bottom:3px solid transparent; font-weight:600; }
-    .tab:hover:not(:disabled) { color:#1d4ed8; background:#eff6ff; }
-    .tab.active { color:#2563eb; background:#eff6ff; border-bottom-color:#2563eb; }
-    .panel[hidden] { display:none; }
-    .wrap { overflow-x:auto; background:#fff; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.06); }
-    table { border-collapse:collapse; width:100%; font-size:14px; }
-    th, td { padding:10px 12px; text-align:left; border-bottom:1px solid #e2e8f0; vertical-align:top; }
-    th { background:#f1f5f9; white-space:nowrap; }
-    tbody tr:hover { background:#f8fafc; }
-    td.c { min-width:260px; white-space:pre-wrap; word-break:break-word; }
-    td.action, td.select-cell { white-space:nowrap; }
-    td.select-cell { width:42px; text-align:center; }
-    th.select-head { width:42px; text-align:center; }
-    .tag { display:inline-block; margin:0 4px 4px 0; padding:2px 8px; border-radius:999px; background:#e0e7ff; color:#3730a3; font-size:12px; white-space:nowrap; }
-    .summary { display:grid; grid-template-columns:repeat(3,minmax(150px,1fr)); gap:12px; margin-bottom:18px; }
-    .summary-card { min-width:0; padding:16px 18px; background:#fff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 3px 12px rgba(0,0,0,.035); }
-    .summary-label { color:#64748b; font-size:13px; }
-    .summary-value { margin-top:6px; font-size:26px; line-height:1.2; font-weight:700; color:#0f172a; overflow-wrap:anywhere; }
-    .section-title { margin:22px 0 10px; font-size:16px; font-weight:650; }
-    .pagination { display:flex; justify-content:center; align-items:center; gap:12px; margin-top:14px; }
-    .empty { padding:28px; text-align:center; color:#94a3b8; }
-    .bulk-bar { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:0 0 10px; padding:10px 12px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; }
-    .select-all-label { display:inline-flex; align-items:center; gap:8px; font-size:14px; color:#334155; cursor:pointer; user-select:none; }
-    .selected-count { color:#64748b; font-size:13px; }
-    .bulk-bar .delete-btn { margin-left:auto; padding:7px 14px; }
-    @media (max-width:600px) {
-      body { padding:14px; }
-      input:not([type="checkbox"]) { min-width:0; width:100%; }
-      .summary { grid-template-columns:repeat(2,minmax(0,1fr)); }
-      .tab { flex:1; padding:10px 8px; }
-      .bulk-bar .delete-btn { margin-left:0; }
-    }
-  </style>
+  <style>* { box-sizing: border-box; } body { margin: 0; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif; background: #f8fafc; color: #1e293b; } .bar { display:flex; gap:8px; align-items:center; margin-bottom:16px; flex-wrap:wrap; } input:not([type="checkbox"]) { padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font:inherit; min-width:280px; } input[type="checkbox"] { width:16px; height:16px; min-width:16px; margin:0; accent-color:#2563eb; cursor:pointer; } button { padding:8px 16px; border:0; border-radius:8px; background:#2563eb; color:#fff; font:inherit; cursor:pointer; transition:background .15s, opacity .15s; } button:hover:not(:disabled) { background:#1d4ed8; } button:disabled { opacity:.45; cursor:default; } .delete-btn { padding:6px 12px; background:#dc2626; white-space:nowrap; } .delete-btn:hover:not(:disabled) { background:#b91c1c; } #info { color:#64748b; font-size:14px; overflow-wrap:anywhere; } .tabs { display:flex; gap:8px; margin-bottom:16px; border-bottom:1px solid #e2e8f0; } .tab { padding:11px 20px; color:#64748b; background:transparent; border-radius:8px 8px 0 0; border-bottom:3px solid transparent; font-weight:600; } .tab:hover:not(:disabled) { color:#1d4ed8; background:#eff6ff; } .tab.active { color:#2563eb; background:#eff6ff; border-bottom-color:#2563eb; } .panel[hidden] { display:none; } .wrap { overflow-x:auto; background:#fff; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.06); } table { border-collapse:collapse; width:100%; font-size:14px; } th, td { padding:10px 12px; text-align:left; border-bottom:1px solid #e2e8f0; vertical-align:top; } th { background:#f1f5f9; white-space:nowrap; } tbody tr:hover { background:#f8fafc; } td.c { min-width:260px; white-space:pre-wrap; word-break:break-word; } td.action, td.select-cell { white-space:nowrap; } td.select-cell { width:42px; text-align:center; } th.select-head { width:42px; text-align:center; } .tag { display:inline-block; margin:0 4px 4px 0; padding:2px 8px; border-radius:999px; background:#e0e7ff; color:#3730a3; font-size:12px; white-space:nowrap; } .summary { display:grid; grid-template-columns:repeat(3,minmax(150px,1fr)); gap:12px; margin-bottom:18px; } .summary-card { min-width:0; padding:16px 18px; background:#fff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 3px 12px rgba(0,0,0,.035); } .summary-label { color:#64748b; font-size:13px; } .summary-value { margin-top:6px; font-size:26px; line-height:1.2; font-weight:700; color:#0f172a; overflow-wrap:anywhere; } .section-title { margin:22px 0 10px; font-size:16px; font-weight:650; } .section-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:22px 0 10px; } .section-heading .section-title { margin:0; } .collapse-btn { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border:1px solid #cbd5e1; border-radius:8px; background:#e2e8f0; color:#334155; font-size:13px; white-space:nowrap; } .collapse-btn:hover:not(:disabled) { background:#cbd5e1; } .collapse-icon { font-size:12px; line-height:1; } #city-stats-panel[hidden] { display:none; } .pagination { display:flex; justify-content:center; align-items:center; gap:12px; margin-top:14px; } .empty { padding:28px; text-align:center; color:#94a3b8; } .bulk-bar { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:0 0 10px; padding:10px 12px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; } .select-all-label { display:inline-flex; align-items:center; gap:8px; font-size:14px; color:#334155; cursor:pointer; user-select:none; } .selected-count { color:#64748b; font-size:13px; } .bulk-bar .delete-btn { margin-left:auto; padding:7px 14px; } @media (max-width:600px) { body { padding:14px; } input:not([type="checkbox"]) { min-width:0; width:100%; } .summary { grid-template-columns:repeat(2,minmax(0,1fr)); } .tab { flex:1; padding:10px 8px; } .bulk-bar .delete-btn { margin-left:0; } }</style>
 </head>
 <body>
   <div class="bar">
@@ -68,12 +13,10 @@
     <button id="load">加载</button>
     <span id="info" role="status" aria-live="polite"></span>
   </div>
-
   <div class="tabs" role="tablist" aria-label="管理数据">
     <button class="tab active" id="tab-feedback" role="tab" aria-selected="true" aria-controls="panel-feedback" data-tab="feedback">卸载反馈</button>
     <button class="tab" id="tab-welcome" role="tab" aria-selected="false" aria-controls="panel-welcome" data-tab="welcome">欢迎页访问</button>
   </div>
-
   <!-- 卸载反馈 -->
   <section class="panel" id="panel-feedback" role="tabpanel" aria-labelledby="tab-feedback">
     <div class="bulk-bar">
@@ -93,7 +36,6 @@
       <button id="feedback-prev">上一页</button><span id="feedback-pageinfo"></span><button id="feedback-next">下一页</button>
     </div>
   </section>
-
   <!-- 欢迎页访问 -->
   <section class="panel" id="panel-welcome" role="tabpanel" aria-labelledby="tab-welcome" hidden>
     <div class="summary">
@@ -101,12 +43,18 @@
       <div class="summary-card"><div class="summary-label">有城市信息的记录</div><div class="summary-value" id="welcome-geolocated">—</div></div>
       <div class="summary-card"><div class="summary-label">不同城市</div><div class="summary-value" id="welcome-cities">—</div></div>
     </div>
-
-    <h3 class="section-title">访问城市排行</h3>
-    <div class="wrap">
-      <table><thead><tr><th>城市</th><th>地区</th><th>国家</th><th>访问次数</th></tr></thead><tbody id="city-rows"></tbody></table>
+    <div class="section-heading">
+      <h3 class="section-title">访问城市排行</h3>
+      <button type="button" class="collapse-btn" id="toggle-city-stats" aria-expanded="false" aria-controls="city-stats-panel">
+        <span class="collapse-label">展开</span>
+        <span class="collapse-icon" aria-hidden="true">▸</span>
+      </button>
     </div>
-
+    <div id="city-stats-panel" hidden>
+      <div class="wrap">
+        <table><thead><tr><th>城市</th><th>地区</th><th>国家</th><th>访问次数</th></tr></thead><tbody id="city-rows"></tbody></table>
+      </div>
+    </div>
     <h3 class="section-title">访问记录明细</h3>
     <div class="bulk-bar">
       <label class="select-all-label"><input type="checkbox" id="welcome-select-all"> 全选全部欢迎页访问记录（包含其他页）</label>
@@ -125,16 +73,13 @@
       <button id="welcome-prev">上一页</button><span id="welcome-pageinfo"></span><button id="welcome-next">下一页</button>
     </div>
   </section>
-
   <script>
     const API_BASE = 'https://mira-feedback.we35850.workers.dev';
     const PAGE_SIZE = 20;
     const LABELS = { site_broken: '网站失效', want_free: '想要免费', missing_feature: '缺少功能' };
-
     const tokenEl = document.getElementById('token');
     const infoEl = document.getElementById('info');
     tokenEl.value = localStorage.getItem('adm') || '';
-
     let activeTab = 'feedback';
     let feedbackRows = [];
     let welcomeRows = [];
@@ -145,7 +90,6 @@
     const selectedFeedback = new Set();
     const selectedWelcome = new Set();
     const batchDeleting = { feedback: false, welcome: false };
-
     const countryDisplay = new Intl.DisplayNames(['zh'], { type: 'region' });
     function countryName(code) {
       if (!code) return '';
@@ -258,7 +202,6 @@
         infoEl.textContent = `欢迎页访问：${welcomeRows.length} 条`;
       } catch (error) { showError('加载欢迎页访问记录失败', error); }
     }
-
     function renderFeedback() {
       const tbody = document.getElementById('feedback-rows');
       const pages = Math.max(1, Math.ceil(feedbackRows.length / PAGE_SIZE));
@@ -296,7 +239,6 @@
       document.getElementById('feedback-next').disabled = feedbackPage >= pages - 1;
       updateSelectionUI('feedback');
     }
-
     function renderCityStats() {
       const tbody = document.getElementById('city-rows');
       const groups = new Map();
@@ -353,7 +295,6 @@
       document.getElementById('welcome-next').disabled = welcomePage >= pages - 1;
       updateSelectionUI('welcome');
     }
-
     function deletePayload(type, record) {
       return type === 'feedback'
         ? { type: 'feedback', client_id: record.client_id }
@@ -388,7 +329,6 @@
       } catch (error) { showError('删除失败', error); }
       finally { if (button.isConnected) button.disabled = false; }
     }
-
     async function deleteSelected(type) {
       const records = getSelectedRows(type);
       if (!records.length || batchDeleting[type]) return;
@@ -424,7 +364,6 @@
       else if (lastError && failed) message += `；${lastError}`;
       infoEl.textContent = message;
     }
-
     async function loadActiveTab() {
       if (activeTab === 'feedback') await loadFeedback(); else await loadWelcome();
     }
@@ -441,9 +380,17 @@
       else if (!isFeedback && !welcomeLoaded) loadWelcome();
       else infoEl.textContent = isFeedback ? `卸载反馈：${feedbackRows.length} 条` : `欢迎页访问：${welcomeRows.length} 条`;
     }
-
     document.querySelectorAll('[data-tab]').forEach(button => {
       button.addEventListener('click', () => switchTab(button.dataset.tab));
+    });
+    const cityStatsToggle = document.getElementById('toggle-city-stats');
+    const cityStatsPanel = document.getElementById('city-stats-panel');
+    cityStatsToggle.addEventListener('click', () => {
+      const isExpanded = cityStatsToggle.getAttribute('aria-expanded') === 'true';
+      cityStatsToggle.setAttribute('aria-expanded', String(!isExpanded));
+      cityStatsPanel.hidden = isExpanded;
+      cityStatsToggle.querySelector('.collapse-label').textContent = isExpanded ? '展开' : '收起';
+      cityStatsToggle.querySelector('.collapse-icon').textContent = isExpanded ? '▸' : '▾';
     });
     document.getElementById('load').addEventListener('click', loadActiveTab);
     // 修复：原先绑定了不存在的 #prev 元素，导致脚本在这里中断。
@@ -464,7 +411,6 @@
     document.getElementById('feedback-bulk-delete').addEventListener('click', () => deleteSelected('feedback'));
     document.getElementById('welcome-bulk-delete').addEventListener('click', () => deleteSelected('welcome'));
     tokenEl.addEventListener('keydown', event => { if (event.key === 'Enter') loadActiveTab(); });
-
     if (tokenEl.value) loadFeedback();
     else { renderFeedback(); renderWelcome(); }
   </script>
