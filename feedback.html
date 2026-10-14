@@ -251,12 +251,10 @@
       padding: 12px 85px;
       border: none;
       border-radius: 50px;
-      background: linear-gradient(
-        135deg,
-        #1a3a0a 0%,
-        #35a52b 50%,
-        #0f2a05 100%
-      );
+      background: linear-gradient(135deg,
+          #1a3a0a 0%,
+          #35a52b 50%,
+          #0f2a05 100%);
       background-size: 200% 200%;
       background-position: 0% center;
       color: #fff;
@@ -280,12 +278,10 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, .15),
-        transparent
-      );
+      background: linear-gradient(90deg,
+          transparent,
+          rgba(255, 255, 255, .15),
+          transparent);
       transition: .5s;
     }
 
@@ -312,6 +308,7 @@
     }
 
     @keyframes submit-glow-pulse {
+
       0%,
       100% {
         box-shadow:
@@ -330,12 +327,10 @@
 
     .openNotebook {
       width: 100%;
-      background: linear-gradient(
-        135deg,
-        #1a3a0a 0%,
-        #35a52b 50%,
-        #0f2a05 100%
-      );
+      background: linear-gradient(135deg,
+          #1a3a0a 0%,
+          #35a52b 50%,
+          #0f2a05 100%);
       color: white;
       border: none;
       padding: 12px;
@@ -364,6 +359,7 @@
     }
 
     @keyframes notebook-glow-pulse {
+
       0%,
       100% {
         box-shadow:
@@ -387,12 +383,10 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, .15),
-        transparent
-      );
+      background: linear-gradient(90deg,
+          transparent,
+          rgba(255, 255, 255, .15),
+          transparent);
       transition: .5s;
     }
 
@@ -480,13 +474,7 @@
 <body>
 
   <div class="box" id="box">
-    <img
-      class="logo"
-      src="logo.png"
-      alt="Mira Translator"
-      width="64"
-      height="64"
-    >
+    <img class="logo" src="logo.png" alt="Mira Translator" width="64" height="64">
 
     <h2 id="title"></h2>
 
@@ -495,12 +483,7 @@
     <!-- <div class="hint" id="hint"></div> -->
     <!-- <textarea id="comment" maxlength="2000"></textarea> -->
 
-    <input
-      class="hp"
-      id="website"
-      tabindex="-1"
-      autocomplete="off"
-    >
+    <input class="hp" id="website" tabindex="-1" autocomplete="off">
 
     <button id="submit"></button>
   </div>
@@ -737,14 +720,14 @@
 
     const REASONS = [
       {
-        key: 'site_broken',
-        text: t.o1,
-        placeholder: t.p1
-      },
-      {
         key: 'want_free',
         text: t.o2,
         placeholder: ''
+      },
+      {
+        key: 'site_broken',
+        text: t.o1,
+        placeholder: t.p1
       },
       {
         key: 'missing_feature',
@@ -834,11 +817,21 @@
         return;
       }
 
+      const reasonOrder = [
+        'site_broken',
+        'want_free',
+        'missing_feature'
+      ];
+
       const reasons = [
         ...document.querySelectorAll(
           'input[name="reason"]:checked'
         )
-      ].map(input => input.value);
+      ]
+        .map(input => input.value)
+        .sort(
+          (a, b) => reasonOrder.indexOf(a) - reasonOrder.indexOf(b)
+        );
 
       const comment = reasons
         .map(key => {
