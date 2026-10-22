@@ -26,9 +26,21 @@
     </div>
     <div class="wrap">
       <table>
-        <thead><tr>
-          <th class="select-head">选择</th><th>时间</th><th>原因</th><th>留言</th><th>语言</th><th>国家</th><th>城市</th><th>版本</th><th>使用天数</th><th>使用分钟</th><th>次数</th><th>浏览器</th><th>系统</th><th>client_id</th><th>操作</th>
-        </tr></thead>
+<thead>
+  <tr>
+    <th class="select-head">选择</th>
+    <th>时间</th>
+    <th>原因</th>
+    <th>留言</th>
+    <th>语言</th>
+    <th>国家</th>
+    <th>城市</th>
+    <th>浏览器</th>
+    <th>浏览器版本</th>
+    <th>系统</th>
+    <th>操作</th>
+  </tr>
+</thead>
         <tbody id="feedback-rows"></tbody>
       </table>
     </div>
@@ -109,10 +121,9 @@
     }
     function getRows(type) { return type === 'feedback' ? feedbackRows : welcomeRows; }
     function getSelection(type) { return type === 'feedback' ? selectedFeedback : selectedWelcome; }
-    function getRecordKey(type, record) {
-      const value = type === 'feedback' ? record.client_id : record.kv_key;
-      return value == null ? '' : String(value);
-    }
+function getRecordKey(type, record) {
+  return record.kv_key == null ? '' : String(record.kv_key);
+}
     function getSelectableRows(type) {
       return getRows(type).filter(record => getRecordKey(type, record));
     }
@@ -202,43 +213,64 @@
         infoEl.textContent = `欢迎页访问：${welcomeRows.length} 条`;
       } catch (error) { showError('加载欢迎页访问记录失败', error); }
     }
-    function renderFeedback() {
-      const tbody = document.getElementById('feedback-rows');
-      const pages = Math.max(1, Math.ceil(feedbackRows.length / PAGE_SIZE));
-      feedbackPage = Math.min(Math.max(feedbackPage, 0), pages - 1);
-      tbody.replaceChildren();
-      const start = feedbackPage * PAGE_SIZE;
-      const currentRows = feedbackRows.slice(start, start + PAGE_SIZE);
-      if (!currentRows.length) emptyRow(tbody, 15);
-      currentRows.forEach(record => {
-        const tr = document.createElement('tr');
-        tr.appendChild(createSelectCell('feedback', record));
-        tr.appendChild(cell(record.ts ? new Date(record.ts).toLocaleString() : ''));
-        const reasonCell = document.createElement('td');
-        (record.reasons || []).forEach(reason => {
-          const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = LABELS[reason] || reason;
-          reasonCell.appendChild(tag);
-        });
-        tr.appendChild(reasonCell);
-        tr.appendChild(cell(record.comment, 'c'));
-        tr.appendChild(cell(record.browser_lang));
-        tr.appendChild(cell(countryName(record.country)));
-        tr.appendChild(cell(record.city));
-        tr.appendChild(cell(record.version));
-        tr.appendChild(cell(record.days_used));
-        tr.appendChild(cell(record.minutes_used));
-        tr.appendChild(cell(record.usage_count));
-        tr.appendChild(cell(record.browser));
-        tr.appendChild(cell(record.os));
-        tr.appendChild(cell(record.client_id));
-        const action = cell(''); action.className = 'action'; action.appendChild(createDeleteButton('feedback', record));
-        tr.appendChild(action); tbody.appendChild(tr);
-      });
-      document.getElementById('feedback-pageinfo').textContent = `${feedbackPage + 1} / ${pages}`;
-      document.getElementById('feedback-prev').disabled = feedbackPage === 0;
-      document.getElementById('feedback-next').disabled = feedbackPage >= pages - 1;
-      updateSelectionUI('feedback');
-    }
+function renderFeedback() {
+  const tbody = document.getElementById('feedback-rows');
+  const pages = Math.max(1, Math.ceil(feedbackRows.length / PAGE_SIZE));
+
+  feedbackPage = Math.min(Math.max(feedbackPage, 0), pages - 1);
+  tbody.replaceChildren();
+
+  const start = feedbackPage * PAGE_SIZE;
+  const currentRows = feedbackRows.slice(start, start + PAGE_SIZE);
+
+  if (!currentRows.length) {
+    emptyRow(tbody, 11);
+  }
+
+  currentRows.forEach(record => {
+    const tr = document.createElement('tr');
+
+    tr.appendChild(createSelectCell('feedback', record));
+    tr.appendChild(cell(
+      record.ts ? new Date(record.ts).toLocaleString() : ''
+    ));
+
+    const reasonCell = document.createElement('td');
+    (record.reasons || []).forEach(reason => {
+      const tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = LABELS[reason] || reason;
+      reasonCell.appendChild(tag);
+    });
+    tr.appendChild(reasonCell);
+
+    tr.appendChild(cell(record.comment, 'c'));
+    tr.appendChild(cell(record.browser_lang));
+    tr.appendChild(cell(countryName(record.country)));
+    tr.appendChild(cell(record.city));
+    tr.appendChild(cell(record.browser));
+    tr.appendChild(cell(record.browser_version));
+    tr.appendChild(cell(record.os));
+
+    const action = cell('');
+    action.className = 'action';
+    action.appendChild(createDeleteButton('feedback', record));
+    tr.appendChild(action);
+
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('feedback-pageinfo').textContent =
+    `${feedbackPage + 1} / ${pages}`;
+
+  document.getElementById('feedback-prev').disabled =
+    feedbackPage === 0;
+
+  document.getElementById('feedback-next').disabled =
+    feedbackPage >= pages - 1;
+
+  updateSelectionUI('feedback');
+}
     function renderCityStats() {
       const tbody = document.getElementById('city-rows');
       const groups = new Map();
@@ -295,21 +327,22 @@
       document.getElementById('welcome-next').disabled = welcomePage >= pages - 1;
       updateSelectionUI('welcome');
     }
-    function deletePayload(type, record) {
-      return type === 'feedback'
-        ? { type: 'feedback', client_id: record.client_id }
-        : { type: 'welcome', key: record.kv_key };
-    }
+function deletePayload(type, record) {
+  return {
+    type: type === 'welcome' ? 'welcome' : 'feedback',
+    key: record.kv_key
+  };
+}
     async function deleteRecord(type, record, button) {
       const isFeedback = type === 'feedback';
-      if (!isFeedback && !record.kv_key) {
-        alert('缺少 KV 记录键，无法删除。请更新 Worker 的欢迎页列表接口。');
-        return;
-      }
+if (!record.kv_key) {
+  alert('缺少 KV 记录键，无法删除。请更新 Worker 的列表接口。');
+  return;
+}
       const preview = String(record.comment || '').trim().slice(0, 120);
-      const description = isFeedback
-        ? `留言：${preview || '（无留言）'}\nclient_id：${record.client_id}`
-        : `城市：${record.city || '未知'}\n国家：${countryName(record.country) || '未知'}\n时间：${record.ts ? new Date(record.ts).toLocaleString() : ''}`;
+const description = isFeedback
+  ? `留言：${preview || '（无留言）'}\n浏览器：${record.browser || '未知'}\n国家：${countryName(record.country) || '未知'}`
+  : `城市：${record.city || '未知'}\n国家：${countryName(record.country) || '未知'}\n时间：${record.ts ? new Date(record.ts).toLocaleString() : ''}`;
       if (!confirm(`确定删除这条${isFeedback ? '卸载反馈' : '欢迎页访问记录'}吗？此操作不可撤销。\n\n${description}`)) return;
       button.disabled = true; infoEl.textContent = '正在删除…';
       try {
@@ -320,7 +353,9 @@
         if (!data?.ok) throw new Error(data?.reason || '删除失败');
         getSelection(type).delete(getRecordKey(type, record));
         if (isFeedback) {
-          feedbackRows = feedbackRows.filter(item => item.client_id !== record.client_id);
+          feedbackRows = feedbackRows.filter(
+  item => item.kv_key !== record.kv_key
+);
           renderFeedback(); infoEl.textContent = `卸载反馈已删除，剩余 ${feedbackRows.length} 条`;
         } else {
           welcomeRows = welcomeRows.filter(item => item.kv_key !== record.kv_key);
@@ -347,8 +382,15 @@
           });
           if (!data?.ok) throw new Error(data?.reason || '删除失败');
           const key = getRecordKey(type, record); set.delete(key);
-          if (type === 'feedback') feedbackRows = feedbackRows.filter(item => item.client_id !== record.client_id);
-          else welcomeRows = welcomeRows.filter(item => item.kv_key !== record.kv_key);
+if (type === 'feedback') {
+  feedbackRows = feedbackRows.filter(
+    item => item.kv_key !== record.kv_key
+  );
+} else {
+  welcomeRows = welcomeRows.filter(
+    item => item.kv_key !== record.kv_key
+  );
+}
           succeeded++;
         } catch (error) {
           failed++; lastError = error.message || '请求失败';

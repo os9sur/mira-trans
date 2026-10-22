@@ -754,10 +754,11 @@
       return I18N[p] ? p : 'en';
     }
 
-    const params = new URLSearchParams(location.search);
-    const langKey = pickLang(
-      params.get('browser_lang') || params.get('lang')
-    );
+    // const params = new URLSearchParams(location.search);
+    // const langKey = pickLang(
+    //   params.get('browser_lang') || params.get('lang')
+    // );
+    const langKey = pickLang(navigator.language);
 
     const t = I18N[langKey];
 
@@ -941,18 +942,22 @@
             'Content-Type': 'text/plain;charset=UTF-8'
           },
           keepalive: true,
-          body: JSON.stringify({
-            reasons,
-            comment,
-            client_id: params.get('client_id'),
-            version: params.get('version'),
-            days_used: Number(params.get('days_used')) || 0,
-            minutes_used: Number(params.get('minutes_used')) || 0,
-            usage_count: Number(params.get('usage_count')) || 0,
-            browser: params.get('browser'),
-            os: params.get('os'),
-            browser_lang: params.get('browser_lang')
-          })
+          // body: JSON.stringify({
+          //   reasons,
+          //   comment,
+          //   client_id: params.get('client_id'),
+          //   version: params.get('version'),
+          //   days_used: Number(params.get('days_used')) || 0,
+          //   minutes_used: Number(params.get('minutes_used')) || 0,
+          //   usage_count: Number(params.get('usage_count')) || 0,
+          //   browser: params.get('browser'),
+          //   os: params.get('os'),
+          //   browser_lang: params.get('browser_lang')
+          // })
+body: JSON.stringify({
+  reasons,
+  comment
+})
         })
           .then(async (res) => {
             if (!res.ok) {
