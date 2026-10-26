@@ -30,6 +30,7 @@
   <tr>
     <th class="select-head">选择</th>
     <th>时间</th>
+    <th>停留时间</th>
     <th>原因</th>
     <th>留言</th>
     <th>语言</th>
@@ -88,7 +89,13 @@
   <script>
     const API_BASE = 'https://mira-feedback.we35850.workers.dev';
     const PAGE_SIZE = 20;
-    const LABELS = { site_broken: '网站失效', want_free: '想要免费', missing_feature: '缺少功能',other_reason:'其他原因' };
+const LABELS = {
+  site_broken: '网站失效',
+  want_free: '想要免费',
+  missing_feature: '缺少功能',
+  other_reason: '其他原因',
+  prefer_not_to_answer: '不想回答'
+};
     const tokenEl = document.getElementById('token');
     const infoEl = document.getElementById('info');
     tokenEl.value = localStorage.getItem('adm') || '';
@@ -224,7 +231,7 @@ function renderFeedback() {
   const currentRows = feedbackRows.slice(start, start + PAGE_SIZE);
 
   if (!currentRows.length) {
-    emptyRow(tbody, 11);
+    emptyRow(tbody, 12);
   }
 
   currentRows.forEach(record => {
@@ -234,6 +241,11 @@ function renderFeedback() {
     tr.appendChild(cell(
       record.ts ? new Date(record.ts).toLocaleString() : ''
     ));
+    tr.appendChild(cell(
+  record.dwell_seconds == null
+    ? '—'
+    : `${record.dwell_seconds} 秒`
+));
 
     const reasonCell = document.createElement('td');
     (record.reasons || []).forEach(reason => {
