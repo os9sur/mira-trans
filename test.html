@@ -1,12 +1,324 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
   <title>Feedback Admin</title>
-  <style>* { box-sizing: border-box; } body { margin: 0; padding: 24px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif; background: #f8fafc; color: #1e293b; } .bar { display:flex; gap:8px; align-items:center; margin-bottom:16px; flex-wrap:wrap; } input:not([type="checkbox"]) { padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; font:inherit; min-width:280px; } input[type="checkbox"] { width:16px; height:16px; min-width:16px; margin:0; accent-color:#2563eb; cursor:pointer; } button { padding:8px 16px; border:0; border-radius:8px; background:#2563eb; color:#fff; font:inherit; cursor:pointer; transition:background .15s, opacity .15s; } button:hover:not(:disabled) { background:#1d4ed8; } button:disabled { opacity:.45; cursor:default; } .delete-btn { padding:6px 12px; background:#dc2626; white-space:nowrap; } .delete-btn:hover:not(:disabled) { background:#b91c1c; } #info { color:#64748b; font-size:14px; overflow-wrap:anywhere; } .tabs { display:flex; gap:8px; margin-bottom:16px; border-bottom:1px solid #e2e8f0; } .tab { padding:11px 20px; color:#64748b; background:transparent; border-radius:8px 8px 0 0; border-bottom:3px solid transparent; font-weight:600; } .tab:hover:not(:disabled) { color:#1d4ed8; background:#eff6ff; } .tab.active { color:#2563eb; background:#eff6ff; border-bottom-color:#2563eb; } .panel[hidden] { display:none; } .wrap { overflow-x:auto; background:#fff; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.06); } table { border-collapse:collapse; width:100%; font-size:14px; } th, td { padding:10px 12px; text-align:left; border-bottom:1px solid #e2e8f0; vertical-align:top; } th { background:#f1f5f9; white-space:nowrap; } tbody tr:hover { background:#f8fafc; } td.c { min-width:260px; white-space:pre-wrap; word-break:break-word; } td.action, td.select-cell { white-space:nowrap; } td.select-cell { width:42px; text-align:center; } th.select-head { width:42px; text-align:center; } .tag { display:inline-block; margin:0 4px 4px 0; padding:2px 8px; border-radius:999px; background:#e0e7ff; color:#3730a3; font-size:12px; white-space:nowrap; } .summary { display:grid; grid-template-columns:repeat(3,minmax(150px,1fr)); gap:12px; margin-bottom:18px; } .summary-card { min-width:0; padding:16px 18px; background:#fff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 3px 12px rgba(0,0,0,.035); } .summary-label { color:#64748b; font-size:13px; } .summary-value { margin-top:6px; font-size:26px; line-height:1.2; font-weight:700; color:#0f172a; overflow-wrap:anywhere; } .section-title { margin:22px 0 10px; font-size:16px; font-weight:650; } .section-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:22px 0 10px; } .section-heading .section-title { margin:0; } .collapse-btn { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border:1px solid #cbd5e1; border-radius:8px; background:#e2e8f0; color:#334155; font-size:13px; white-space:nowrap; } .collapse-btn:hover:not(:disabled) { background:#cbd5e1; } .collapse-icon { font-size:12px; line-height:1; } #city-stats-panel[hidden] { display:none; } .pagination { display:flex; justify-content:center; align-items:center; gap:12px; margin-top:14px; } .empty { padding:28px; text-align:center; color:#94a3b8; } .bulk-bar { display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:0 0 10px; padding:10px 12px; border:1px solid #e2e8f0; border-radius:10px; background:#fff; } .select-all-label { display:inline-flex; align-items:center; gap:8px; font-size:14px; color:#334155; cursor:pointer; user-select:none; } .selected-count { color:#64748b; font-size:13px; } .bulk-bar .delete-btn { margin-left:auto; padding:7px 14px; } @media (max-width:600px) { body { padding:14px; } input:not([type="checkbox"]) { min-width:0; width:100%; } .summary { grid-template-columns:repeat(2,minmax(0,1fr)); } .tab { flex:1; padding:10px 8px; } .bulk-bar .delete-btn { margin-left:0; } }</style>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+    }
+
+    .bar {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    input:not([type="checkbox"]) {
+      padding: 8px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font: inherit;
+      min-width: 280px;
+    }
+
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      margin: 0;
+      accent-color: #2563eb;
+      cursor: pointer;
+    }
+
+    button {
+      padding: 8px 16px;
+      border: 0;
+      border-radius: 8px;
+      background: #2563eb;
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+      transition: background .15s, opacity .15s;
+    }
+
+    button:hover:not(:disabled) {
+      background: #1d4ed8;
+    }
+
+    button:disabled {
+      opacity: .45;
+      cursor: default;
+    }
+
+    .delete-btn {
+      padding: 6px 12px;
+      background: #dc2626;
+      white-space: nowrap;
+    }
+
+    .delete-btn:hover:not(:disabled) {
+      background: #b91c1c;
+    }
+
+    #info {
+      color: #64748b;
+      font-size: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .tab {
+      padding: 11px 20px;
+      color: #64748b;
+      background: transparent;
+      border-radius: 8px 8px 0 0;
+      border-bottom: 3px solid transparent;
+      font-weight: 600;
+    }
+
+    .tab:hover:not(:disabled) {
+      color: #1d4ed8;
+      background: #eff6ff;
+    }
+
+    .tab.active {
+      color: #2563eb;
+      background: #eff6ff;
+      border-bottom-color: #2563eb;
+    }
+
+    .panel[hidden] {
+      display: none;
+    }
+
+    .wrap {
+      overflow-x: auto;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .06);
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f1f5f9;
+      white-space: nowrap;
+    }
+
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    td.c {
+      min-width: 260px;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    td.action,
+    td.select-cell {
+      white-space: nowrap;
+    }
+
+    td.select-cell {
+      width: 42px;
+      text-align: center;
+    }
+
+    th.select-head {
+      width: 42px;
+      text-align: center;
+    }
+
+    .tag {
+      display: inline-block;
+      margin: 0 4px 4px 0;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #e0e7ff;
+      color: #3730a3;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .summary-card {
+      min-width: 0;
+      padding: 16px 18px;
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, .035);
+    }
+
+    .summary-label {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .summary-value {
+      margin-top: 6px;
+      font-size: 26px;
+      line-height: 1.2;
+      font-weight: 700;
+      color: #0f172a;
+      overflow-wrap: anywhere;
+    }
+
+    .section-title {
+      margin: 22px 0 10px;
+      font-size: 16px;
+      font-weight: 650;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 22px 0 10px;
+    }
+
+    .section-heading .section-title {
+      margin: 0;
+    }
+
+    .collapse-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: #e2e8f0;
+      color: #334155;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+
+    .collapse-btn:hover:not(:disabled) {
+      background: #cbd5e1;
+    }
+
+    .collapse-icon {
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    #city-stats-panel[hidden] {
+      display: none;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .empty {
+      padding: 28px;
+      text-align: center;
+      color: #94a3b8;
+    }
+
+    .bulk-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 0 0 10px;
+      padding: 10px 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      background: #fff;
+    }
+
+    .select-all-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #334155;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .selected-count {
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .bulk-bar .delete-btn {
+      margin-left: auto;
+      padding: 7px 14px;
+    }
+
+    @media (max-width:600px) {
+      body {
+        padding: 14px;
+      }
+
+      input:not([type="checkbox"]) {
+        min-width: 0;
+        width: 100%;
+      }
+
+      .summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .tab {
+        flex: 1;
+        padding: 10px 8px;
+      }
+
+      .bulk-bar .delete-btn {
+        margin-left: 0;
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="bar">
     <input id="token" type="password" placeholder="ADMIN_TOKEN" autocomplete="current-password">
@@ -14,8 +326,10 @@
     <span id="info" role="status" aria-live="polite"></span>
   </div>
   <div class="tabs" role="tablist" aria-label="管理数据">
-    <button class="tab active" id="tab-feedback" role="tab" aria-selected="true" aria-controls="panel-feedback" data-tab="feedback">卸载反馈</button>
-    <button class="tab" id="tab-welcome" role="tab" aria-selected="false" aria-controls="panel-welcome" data-tab="welcome">欢迎页访问</button>
+    <button class="tab active" id="tab-feedback" role="tab" aria-selected="true" aria-controls="panel-feedback"
+      data-tab="feedback">卸载反馈</button>
+    <button class="tab" id="tab-welcome" role="tab" aria-selected="false" aria-controls="panel-welcome"
+      data-tab="welcome">欢迎页访问</button>
   </div>
   <!-- 卸载反馈 -->
   <section class="panel" id="panel-feedback" role="tabpanel" aria-labelledby="tab-feedback">
@@ -26,22 +340,25 @@
     </div>
     <div class="wrap">
       <table>
-<thead>
-  <tr>
-    <th class="select-head">选择</th>
-    <th>时间</th>
-    <th>停留时间</th>
-    <th>原因</th>
-    <th>留言</th>
-    <th>语言</th>
-    <th>国家</th>
-    <th>城市</th>
-    <th>浏览器</th>
-    <th>浏览器版本</th>
-    <th>系统</th>
-    <th>操作</th>
-  </tr>
-</thead>
+        <thead>
+          <tr>
+            <th class="select-head">选择</th>
+            <th>时间</th>
+            <th>停留时间</th>
+            <th>设备类型</th>
+            <th>视口宽度</th>
+            <th>视口高度</th>
+            <th>原因</th>
+            <th>留言</th>
+            <th>语言</th>
+            <th>国家</th>
+            <th>城市</th>
+            <th>浏览器</th>
+            <th>浏览器版本</th>
+            <th>系统</th>
+            <th>操作</th>
+          </tr>
+        </thead>
         <tbody id="feedback-rows"></tbody>
       </table>
     </div>
@@ -52,20 +369,40 @@
   <!-- 欢迎页访问 -->
   <section class="panel" id="panel-welcome" role="tabpanel" aria-labelledby="tab-welcome" hidden>
     <div class="summary">
-      <div class="summary-card"><div class="summary-label">访问记录</div><div class="summary-value" id="welcome-total">—</div></div>
-      <div class="summary-card"><div class="summary-label">有城市信息的记录</div><div class="summary-value" id="welcome-geolocated">—</div></div>
-      <div class="summary-card"><div class="summary-label">不同城市</div><div class="summary-value" id="welcome-cities">—</div></div>
+      <div class="summary-card">
+        <div class="summary-label">访问记录</div>
+        <div class="summary-value" id="welcome-total">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">有城市信息的记录</div>
+        <div class="summary-value" id="welcome-geolocated">—</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">不同城市</div>
+        <div class="summary-value" id="welcome-cities">—</div>
+      </div>
     </div>
     <div class="section-heading">
       <h3 class="section-title">访问城市排行</h3>
-      <button type="button" class="collapse-btn" id="toggle-city-stats" aria-expanded="false" aria-controls="city-stats-panel">
+      <button type="button" class="collapse-btn" id="toggle-city-stats" aria-expanded="false"
+        aria-controls="city-stats-panel">
         <span class="collapse-label">展开</span>
         <span class="collapse-icon" aria-hidden="true">▸</span>
       </button>
     </div>
     <div id="city-stats-panel" hidden>
       <div class="wrap">
-        <table><thead><tr><th>城市</th><th>地区</th><th>国家</th><th>访问次数</th></tr></thead><tbody id="city-rows"></tbody></table>
+        <table>
+          <thead>
+            <tr>
+              <th>城市</th>
+              <th>地区</th>
+              <th>国家</th>
+              <th>访问次数</th>
+            </tr>
+          </thead>
+          <tbody id="city-rows"></tbody>
+        </table>
       </div>
     </div>
     <h3 class="section-title">访问记录明细</h3>
@@ -76,9 +413,22 @@
     </div>
     <div class="wrap">
       <table>
-        <thead><tr>
-          <th class="select-head">选择</th><th>时间</th><th>城市</th><th>地区</th><th>国家</th><th>时区</th><th>浏览器</th><th>系统</th><th>浏览器语言</th><th>页面语言</th><th>来源</th><th>操作</th>
-        </tr></thead>
+        <thead>
+          <tr>
+            <th class="select-head">选择</th>
+            <th>时间</th>
+            <th>城市</th>
+            <th>地区</th>
+            <th>国家</th>
+            <th>时区</th>
+            <th>浏览器</th>
+            <th>系统</th>
+            <th>浏览器语言</th>
+            <th>页面语言</th>
+            <th>来源</th>
+            <th>操作</th>
+          </tr>
+        </thead>
         <tbody id="welcome-rows"></tbody>
       </table>
     </div>
@@ -89,13 +439,18 @@
   <script>
     const API_BASE = 'https://mira-feedback.we35850.workers.dev';
     const PAGE_SIZE = 20;
-const LABELS = {
-  site_broken: '网站失效',
-  want_free: '想要免费',
-  missing_feature: '缺少功能',
-  other_reason: '其他原因',
-  prefer_not_to_answer: '不想回答'
-};
+    const LABELS = {
+      site_broken: '网站失效',
+      want_free: '想要免费',
+      missing_feature: '缺少功能',
+      other_reason: '其他原因',
+      prefer_not_to_answer: '不想回答'
+    };
+    const DEVICE_LABELS = {
+      desktop: '桌面',
+      mobile: '手机',
+      tablet: '平板'
+    };
     const tokenEl = document.getElementById('token');
     const infoEl = document.getElementById('info');
     tokenEl.value = localStorage.getItem('adm') || '';
@@ -128,9 +483,9 @@ const LABELS = {
     }
     function getRows(type) { return type === 'feedback' ? feedbackRows : welcomeRows; }
     function getSelection(type) { return type === 'feedback' ? selectedFeedback : selectedWelcome; }
-function getRecordKey(type, record) {
-  return record.kv_key == null ? '' : String(record.kv_key);
-}
+    function getRecordKey(type, record) {
+      return record.kv_key == null ? '' : String(record.kv_key);
+    }
     function getSelectableRows(type) {
       return getRows(type).filter(record => getRecordKey(type, record));
     }
@@ -220,69 +575,98 @@ function getRecordKey(type, record) {
         infoEl.textContent = `欢迎页访问：${welcomeRows.length} 条`;
       } catch (error) { showError('加载欢迎页访问记录失败', error); }
     }
-function renderFeedback() {
-  const tbody = document.getElementById('feedback-rows');
-  const pages = Math.max(1, Math.ceil(feedbackRows.length / PAGE_SIZE));
+    function renderFeedback() {
+      const tbody = document.getElementById('feedback-rows');
+      const pages = Math.max(1, Math.ceil(feedbackRows.length / PAGE_SIZE));
 
-  feedbackPage = Math.min(Math.max(feedbackPage, 0), pages - 1);
-  tbody.replaceChildren();
+      feedbackPage = Math.min(Math.max(feedbackPage, 0), pages - 1);
+      tbody.replaceChildren();
 
-  const start = feedbackPage * PAGE_SIZE;
-  const currentRows = feedbackRows.slice(start, start + PAGE_SIZE);
+      const start = feedbackPage * PAGE_SIZE;
+      const currentRows = feedbackRows.slice(start, start + PAGE_SIZE);
 
-  if (!currentRows.length) {
-    emptyRow(tbody, 12);
-  }
+      if (!currentRows.length) {
+        emptyRow(tbody, 15);
+      }
 
-  currentRows.forEach(record => {
-    const tr = document.createElement('tr');
+      currentRows.forEach(record => {
+        const tr = document.createElement('tr');
 
-    tr.appendChild(createSelectCell('feedback', record));
-    tr.appendChild(cell(
-      record.ts ? new Date(record.ts).toLocaleString() : ''
-    ));
-    tr.appendChild(cell(
-  record.dwell_seconds == null
-    ? '—'
-    : `${record.dwell_seconds} 秒`
-));
+        tr.appendChild(createSelectCell('feedback', record));
 
-    const reasonCell = document.createElement('td');
-    (record.reasons || []).forEach(reason => {
-      const tag = document.createElement('span');
-      tag.className = 'tag';
-      tag.textContent = LABELS[reason] || reason;
-      reasonCell.appendChild(tag);
-    });
-    tr.appendChild(reasonCell);
+        // 提交时间
+        tr.appendChild(cell(
+          record.ts ? new Date(record.ts).toLocaleString() : ''
+        ));
 
-    tr.appendChild(cell(record.comment, 'c'));
-    tr.appendChild(cell(record.browser_lang));
-    tr.appendChild(cell(countryName(record.country)));
-    tr.appendChild(cell(record.city));
-    tr.appendChild(cell(record.browser));
-    tr.appendChild(cell(record.browser_version));
-    tr.appendChild(cell(record.os));
+        // 网页前台停留时间
+        tr.appendChild(cell(
+          record.dwell_seconds == null
+            ? '—'
+            : `${record.dwell_seconds} 秒`
+        ));
 
-    const action = cell('');
-    action.className = 'action';
-    action.appendChild(createDeleteButton('feedback', record));
-    tr.appendChild(action);
+        // 设备类型
+        tr.appendChild(cell(
+          DEVICE_LABELS[record.device_type] ||
+          record.device_type ||
+          '—'
+        ));
 
-    tbody.appendChild(tr);
-  });
+        // 网页可视区域宽度和高度
+        tr.appendChild(cell(
+          record.viewport_width == null
+            ? '—'
+            : `${record.viewport_width} px`
+        ));
 
-  document.getElementById('feedback-pageinfo').textContent =
-    `${feedbackPage + 1} / ${pages}`;
+        tr.appendChild(cell(
+          record.viewport_height == null
+            ? '—'
+            : `${record.viewport_height} px`
+        ));
+        tr.appendChild(cell(
+          record.dwell_seconds == null
+            ? '—'
+            : `${record.dwell_seconds} 秒`
+        ));
 
-  document.getElementById('feedback-prev').disabled =
-    feedbackPage === 0;
+        const reasonCell = document.createElement('td');
+        (record.reasons || []).forEach(reason => {
+          const tag = document.createElement('span');
+          tag.className = 'tag';
+          tag.textContent = LABELS[reason] || reason;
+          reasonCell.appendChild(tag);
+        });
+        tr.appendChild(reasonCell);
 
-  document.getElementById('feedback-next').disabled =
-    feedbackPage >= pages - 1;
+        tr.appendChild(cell(record.comment, 'c'));
+        tr.appendChild(cell(record.browser_lang));
+        tr.appendChild(cell(countryName(record.country)));
+        tr.appendChild(cell(record.city));
+        tr.appendChild(cell(record.browser));
+        tr.appendChild(cell(record.browser_version));
+        tr.appendChild(cell(record.os));
 
-  updateSelectionUI('feedback');
-}
+        const action = cell('');
+        action.className = 'action';
+        action.appendChild(createDeleteButton('feedback', record));
+        tr.appendChild(action);
+
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('feedback-pageinfo').textContent =
+        `${feedbackPage + 1} / ${pages}`;
+
+      document.getElementById('feedback-prev').disabled =
+        feedbackPage === 0;
+
+      document.getElementById('feedback-next').disabled =
+        feedbackPage >= pages - 1;
+
+      updateSelectionUI('feedback');
+    }
     function renderCityStats() {
       const tbody = document.getElementById('city-rows');
       const groups = new Map();
@@ -339,22 +723,22 @@ function renderFeedback() {
       document.getElementById('welcome-next').disabled = welcomePage >= pages - 1;
       updateSelectionUI('welcome');
     }
-function deletePayload(type, record) {
-  return {
-    type: type === 'welcome' ? 'welcome' : 'feedback',
-    key: record.kv_key
-  };
-}
+    function deletePayload(type, record) {
+      return {
+        type: type === 'welcome' ? 'welcome' : 'feedback',
+        key: record.kv_key
+      };
+    }
     async function deleteRecord(type, record, button) {
       const isFeedback = type === 'feedback';
-if (!record.kv_key) {
-  alert('缺少 KV 记录键，无法删除。请更新 Worker 的列表接口。');
-  return;
-}
+      if (!record.kv_key) {
+        alert('缺少 KV 记录键，无法删除。请更新 Worker 的列表接口。');
+        return;
+      }
       const preview = String(record.comment || '').trim().slice(0, 120);
-const description = isFeedback
-  ? `留言：${preview || '（无留言）'}\n浏览器：${record.browser || '未知'}\n国家：${countryName(record.country) || '未知'}`
-  : `城市：${record.city || '未知'}\n国家：${countryName(record.country) || '未知'}\n时间：${record.ts ? new Date(record.ts).toLocaleString() : ''}`;
+      const description = isFeedback
+        ? `留言：${preview || '（无留言）'}\n浏览器：${record.browser || '未知'}\n国家：${countryName(record.country) || '未知'}`
+        : `城市：${record.city || '未知'}\n国家：${countryName(record.country) || '未知'}\n时间：${record.ts ? new Date(record.ts).toLocaleString() : ''}`;
       if (!confirm(`确定删除这条${isFeedback ? '卸载反馈' : '欢迎页访问记录'}吗？此操作不可撤销。\n\n${description}`)) return;
       button.disabled = true; infoEl.textContent = '正在删除…';
       try {
@@ -366,8 +750,8 @@ const description = isFeedback
         getSelection(type).delete(getRecordKey(type, record));
         if (isFeedback) {
           feedbackRows = feedbackRows.filter(
-  item => item.kv_key !== record.kv_key
-);
+            item => item.kv_key !== record.kv_key
+          );
           renderFeedback(); infoEl.textContent = `卸载反馈已删除，剩余 ${feedbackRows.length} 条`;
         } else {
           welcomeRows = welcomeRows.filter(item => item.kv_key !== record.kv_key);
@@ -394,15 +778,15 @@ const description = isFeedback
           });
           if (!data?.ok) throw new Error(data?.reason || '删除失败');
           const key = getRecordKey(type, record); set.delete(key);
-if (type === 'feedback') {
-  feedbackRows = feedbackRows.filter(
-    item => item.kv_key !== record.kv_key
-  );
-} else {
-  welcomeRows = welcomeRows.filter(
-    item => item.kv_key !== record.kv_key
-  );
-}
+          if (type === 'feedback') {
+            feedbackRows = feedbackRows.filter(
+              item => item.kv_key !== record.kv_key
+            );
+          } else {
+            welcomeRows = welcomeRows.filter(
+              item => item.kv_key !== record.kv_key
+            );
+          }
           succeeded++;
         } catch (error) {
           failed++; lastError = error.message || '请求失败';
@@ -469,4 +853,5 @@ if (type === 'feedback') {
     else { renderFeedback(); renderWelcome(); }
   </script>
 </body>
+
 </html>

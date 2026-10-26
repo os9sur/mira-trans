@@ -963,13 +963,14 @@
         })
         .filter(Boolean)
         .join(' ');
-
-  // 发送反馈及网页前台停留秒数
-  const payload = {
+ 
+const payload = {
     reasons,
     comment,
-    dwell_seconds: getDwellSeconds()
-  };
+    dwell_seconds: getDwellSeconds(),
+    viewport_width: window.innerWidth,
+    viewport_height: window.innerHeight
+};
 
   button.disabled = true;
 
