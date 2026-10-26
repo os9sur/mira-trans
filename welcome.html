@@ -2,393 +2,438 @@
 <html lang="en">
 
 <head>
-<head>
-  <meta charset="UTF-8">
- 
-  <!--注释测试代码开始-->
-  <script>
-    (() => {
-      const API = 'https://mira-feedback.we35850.workers.dev/welcome-view';
-      const ua = navigator.userAgent;
 
-      let browser = 'chrome';
-      if (/Firefox/i.test(ua)) browser = 'firefox';
-      else if (/EdgA?\/|Edg\/|EdgiOS\//i.test(ua)) browser = 'edge';
+  <head>
+    <meta charset="UTF-8">
 
-      let os = 'Other';
-      if (/Windows NT/i.test(ua)) os = 'Windows';
-      else if (/Android/i.test(ua)) os = 'Android';
-      else if (/iPhone|iPad|iPod/i.test(ua)) os = 'iOS';
-      else if (/Macintosh|Mac OS X/i.test(ua)) os = 'macOS';
-      else if (/Linux/i.test(ua)) os = 'Linux';
+    <!--注释测试代码开始-->
+    <script>
+      (() => {
+        const API = 'https://mira-feedback.we35850.workers.dev/welcome-view';
+        const ua = navigator.userAgent;
 
-      const browserLang = navigator.language || 'en';
-      const languages = [
-        'zh-CN', 'zh-TW', 'zh-HK', 'ja', 'ko',
-        'en', 'es', 'fr', 'de', 'ru', 'pt-BR',
-        'it', 'tr', 'vi', 'th', 'ar', 'fa'
-      ];
+        let browser = 'chrome';
+        if (/Firefox/i.test(ua)) browser = 'firefox';
+        else if (/EdgA?\/|Edg\/|EdgiOS\//i.test(ua)) browser = 'edge';
 
-      const baseLang = browserLang.split('-')[0].toLowerCase();
-      const pageLang =
-        languages.find(k => k.toLowerCase() === browserLang.toLowerCase()) ||
-        languages.find(k => k.toLowerCase().startsWith(baseLang)) ||
-        'en';
+        let os = 'Other';
+        if (/Windows NT/i.test(ua)) os = 'Windows';
+        else if (/Android/i.test(ua)) os = 'Android';
+        else if (/iPhone|iPad|iPod/i.test(ua)) os = 'iOS';
+        else if (/Macintosh|Mac OS X/i.test(ua)) os = 'macOS';
+        else if (/Linux/i.test(ua)) os = 'Linux';
 
-      let referrer = '';
+        const browserLang = navigator.language || 'en';
+        const languages = [
+          'zh-CN', 'zh-TW', 'zh-HK', 'ja', 'ko',
+          'en', 'es', 'fr', 'de', 'ru', 'pt-BR',
+          'it', 'tr', 'vi', 'th', 'ar', 'fa'
+        ];
 
-      try {
-        if (document.referrer) {
-          referrer = new URL(document.referrer).hostname;
+        const baseLang = browserLang.split('-')[0].toLowerCase();
+        const pageLang =
+          languages.find(k => k.toLowerCase() === browserLang.toLowerCase()) ||
+          languages.find(k => k.toLowerCase().startsWith(baseLang)) ||
+          'en';
+
+        let referrer = '';
+
+        try {
+          if (document.referrer) {
+            referrer = new URL(document.referrer).hostname;
+          }
+        } catch { }
+
+
+        let visibleMilliseconds = 0;
+
+        let visibleSince =
+          document.visibilityState === 'visible'
+            ? performance.now()
+            : null;
+
+        let submitted = false;
+
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') {
+            if (visibleSince === null) {
+              visibleSince = performance.now();
+            }
+          } else if (visibleSince !== null) {
+            visibleMilliseconds += performance.now() - visibleSince;
+            visibleSince = null;
+          }
+        });
+
+        function getDwellSeconds() {
+          let milliseconds = visibleMilliseconds;
+
+          if (visibleSince !== null) {
+            milliseconds += performance.now() - visibleSince;
+          }
+
+          return Math.max(0, Math.floor(milliseconds / 1000));
         }
-      } catch {}
 
-      fetch(API, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain;charset=UTF-8'
-        },
-        keepalive: true,
-        body: JSON.stringify({
-          browser,
-          os,
-          browser_lang: browserLang,
-          page_lang: pageLang,
-          referrer
-        })
-      }).catch(() => {});
-    })();
-  </script>
-  <!--注释测试代码结束-->
+        function submitVisit() {
+          if (submitted) return;
+          submitted = true;
 
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2MZR2NP56"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-H2MZR2NP56');
-  </script>
+          const payload = {
+            browser,
+            os,
+            browser_lang: browserLang,
+            page_lang: pageLang,
+            referrer,
+            dwell_seconds: getDwellSeconds(),
+            viewport_width: window.innerWidth,
+            viewport_height: window.innerHeight
+          };
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mira Guide</title>
-  <link rel="icon" href="favicon.ico">
-  <style>
-    :root {
-      --bg-main: #0b0f19;
-      --card-bg: rgba(30, 41, 59, 0.45);
-      --card-border: rgba(255, 255, 255, 0.1);
-      --text-gradient: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
-      --glow-color: rgba(6, 182, 212, 0.45);
-    }
+          fetch(API, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'text/plain;charset=UTF-8'
+            },
+            keepalive: true,
+            body: JSON.stringify(payload)
+          }).catch(() => { });
+        }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+        window.addEventListener('pagehide', submitVisit, { once: true });
 
-    body {
-      background-color: var(--bg-main);
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      overflow-x: hidden;
-    }
+      })();
+    </script>
+    <!--注释测试代码结束-->
 
-    .glow-bg {
-      position: absolute;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
-      z-index: 0;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2MZR2NP56"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'G-H2MZR2NP56');
+    </script>
 
-    .box {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      width: fit-content;
-      max-width: 95vw;
-
-      /* 整体尽量占满高度 */
-      height: 92vh;
-      max-height: 92vh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: clamp(8px, 1.5vh, 20px);
-
-      background: var(--card-bg);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid var(--card-border);
-      border-radius: 32px;
-      padding: clamp(16px, 2.5vh, 40px) clamp(16px, 3vw, 40px);
-
-      box-shadow:
-        0 0 60px -10px var(--glow-color),
-        0 30px 60px rgba(0, 0, 0, 0.5),
-        inset 0 1px 1px rgba(255, 255, 255, 0.1);
-
-      animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    @keyframes slideUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mira Guide</title>
+    <link rel="icon" href="favicon.ico">
+    <style>
+      :root {
+        --bg-main: #0b0f19;
+        --card-bg: rgba(30, 41, 59, 0.45);
+        --card-border: rgba(255, 255, 255, 0.1);
+        --text-gradient: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+        --glow-color: rgba(6, 182, 212, 0.45);
       }
-    }
 
-    .header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      flex-shrink: 0;
-    }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    .header img {
-      width: clamp(48px, 8vh, 70px);
-      height: clamp(48px, 8vh, 70px);
-      border-radius: 16px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      border: 1.5px solid rgba(255, 255, 255, 0.15);
-      flex-shrink: 0;
-    }
+      body {
+        background-color: var(--bg-main);
+        color: #fff;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        overflow-x: hidden;
+      }
 
-    h1 {
-      font-size: clamp(20px, 4vh, 36px);
-      font-weight: 700;
-      line-height: 1.2;
-      background: var(--text-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.5px;
-      white-space: nowrap;
-    }
+      .glow-bg {
+        position: absolute;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
+        z-index: 0;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
 
-    @media (max-width: 600px) {
-      h1 {
-        white-space: normal;
+      .box {
+        position: relative;
+        z-index: 1;
         text-align: center;
+        width: fit-content;
+        max-width: 95vw;
+
+        /* 整体尽量占满高度 */
+        height: 92vh;
+        max-height: 92vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: clamp(8px, 1.5vh, 20px);
+
+        background: var(--card-bg);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid var(--card-border);
+        border-radius: 32px;
+        padding: clamp(16px, 2.5vh, 40px) clamp(16px, 3vw, 40px);
+
+        box-shadow:
+          0 0 60px -10px var(--glow-color),
+          0 30px 60px rgba(0, 0, 0, 0.5),
+          inset 0 1px 1px rgba(255, 255, 255, 0.1);
+
+        animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      @keyframes slideUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
       }
 
       .header {
-        flex-direction: column;
-        gap: 12px;
-      }
-    }
-
-    /* Pin 图钉 */
-    .pin-wrap {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .pin-bg {
-      font-size: clamp(28px, 5vh, 43px);
-      filter: hue-rotate(65deg) contrast(1.1) saturate(1.8) brightness(1.3) drop-shadow(0 15px 20px rgba(0, 0, 0, 0.5));
-      animation: floatUp 3s infinite ease-in-out;
-      display: inline-block;
-      user-select: none;
-    }
-
-    @keyframes floatUp {
-
-      0%,
-      100% {
-        transform: translateY(0) rotate(-5deg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        flex-shrink: 0;
       }
 
-      50% {
-        transform: translateY(-15px) rotate(5deg);
+      .header img {
+        width: clamp(48px, 8vh, 70px);
+        height: clamp(48px, 8vh, 70px);
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        border: 1.5px solid rgba(255, 255, 255, 0.15);
+        flex-shrink: 0;
       }
-    }
 
-    .gif-wrap {
-      border-radius: 20px;
-      position: relative;
-      padding: 6px;
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 100%);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-
-      flex: 1 1 auto;
-      /* 自动伸展，占满 box 里剩下的所有空间 */
-      min-height: 0;
-      /* 清零，让 flex 子项 s收缩/伸展 */
-      width: 100%;
-      display: flex;
-    }
-
-    .gif-inner {
-      border-radius: 16px;
-      overflow: hidden;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-    }
-
-    .gif-inner img,
-    .gif-inner video {
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
-      display: block;
-      border-radius: 16px;
-      object-fit: contain;
-    }
-
-    @media (max-width: 600px) {
       h1 {
-        white-space: normal;
-        text-align: center;
+        font-size: clamp(20px, 4vh, 36px);
+        font-weight: 700;
+        line-height: 1.2;
+        background: var(--text-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.5px;
+        white-space: nowrap;
       }
 
-      .header {
-        flex-direction: column;
-        gap: 12px;
+      @media (max-width: 600px) {
+        h1 {
+          white-space: normal;
+          text-align: center;
+        }
+
+        .header {
+          flex-direction: column;
+          gap: 12px;
+        }
       }
-    }
 
-    .gif-inner {
-      position: relative;
-    }
+      /* Pin 图钉 */
+      .pin-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
 
-    .play-overlay {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 84px;
-      height: 84px;
-      border-radius: 50%;
-      background: rgba(6, 182, 212, 0.5);
-      border: 2px solid rgba(56, 189, 248, 0.9);
-      color: #fff;
-      font-size: 30px;
-      cursor: pointer;
-      display: none;
-      padding-left: 6px;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(6px);
-      box-shadow:
-        0 0 0 0 rgba(56, 189, 248, 0.6),
-        0 8px 24px rgba(0, 0, 0, 0.5);
-      animation: pulseGlow 1.8s infinite ease-out;
-      transition: transform 0.15s ease, background 0.15s ease;
-    }
+      .pin-bg {
+        font-size: clamp(28px, 5vh, 43px);
+        filter: hue-rotate(65deg) contrast(1.1) saturate(1.8) brightness(1.3) drop-shadow(0 15px 20px rgba(0, 0, 0, 0.5));
+        animation: floatUp 3s infinite ease-in-out;
+        display: inline-block;
+        user-select: none;
+      }
 
-    .play-overlay:hover {
-      background: rgba(6, 182, 212, 0.55);
-      transform: translate(-50%, -50%) scale(1.1);
-    }
+      @keyframes floatUp {
 
-    @keyframes pulseGlow {
-      0% {
+        0%,
+        100% {
+          transform: translateY(0) rotate(-5deg);
+        }
+
+        50% {
+          transform: translateY(-15px) rotate(5deg);
+        }
+      }
+
+      .gif-wrap {
+        border-radius: 20px;
+        position: relative;
+        padding: 6px;
+        background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 100%);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+
+        flex: 1 1 auto;
+        /* 自动伸展，占满 box 里剩下的所有空间 */
+        min-height: 0;
+        /* 清零，让 flex 子项 s收缩/伸展 */
+        width: 100%;
+        display: flex;
+      }
+
+      .gif-inner {
+        border-radius: 16px;
+        overflow: hidden;
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+      }
+
+      .gif-inner img,
+      .gif-inner video {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        display: block;
+        border-radius: 16px;
+        object-fit: contain;
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          white-space: normal;
+          text-align: center;
+        }
+
+        .header {
+          flex-direction: column;
+          gap: 12px;
+        }
+      }
+
+      .gif-inner {
+        position: relative;
+      }
+
+      .play-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 84px;
+        height: 84px;
+        border-radius: 50%;
+        background: rgba(6, 182, 212, 0.5);
+        border: 2px solid rgba(56, 189, 248, 0.9);
+        color: #fff;
+        font-size: 30px;
+        cursor: pointer;
+        display: none;
+        padding-left: 6px;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(6px);
         box-shadow:
           0 0 0 0 rgba(56, 189, 248, 0.6),
           0 8px 24px rgba(0, 0, 0, 0.5);
+        animation: pulseGlow 1.8s infinite ease-out;
+        transition: transform 0.15s ease, background 0.15s ease;
       }
 
-      70% {
-        box-shadow:
-          0 0 0 20px rgba(56, 189, 248, 0),
-          0 8px 24px rgba(0, 0, 0, 0.5);
+      .play-overlay:hover {
+        background: rgba(6, 182, 212, 0.55);
+        transform: translate(-50%, -50%) scale(1.1);
       }
 
-      100% {
-        box-shadow:
-          0 0 0 0 rgba(56, 189, 248, 0),
-          0 8px 24px rgba(0, 0, 0, 0.5);
+      @keyframes pulseGlow {
+        0% {
+          box-shadow:
+            0 0 0 0 rgba(56, 189, 248, 0.6),
+            0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        70% {
+          box-shadow:
+            0 0 0 20px rgba(56, 189, 248, 0),
+            0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        100% {
+          box-shadow:
+            0 0 0 0 rgba(56, 189, 248, 0),
+            0 8px 24px rgba(0, 0, 0, 0.5);
+        }
       }
-    }
 
-    .play-overlay:hover {
-      background: rgba(0, 0, 0, 0.75);
-      transform: translate(-50%, -50%) scale(1.08);
-    }
+      .play-overlay:hover {
+        background: rgba(0, 0, 0, 0.75);
+        transform: translate(-50%, -50%) scale(1.08);
+      }
 
-    .progress-wrap {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.15);
-      cursor: pointer;
-      z-index: 2;
-      transition: height 0.15s ease;
-      touch-action: none; 
-    }
+      .progress-wrap {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.15);
+        cursor: pointer;
+        z-index: 2;
+        transition: height 0.15s ease;
+        touch-action: none;
+      }
 
-    .progress-wrap:hover,
-    .progress-wrap.dragging {
-      height: 10px;
-    }
+      .progress-wrap:hover,
+      .progress-wrap.dragging {
+        height: 10px;
+      }
 
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #06b6d4, #38bdf8);
-      box-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
-      transition: width 0.1s linear;
-    }
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #06b6d4, #38bdf8);
+        box-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+        transition: width 0.1s linear;
+      }
 
-    .progress-handle {
-      position: absolute;
-      top: 50%;
-      left: 0%;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: #fff;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.4), 0 0 10px rgba(56, 189, 248, 0.9);
-      transform: translate(-50%, -50%);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.15s ease;
-      z-index: 3;
-    }
+      .progress-handle {
+        position: absolute;
+        top: 50%;
+        left: 0%;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.4), 0 0 10px rgba(56, 189, 248, 0.9);
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.15s ease;
+        z-index: 3;
+      }
 
-    .progress-wrap:hover .progress-handle,
-    .progress-wrap.dragging .progress-handle {
-      opacity: 1;
-    }
-  </style>
-</head>
+      .progress-wrap:hover .progress-handle,
+      .progress-wrap.dragging .progress-handle {
+        opacity: 1;
+      }
+    </style>
+  </head>
 
 <body>
   <div class="glow-bg"></div>
 
   <div class="box">
- 
+
     <div class="header">
       <img src="logo.png" alt="Mira">
       <h1 id="title" dir="auto"></h1>
     </div>
- 
+
     <div class="pin-wrap">
       <div class="pin-bg">📌</div>
     </div>
- 
+
     <div class="gif-wrap">
       <div class="gif-inner">
         <video id="guide-gif" muted loop playsinline></video>
@@ -563,11 +608,11 @@
     // 页面从"不可见"(被遮挡/最小化/切走)变回可见时,自动重试播放
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden && video.paused) {
-        hasPlayed = false;  
+        hasPlayed = false;
         attemptPlay();
       }
     });
- 
+
     window.addEventListener('resize', () => {
       if (video.paused) {
         hasPlayed = false;
@@ -598,7 +643,7 @@
       progressBar.style.width = pct + '%';
       progressHandle.style.left = pct + '%';
     }
- 
+
     video.addEventListener('timeupdate', () => {
       if (isDragging || !video.duration) return;
       setProgressUI(video.currentTime / video.duration);
@@ -613,23 +658,23 @@
       const x = e.clientX - rect.left;
       return Math.min(Math.max(x / rect.width, 0), 1);
     }
- 
+
     function startDrag(e) {
       if (!video.duration) return;
       isDragging = true;
 
       progressWrap.classList.add('dragging');
-      progressBar.style.transition = 'none';  
+      progressBar.style.transition = 'none';
 
       setProgressUI(ratioFromEvent(e));
       progressWrap.setPointerCapture(e.pointerId);
-      e.stopPropagation();  
+      e.stopPropagation();
     }
 
     function duringDrag(e) {
       if (!isDragging) return;
       const ratio = ratioFromEvent(e);
-      setProgressUI(ratio);  
+      setProgressUI(ratio);
 
       requestAnimationFrame(() => {
         if (isDragging) video.currentTime = ratio * video.duration;
@@ -643,13 +688,13 @@
       progressBar.style.transition = ''; // 恢复正常过渡
 
       const ratio = ratioFromEvent(e);
-      video.currentTime = ratio * video.duration; 
+      video.currentTime = ratio * video.duration;
     }
 
     progressWrap.addEventListener('pointerdown', startDrag);
     window.addEventListener('pointermove', duringDrag);
     window.addEventListener('pointerup', endDrag);
- 
+
     function togglePlay() {
       if (video.paused) {
         video.play();
@@ -663,7 +708,7 @@
       e.stopPropagation();
       togglePlay();
     });
- 
+
     video.addEventListener('pause', () => {
       playOverlay.style.display = 'flex';
     });

@@ -417,6 +417,10 @@
           <tr>
             <th class="select-head">选择</th>
             <th>时间</th>
+            <th>停留时间</th>
+            <th>设备类型</th>
+            <th>视口宽度</th>
+            <th>视口高度</th>
             <th>城市</th>
             <th>地区</th>
             <th>国家</th>
@@ -594,26 +598,22 @@
 
         tr.appendChild(createSelectCell('feedback', record));
 
-        // 提交时间
         tr.appendChild(cell(
           record.ts ? new Date(record.ts).toLocaleString() : ''
         ));
 
-        // 网页前台停留时间
         tr.appendChild(cell(
           record.dwell_seconds == null
             ? '—'
             : `${record.dwell_seconds} 秒`
         ));
 
-        // 设备类型
         tr.appendChild(cell(
           DEVICE_LABELS[record.device_type] ||
           record.device_type ||
           '—'
         ));
 
-        // 网页可视区域宽度和高度
         tr.appendChild(cell(
           record.viewport_width == null
             ? '—'
@@ -695,12 +695,42 @@
       renderCityStats(); tbody.replaceChildren();
       const start = welcomePage * PAGE_SIZE;
       const currentRows = welcomeRows.slice(start, start + PAGE_SIZE);
-      if (!currentRows.length) emptyRow(tbody, 12);
+      if (!currentRows.length) emptyRow(tbody, 16);
       currentRows.forEach(record => {
         const tr = document.createElement('tr');
         tr.appendChild(createSelectCell('welcome', record));
-        tr.appendChild(cell(record.ts ? new Date(record.ts).toLocaleString() : ''));
-        tr.appendChild(cell(record.city)); tr.appendChild(cell(record.region));
+
+        tr.appendChild(cell(
+          record.ts ? new Date(record.ts).toLocaleString() : ''
+        ));
+
+        tr.appendChild(cell(
+          record.dwell_seconds == null
+            ? '—'
+            : `${record.dwell_seconds} 秒`
+        ));
+
+        tr.appendChild(cell(
+          DEVICE_LABELS[record.device_type] ||
+          record.device_type ||
+          '—'
+        ));
+
+        tr.appendChild(cell(
+          record.viewport_width == null
+            ? '—'
+            : `${record.viewport_width} px`
+        ));
+
+        tr.appendChild(cell(
+          record.viewport_height == null
+            ? '—'
+            : `${record.viewport_height} px`
+        ));
+
+        tr.appendChild(cell(record.city));
+
+        tr.appendChild(cell(record.region));
         tr.appendChild(cell(countryName(record.country))); tr.appendChild(cell(record.timezone));
         tr.appendChild(cell(record.browser)); tr.appendChild(cell(record.os));
         tr.appendChild(cell(record.browser_lang)); tr.appendChild(cell(record.page_lang));
