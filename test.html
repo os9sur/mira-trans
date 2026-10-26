@@ -625,11 +625,6 @@
             ? '—'
             : `${record.viewport_height} px`
         ));
-        tr.appendChild(cell(
-          record.dwell_seconds == null
-            ? '—'
-            : `${record.dwell_seconds} 秒`
-        ));
 
         const reasonCell = document.createElement('td');
         (record.reasons || []).forEach(reason => {
