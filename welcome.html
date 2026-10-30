@@ -118,13 +118,19 @@
     <title>Mira Guide</title>
     <link rel="icon" href="favicon.ico">
     <style>
-      :root {
-        --bg-main: #0b0f19;
-        --card-bg: rgba(30, 41, 59, 0.45);
-        --card-border: rgba(255, 255, 255, 0.1);
-        --text-gradient: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
-        --glow-color: rgba(6, 182, 212, 0.45);
-      }
+:root { 
+    --bg-main: #1e1e1e;
+    --card-bg: rgba(37, 37, 38, 0.92);
+    --card-border: rgba(255, 255, 255, 0.12);
+ 
+    --text-gradient: linear-gradient(
+        135deg,
+        #ffffff 0%,
+        #c8c8c8 100%
+    );
+ 
+    --glow-color: rgba(235, 235, 235, 0.20);
+}
 
       * {
         box-sizing: border-box;
@@ -143,17 +149,24 @@
         overflow-x: hidden;
       }
 
-      .glow-bg {
-        position: absolute;
-        width: 600px;
-        height: 600px;
-        background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, transparent 70%);
-        z-index: 0;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        pointer-events: none;
-      }
+.glow-bg {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+
+    background: radial-gradient(
+        circle,
+        rgba(230, 230, 230, 0.09) 0%,
+        rgba(200, 200, 200, 0.035) 40%,
+        transparent 70%
+    );
+
+    z-index: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
 
       .box {
         position: relative;
