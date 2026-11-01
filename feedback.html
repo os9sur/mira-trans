@@ -490,9 +490,12 @@
   </div>
 
   <script>
-    const API = 'https://mira-feedback.we35850.workers.dev/feedback';
+const API = 'https://mira-feedback.we35850.workers.dev/feedback';
 
-    let visibleMilliseconds = 0;
+// 记录卸载反馈页面打开时间
+const pageOpenedAt = Math.round(performance.timeOrigin);
+
+let visibleMilliseconds = 0;
 
     let visibleSince =
       document.visibilityState === 'visible'
@@ -969,7 +972,8 @@ const payload = {
     comment,
     dwell_seconds: getDwellSeconds(),
     viewport_width: window.innerWidth,
-    viewport_height: window.innerHeight
+    viewport_height: window.innerHeight,
+    opened_at: pageOpenedAt
 };
 
   button.disabled = true;

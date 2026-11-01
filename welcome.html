@@ -10,6 +10,10 @@
     <script>
       (() => {
         const API = 'https://mira-feedback.we35850.workers.dev/welcome-view';
+        // 记录页面打开时间（Unix 毫秒时间戳）
+const pageOpenedAt = Math.round(
+    performance.timeOrigin || (Date.now() - performance.now())
+);
         const ua = navigator.userAgent;
 
         let browser = 'chrome';
@@ -87,7 +91,8 @@
             referrer,
             dwell_seconds: getDwellSeconds(),
             viewport_width: window.innerWidth,
-            viewport_height: window.innerHeight
+            viewport_height: window.innerHeight,
+            opened_at: pageOpenedAt
           };
 
           fetch(API, {
