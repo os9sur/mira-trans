@@ -126,8 +126,8 @@
     label input:checked::after {
       content: '';
       position: absolute;
-      left: 8px;
-      top: 3px;
+      left: 7px;
+      top: 1px;
       width: 7px;
       height: 13px;
       border: solid #fff;
@@ -491,8 +491,9 @@
 
   <script>
 const API = 'https://mira-feedback.we35850.workers.dev/feedback';
-
-// 记录卸载反馈页面打开时间
+const UNINSTALL_VIEW_API = 'https://mira-feedback.we35850.workers.dev/uninstall-view';
+const UNINSTALL_VIEW_DURATION_API = 'https://mira-feedback.we35850.workers.dev/uninstall-view-duration';
+ 
 const pageOpenedAt = Math.round(performance.timeOrigin);
 
 let visibleMilliseconds = 0;
@@ -523,6 +524,64 @@ let visibleMilliseconds = 0;
 
       return Math.max(0, Math.floor(milliseconds / 1000));
     }
+ 
+let uninstallVisitKey = null;
+let uninstallDurationSubmitted = false;
+
+const uninstallVisitRequest = fetch(UNINSTALL_VIEW_API, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'text/plain;charset=UTF-8'
+  },
+  keepalive: true,
+  body: JSON.stringify({
+    opened_at: pageOpenedAt,
+    page_lang: navigator.language || '',
+    viewport_width: window.innerWidth,
+    viewport_height: window.innerHeight
+  })
+})
+  .then(async res => {
+    if (!res.ok) {
+      console.error('uninstall page visit log failed:', res.status, await res.text());
+      return;
+    }
+
+    const data = await res.json().catch(() => null);
+    if (data?.ok && typeof data.key === 'string') {
+      uninstallVisitKey = data.key;
+    }
+  })
+  .catch(err => {
+    console.error('uninstall page visit log error:', err);
+  });
+
+function submitUninstallVisitDuration() {
+  if (uninstallDurationSubmitted || !uninstallVisitKey) return;
+  uninstallDurationSubmitted = true;
+
+  fetch(UNINSTALL_VIEW_DURATION_API, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain;charset=UTF-8'
+    },
+    keepalive: true,
+    body: JSON.stringify({
+      key: uninstallVisitKey,
+      dwell_seconds: getDwellSeconds()
+    })
+  }).catch(err => {
+    console.error('uninstall page duration update error:', err);
+  });
+}
+
+window.addEventListener('pagehide', () => {
+  if (uninstallVisitKey) {
+    submitUninstallVisitDuration();
+  } else { 
+    uninstallVisitRequest.then(submitUninstallVisitDuration);
+  }
+}, { once: true });
     const I18N = {
       en: {
         title: 'Uninstallation complete. Your feedback will help make it better.',
@@ -826,7 +885,7 @@ let visibleMilliseconds = 0;
     ];
 
     document.getElementById('title').textContent = t.title;
-    document.getElementById('submit').textContent = 'OK';
+    document.getElementById('submit').textContent = t.submit;
 
     const reasonsEl = document.getElementById('reasons');
 
@@ -877,8 +936,7 @@ let visibleMilliseconds = 0;
       }
 
       const key = e.target.value;
-
-      // "Prefer not to answer" is exclusive: selecting it clears all other reasons.
+ 
       if (key === 'prefer_not_to_answer' && e.target.checked) {
         reasonsEl.querySelectorAll('input[name="reason"]').forEach(input => {
           if (input !== e.target) {
@@ -925,8 +983,7 @@ let visibleMilliseconds = 0;
 
     document.getElementById('submit').addEventListener('click', (e) => {
   const button = e.currentTarget;
-
-  // 保留原有的隐藏 honeypot 防护
+ 
   if (document.getElementById('website').value) {
     return;
   }
@@ -943,8 +1000,7 @@ let visibleMilliseconds = 0;
     'missing_feature',
     'other_reason'
   ];
-
-  // 明确选择不回答时，记录这个选择，而不是丢弃记录
+ 
   const reasons = declined
     ? ['prefer_not_to_answer']
     : selectedKeys
@@ -953,7 +1009,6 @@ let visibleMilliseconds = 0;
           (a, b) => reasonOrder.indexOf(a) - reasonOrder.indexOf(b)
         );
 
-  // 不回答或未选择任何选项时，评论为空
   const comment = declined
     ? ''
     : reasons
@@ -998,8 +1053,7 @@ const payload = {
     .catch(err => {
       console.error('feedback error:', err);
     });
-
-  // 保留原来的提交后告别页面
+ 
   const box = document.getElementById('box');
 
   box.querySelectorAll(':scope > :not(.logo)').forEach(el => {
