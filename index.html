@@ -13,30 +13,36 @@
 
     <style>
         :root {
-            --bg-color: #090c10;
-            --text-main: #c9d1d9;
-            --text-bright: #ffffff;
-            --accent-blue: #58a6ff;
-            --accent-glow: rgba(88, 166, 255, 0.4);
-            --card-bg: rgba(22, 27, 34, 0.7);
-            --border-color: #30363d;
-            --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --bg-color: #1c1c1e;
+            --text-main: #d1d1d6;
+            --text-bright: #f5f5f7;
+            --accent-blue: #0a84ff;
+            --accent-glow: transparent;
+            --card-bg: #2c2c2e;
+            --border-color: #3a3a3c;
+            --transition-smooth: all 0.2s ease;
         }
 
         * {
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background-color: var(--bg-color);
+            background: var(--bg-color);
             color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+                "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
             line-height: 1.7;
             margin: 0;
             display: flex;
             justify-content: center;
-            padding: 60px 20px;
-            background-image: radial-gradient(circle at 50% 0%, rgba(88, 166, 255, 0.05) 0%, transparent 50%);
+            padding: 75px 24px 60px;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
         }
 
         .container {
@@ -44,197 +50,262 @@
             width: 100%;
         }
 
-        /* Hero Section */
         .hero {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 72px;
+        }
+
+        .logo-link {
+            display: inline-block;
         }
 
         .logo-link img.main-logo {
-            max-width: 100px;
-            margin-bottom: 20px;
-            border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 94px;
+            margin-bottom: 24px;
+            border-radius: 21px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
             transition: var(--transition-smooth);
         }
 
         .logo-link:hover img.main-logo {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px var(--accent-glow);
+            transform: scale(1.02);
         }
 
         h1 {
             color: var(--text-bright);
-            font-size: 2.5rem;
-            margin: 10px 0;
-            background: linear-gradient(to right, #fff, var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: clamp(2.4rem, 5vw, 3.2rem);
+            font-weight: 650;
+            letter-spacing: -0.045em;
+            line-height: 1.15;
+            margin: 10px 0 16px;
         }
 
         .sub-tagline {
-            color: #8b949e;
+            color: #a1a1a6;
             font-size: 1.15rem;
+            font-weight: 400;
+            letter-spacing: -0.015em;
             margin-bottom: 30px;
         }
 
-        /* Badges */
         .badges-container {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 10px;
+            margin-bottom: 28px;
             flex-wrap: wrap;
         }
 
         .badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(88, 166, 255, 0.1);
-            border: 1px solid rgba(88, 166, 255, 0.2);
-            padding: 6px 18px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            color: var(--accent-blue);
-            backdrop-filter: blur(4px);
+            gap: 7px;
+            background: #2c2c2e;
+            border: 1px solid #3a3a3c;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            color: #c7c7cc;
+            font-weight: 500;
         }
 
-        /* CTA Buttons */
+        .hero>p {
+            max-width: 650px;
+            margin: 0 auto;
+            color: #a1a1a6 !important;
+            font-size: 1rem;
+            line-height: 1.85;
+        }
+
         .cta-wrapper {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 40px;
+            margin-top: 34px;
         }
 
         .download-link {
-            padding: 12px 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 11px 25px;
             text-decoration: none;
+            font-size: 0.94rem;
             font-weight: 600;
-            color: var(--text-bright);
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            color: #1c1c1e;
+            background: #e5e5ea;
+            border: 1px solid #e5e5ea;
+            border-radius: 980px;
             transition: var(--transition-smooth);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .download-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: 0.5s;
-        }
-
-        .download-link:hover::before {
-            left: 100%;
         }
 
         .download-link:hover {
-            background: rgba(88, 166, 255, 0.15);
-            border-color: rgba(88, 166, 255, 0.5);
-            box-shadow: 0 0 20px var(--accent-glow);
-            transform: translateY(-3px);
+            background: #ffffff;
+            border-color: #ffffff;
+            transform: translateY(-1px);
         }
 
-        /* Features Grid */
+        h2 {
+            color: var(--text-bright);
+            font-size: 1.9rem;
+            font-weight: 650;
+            letter-spacing: -0.035em;
+        }
+
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 25px;
-            margin: 50px 0;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            margin: 40px 0;
         }
 
         .feature-card {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 14px;
             padding: 25px;
             transition: var(--transition-smooth);
-            backdrop-filter: blur(10px);
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(88, 166, 255, 0.4);
-            box-shadow: 0 10px 30px rgba(88, 166, 255, 0.1);
+            background: #303032;
+            border-color: #505054;
         }
 
         .feature-card h3 {
-            color: var(--accent-blue);
-            margin-top: 0;
-            font-size: 1.2rem;
+            color: var(--text-bright);
+            margin: 0 0 12px;
+            font-size: 1.12rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        /* Language Switcher */
+        .feature-card p {
+            color: #a1a1a6;
+            font-size: 0.94rem;
+            line-height: 1.8;
+            margin: 0;
+        }
+
         .lang-switcher {
             position: fixed;
             top: 20px;
-            right: 20px;
+            right: 24px;
             display: flex;
-            gap: 8px;
+            gap: 2px;
             z-index: 1000;
-            background: rgba(13, 17, 23, 0.8);
-            padding: 8px;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
+            background: #2c2c2e;
+            padding: 5px;
+            border-radius: 980px;
+            border: 1px solid #444446;
         }
 
         .lang-btn {
             background: transparent;
             border: none;
-            color: #8b949e;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+            color: #a1a1a6;
+            padding: 7px 12px;
+            border-radius: 980px;
+            font-size: 0.82rem;
             cursor: pointer;
             transition: var(--transition-smooth);
             font-weight: 500;
         }
 
-        .lang-btn:hover,
-        .lang-btn.active {
-            background: rgba(88, 166, 255, 0.15);
-            color: var(--accent-blue);
+        .lang-btn:hover {
+            color: var(--text-bright);
         }
 
-        /* Footer */
+        .lang-btn.active {
+            background: #48484a;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
         footer {
             text-align: center;
-            margin-top: 80px;
-            padding-top: 30px;
-            border-top: 1px solid var(--border-color);
-            color: #8b949e;
-            font-size: 0.9rem;
+            margin-top: 76px;
+            padding-top: 28px;
+            border-top: 1px solid #3a3a3c;
+            color: #86868b;
+            font-size: 0.85rem;
         }
 
         footer a {
-            color: var(--accent-blue);
+            color: #2997ff;
             text-decoration: none;
         }
 
         footer a:hover {
+            color: #64b5ff;
             text-decoration: underline;
         }
 
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--accent-blue);
+            outline-offset: 3px;
+        }
+
         @media (max-width: 768px) {
+            body {
+                padding: 85px 20px 40px;
+            }
+
+            .hero {
+                margin-bottom: 55px;
+            }
+
             h1 {
-                font-size: 2rem;
+                font-size: 2.35rem;
+            }
+
+            .sub-tagline {
+                font-size: 1.05rem;
+            }
+
+            h2 {
+                font-size: 1.65rem;
             }
 
             .features-grid {
                 grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .feature-card {
+                padding: 22px;
+            }
+
+            .lang-switcher {
+                top: 14px;
+                right: 14px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .lang-btn {
+                padding: 7px 9px;
+                font-size: 0.78rem;
+            }
+
+            .download-link {
+                padding: 10px 19px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
             }
         }
     </style>
@@ -262,9 +333,9 @@
                 reading.</div>
 
             <div class="badges-container">
-                <div class="badge" data-i18n="badge_size">📦 Ultra-lightweight</div>
-                <div class="badge" data-i18n="badge_privacy">🔒 Privacy First (Local API)</div>
-                <div class="badge" style="display:none;" data-i18n="badge_open">💻 100% Open Source</div>
+                <div class="badge" data-i18n="badge_size">Ultra-lightweight</div>
+                <div class="badge" data-i18n="badge_privacy">Privacy First (Local API)</div>
+                <div class="badge" style="display:none;" data-i18n="badge_open">100% Open Source</div>
             </div>
 
             <p style="max-width: 600px; margin: 0 auto; color: #8b949e;" data-i18n="hero_desc">
@@ -338,9 +409,9 @@
             'en': {
                 hero_title: 'Mira Translator',
                 hero_tagline: 'Ultra-lightweight AI Gateway — Vanilla JS for immersive reading.',
-                badge_size: '📦 Ultra-lightweight',
-                badge_privacy: '🔒 Privacy First (Local API)',
-                badge_open: '💻 100% Open Source',
+                badge_size: 'Ultra-lightweight',
+                badge_privacy: 'Privacy First (Local API)',
+                badge_open: '100% Open Source',
                 hero_desc: 'Designed around personal workflows. No bloat, no intermediary servers, just pure vanilla JavaScript connecting your browser directly to LLMs.',
                 features_title: 'Core Features & Architecture',
                 feat_engine_title: ' Multi-Engine Support',
@@ -359,9 +430,9 @@
             'zh-Hans': {
                 hero_title: 'Mira 翻译',
                 hero_tagline: '极致轻量的 AI 翻译网关 — 沉浸式阅读体验',
-                badge_size: '📦 极致轻量',
-                badge_privacy: '🔒 隐私至上 (本地密钥)',
-                badge_open: '💻 100% 开源',
+                badge_size: '极致轻量',
+                badge_privacy: '隐私至上 (本地密钥)',
+                badge_open: '100% 开源',
                 hero_desc: '无中转服务器，无追踪代码。使用原生 JavaScript 构建，将浏览器与大语言模型直接连接。',
                 features_title: '核心功能与技术架构',
                 feat_engine_title: ' 多引擎与本地大模型',
@@ -380,9 +451,9 @@
             'zh-Hant': {
                 hero_title: 'Mira 翻譯',
                 hero_tagline: '極致輕量的 AI 翻譯網關 — 沉浸式閱讀體驗',
-                badge_size: '📦 極致輕量',
-                badge_privacy: '🔒 隱私至上 (本地密鑰)',
-                badge_open: '💻 100% 開源',
+                badge_size: '極致輕量',
+                badge_privacy: '隱私至上 (本地密鑰)',
+                badge_open: '100% 開源',
                 hero_desc: '無中轉伺服器，無追蹤代碼。使用原生 JavaScript 構建，將瀏覽器與大型語言模型直接連接。',
                 features_title: '核心功能與技術架構',
                 feat_engine_title: ' 多引擎與本地大模型',
@@ -401,9 +472,9 @@
             'ja': {
                 hero_title: 'Mira Translator',
                 hero_tagline: '超軽量 AI ゲートウェイ — 没入型リーディング',
-                badge_size: '📦 超軽量',
-                badge_privacy: '🔒 プライバシー重視 (ローカル API)',
-                badge_open: '💻 100% オープンソース',
+                badge_size: '超軽量',
+                badge_privacy: 'プライバシー重視 (ローカル API)',
+                badge_open: '100% オープンソース',
                 hero_desc: '中間サーバーやトラッキングはありません。ネイティブ JavaScript で構築され、ブラウザと LLM を直接接続します。',
                 features_title: '主な機能とアーキテクチャ',
                 feat_engine_title: ' マルチエンジン対応',
