@@ -56,6 +56,41 @@
       .tab { flex:1; padding:10px 8px; }
       .bulk-bar .delete-btn { margin-left:0; }
     }
+
+    .browser-diagnostics {
+  min-width: 220px;
+  max-width: 460px;
+}
+
+.browser-source {
+  margin-bottom: 6px;
+  color: #475569;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.browser-diagnostics details {
+  font-size: 13px;
+}
+
+.browser-diagnostics summary {
+  color: #2563eb;
+  cursor: pointer;
+  user-select: none;
+}
+
+.browser-diagnostics pre {
+  max-width: 460px;
+  margin: 8px 0 0;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f1f5f9;
+  color: #334155;
+  font: 12px/1.6 ui-monospace, SFMono-Regular, Consolas, monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
   </style>
 </head>
 <body>
@@ -123,7 +158,12 @@
       <table>
         <thead><tr>
           <th class="select-head">选择</th><th>时间</th><th>停留时间</th><th>设备类型</th><th>视口宽度</th><th>视口高度</th>
-          <th>城市</th><th>地区</th><th>国家</th><th>ASN</th><th>网络组织</th><th>时区</th><th>浏览器</th><th>浏览器版本</th><th>系统</th><th>浏览器语言</th><th>操作</th>
+          <th>城市</th><th>地区</th><th>国家</th><th>ASN</th><th>网络组织</th><th>时区</th><th>浏览器</th>
+<th>浏览器版本</th>
+<th>系统</th>
+<th>浏览器语言</th>
+<th>浏览器诊断</th>
+<th>操作</th>
         </tr></thead>
         <tbody id="uninstall-rows"></tbody>
       </table>
@@ -141,7 +181,16 @@
       <table>
         <thead><tr>
           <th class="select-head">选择</th><th>时间</th><th>停留时间</th><th>设备类型</th><th>视口宽度</th><th>视口高度</th>
-          <th>原因</th><th>留言</th><th>语言</th><th>国家</th><th>城市</th><th>浏览器</th><th>浏览器版本</th><th>系统</th><th>操作</th>
+          <th>原因</th>
+<th>留言</th>
+<th>语言</th>
+<th>国家</th>
+<th>城市</th>
+<th>浏览器</th>
+<th>浏览器版本</th>
+<th>系统</th>
+<th>浏览器诊断</th>
+<th>操作</th>
         </tr></thead>
         <tbody id="feedback-rows"></tbody>
       </table>
@@ -161,10 +210,10 @@
     };
     const DEVICE_LABELS = { desktop: '桌面', mobile: '手机', tablet: '平板' };
     const CONFIG = {
-      welcome: { label: '欢迎页访问', listPath: '/admin/welcome-list', colSpan: 17 },
-      uninstall: { label: '卸载页访问', listPath: '/admin/uninstall-list', colSpan: 17 },
-      feedback: { label: '卸载反馈', listPath: '/admin/list', colSpan: 15 }
-    };
+  welcome: { label: '欢迎页访问', listPath: '/admin/welcome-list', colSpan: 17 },
+  uninstall: { label: '卸载页访问', listPath: '/admin/uninstall-list', colSpan: 18 },
+  feedback: { label: '卸载反馈', listPath: '/admin/list', colSpan: 16 }
+};
     const tokenEl = document.getElementById('token');
     const infoEl = document.getElementById('info');
     tokenEl.value = localStorage.getItem('adm') || '';
@@ -206,6 +255,55 @@
     function formatDevice(record) {
       return DEVICE_LABELS[record.device_type] || record.device_type || '—';
     }
+
+    function appendBrowserDiagnosticsCell(tr, record) {
+  const td = document.createElement('td');
+  td.className = 'browser-diagnostics';
+
+  const sourceLabels = {
+    ua_product: 'UA 专属标识',
+    client_hints: 'Client Hints',
+    ua_generic: '通用 UA（品牌未确认）',
+    unknown: '无法识别'
+  };
+
+  const sourceLabel =
+    sourceLabels[record.browser_source] ||
+    record.browser_source ||
+    '旧记录 / 未采集';
+
+  const source = document.createElement('div');
+  source.className = 'browser-source';
+  source.textContent = `识别依据：${sourceLabel}`;
+
+  const details = document.createElement('details');
+
+  const summary = document.createElement('summary');
+  summary.textContent = '查看原始浏览器信息';
+
+  const pre = document.createElement('pre');
+
+  const notAvailable = '未提供（可能是旧记录或浏览器未发送）';
+
+  pre.textContent = [
+    `识别依据：${sourceLabel}`,
+    '',
+    `User-Agent：${record.user_agent || notAvailable}`,
+    '',
+    `Client Hints 品牌：${record.client_hint_brands || notAvailable}`,
+    '',
+    `Sec-CH-UA：${record.sec_ch_ua || notAvailable}`,
+    '',
+    `Sec-CH-UA-Mobile：${record.sec_ch_ua_mobile || notAvailable}`,
+    '',
+    `Sec-CH-UA-Platform：${record.sec_ch_ua_platform || notAvailable}`
+  ].join('\n');
+
+  details.append(summary, pre);
+  td.append(source, details);
+
+  tr.appendChild(td);
+}
     function getRecordKey(record) {
       return record.kv_key == null ? '' : String(record.kv_key);
     }
@@ -373,6 +471,7 @@
           tr.appendChild(cell(record.browser_version));
           tr.appendChild(cell(record.os));
           tr.appendChild(cell(record.browser_lang));
+            appendBrowserDiagnosticsCell(tr, record);
         } else {
           appendReasonCell(tr, record);
           tr.appendChild(cell(record.comment, 'c'));
@@ -382,6 +481,7 @@
           tr.appendChild(cell(record.browser));
           tr.appendChild(cell(record.browser_version));
           tr.appendChild(cell(record.os));
+            appendBrowserDiagnosticsCell(tr, record);
         }
 
         const action = cell('');
