@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,206 +7,562 @@
 <meta name="theme-color" content="#1c1c1e">
 <title>Mira Guide</title>
 <link rel="icon" href="favicon.ico">
+
 <script>
 (() => {
   const API = 'https://mira-feedback.we35850.workers.dev/welcome-view';
-  const pageOpenedAt = Math.round(performance.timeOrigin || (Date.now() - performance.now()));
+  const pageOpenedAt = Math.round(
+    performance.timeOrigin || (Date.now() - performance.now())
+  );
+
   const ua = navigator.userAgent;
+
   let browser = 'chrome';
   if (/Firefox/i.test(ua)) browser = 'firefox';
   else if (/EdgA?\/|Edg\/|EdgiOS\//i.test(ua)) browser = 'edge';
+
   let os = 'Other';
   if (/Windows NT/i.test(ua)) os = 'Windows';
   else if (/Android/i.test(ua)) os = 'Android';
   else if (/iPhone|iPad|iPod/i.test(ua)) os = 'iOS';
   else if (/Macintosh|Mac OS X/i.test(ua)) os = 'macOS';
   else if (/Linux/i.test(ua)) os = 'Linux';
+
   const browserLang = navigator.language || 'en';
-  const languages = ['zh-CN','zh-TW','zh-HK','ja','ko','en','es','fr','de','ru','pt-BR','it','tr','vi','th','ar','fa'];
+
+  const languages = [
+    'zh-CN', 'zh-TW', 'zh-HK', 'ja', 'ko',
+    'en', 'es', 'fr', 'de', 'ru', 'pt-BR',
+    'it', 'tr', 'vi', 'th', 'ar', 'fa'
+  ];
+
   const baseLang = browserLang.split('-')[0].toLowerCase();
-  const pageLang = languages.find(key => key.toLowerCase() === browserLang.toLowerCase()) || languages.find(key => key.toLowerCase().startsWith(baseLang)) || 'en';
+
+  const pageLang =
+    languages.find(key => key.toLowerCase() === browserLang.toLowerCase()) ||
+    languages.find(key => key.toLowerCase().split('-')[0] === baseLang) ||
+    'en';
+
   let referrer = '';
-  try { if (document.referrer) referrer = new URL(document.referrer).hostname; } catch {}
+
+  try {
+    if (document.referrer) {
+      referrer = new URL(document.referrer).hostname;
+    }
+  } catch {}
+
   let visibleMilliseconds = 0;
-  let visibleSince = document.visibilityState === 'visible' ? performance.now() : null;
+
+  let visibleSince = document.visibilityState === 'visible'
+    ? performance.now()
+    : null;
+
   let submitted = false;
+
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
-      if (visibleSince === null) visibleSince = performance.now();
+      if (visibleSince === null) {
+        visibleSince = performance.now();
+      }
     } else if (visibleSince !== null) {
       visibleMilliseconds += performance.now() - visibleSince;
       visibleSince = null;
     }
   });
+
   function getDwellSeconds() {
     let milliseconds = visibleMilliseconds;
-    if (visibleSince !== null) milliseconds += performance.now() - visibleSince;
+
+    if (visibleSince !== null) {
+      milliseconds += performance.now() - visibleSince;
+    }
+
     return Math.max(0, Math.floor(milliseconds / 1000));
   }
+
   function submitVisit() {
     if (submitted) return;
     submitted = true;
-    const payload = { browser, os, browser_lang: browserLang, page_lang: pageLang, referrer, dwell_seconds: getDwellSeconds(), viewport_width: window.innerWidth, viewport_height: window.innerHeight, opened_at: pageOpenedAt };
-    fetch(API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=UTF-8' }, keepalive: true, body: JSON.stringify(payload) }).catch(() => {});
+
+    const payload = {
+      browser,
+      os,
+      browser_lang: browserLang,
+      page_lang: pageLang,
+      referrer,
+      dwell_seconds: getDwellSeconds(),
+      viewport_width: window.innerWidth,
+      viewport_height: window.innerHeight,
+      opened_at: pageOpenedAt
+    };
+
+    fetch(API, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=UTF-8'
+      },
+      keepalive: true,
+      body: JSON.stringify(payload)
+    }).catch(() => {});
   }
+
   window.addEventListener('pagehide', submitVisit, { once: true });
 })();
 </script>
+
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-H2MZR2NP56"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
-function gtag() { dataLayer.push(arguments); }
+
+function gtag() {
+  dataLayer.push(arguments);
+}
+
 gtag('js', new Date());
 gtag('config', 'G-H2MZR2NP56');
 </script>
+
 <style>
-:root{color-scheme:dark;--page:#1c1c1e;--panel:#242426;--card:#2c2c2e;--border:#414145;--text:#f5f5f7;--muted:#a1a1a6;--soft:#d1d1d6;--accent:#d6d6dc}
-*{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;min-height:100svh;padding:28px 20px;background:var(--page);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased;display:grid;place-items:center}
-.page{position:relative;width:min(100%,1120px);padding:42px 48px 32px;background:var(--panel);border:1px solid rgba(255,255,255,.09);border-radius:24px;box-shadow:0 18px 54px rgba(0,0,0,.28)}
-.header{display:flex;align-items:center;justify-content:center;gap:22px;margin-bottom:34px}
-.logo{width:68px;height:68px;flex:0 0 68px;object-fit:cover;border-radius:15px;border:1px solid rgba(255,255,255,.12);box-shadow:0 3px 12px rgba(0,0,0,.22)}
-.heading{min-width:0;text-align:left}
-h1{display:flex;align-items:center;gap:10px;color:var(--text);font-size:clamp(27px,3.8vw,38px);font-weight:650;line-height:1.22;letter-spacing:-.035em}
-.pin-mark{display:inline-block;font-size:.82em;line-height:1;filter:saturate(.75);flex:0 0 auto}
-.subtitle{margin-top:9px;color:var(--muted);font-size:17px;line-height:1.65}
-.guide-card{padding:30px;background:var(--card);border:1px solid var(--border);border-radius:18px}
-.card-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:24px}
-.browser-name{display:flex;align-items:center;gap:9px;font-size:19px;font-weight:600;color:var(--text)}
-.browser-dot{width:8px;height:8px;border-radius:50%;background:#b8b8bd;box-shadow:0 0 0 4px rgba(255,255,255,.055)}
-.step-label{font-size:13px;font-weight:650;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
-.guide-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.8fr);align-items:center;gap:32px}
-.screenshot-frame{min-height:340px;max-height:520px;width:100%;padding:14px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#19191b;border:1px solid rgba(255,255,255,.07);border-radius:13px}
-.pin-image{display:block;width:auto;height:auto;max-width:100%;max-height:480px;object-fit:contain;border-radius:7px}
-.image-fallback{width:100%;min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#85858b;text-align:center;font-size:13px;line-height:1.5}
-.image-fallback[hidden]{display:none}
-.fallback-icon{width:54px;height:54px;display:grid;place-items:center;border:1px solid #48484c;border-radius:14px;color:#c7c7cc;font-size:26px}
-.instruction{min-width:0;text-align:left}
-.instruction-heading{display:flex;align-items:center;gap:10px;margin-bottom:16px;color:var(--text);font-size:22px;font-weight:600}
-.step-number{display:none}
-.instruction-text{color:var(--soft);font-size:18px;line-height:1.8}
-.tip{display:none}
-.footer{margin-top:20px;text-align:center;color:#77777d;font-size:12px;line-height:1.6}
-html[dir="rtl"] .heading,html[dir="rtl"] .instruction{text-align:right}
-html[dir="rtl"] .instruction-heading{flex-direction:row-reverse}
-@media(max-width:680px){body{padding:16px 12px;place-items:start center}.page{padding:24px 18px 18px;border-radius:20px}.header{gap:13px;margin-bottom:22px}.logo{width:54px;height:54px;flex-basis:54px;border-radius:13px}.heading{text-align:center}h1{justify-content:center;font-size:clamp(21px,5.5vw,27px);white-space:normal}.subtitle{font-size:15px}.guide-card{padding:20px}.card-top{margin-bottom:14px}.guide-layout{grid-template-columns:1fr;gap:17px}.screenshot-frame{min-height:240px;max-height:440px;padding:12px}.pin-image{max-height:400px}.image-fallback{min-height:220px}.instruction{text-align:center}.instruction-heading{justify-content:center;font-size:20px}.tip{text-align:center;margin-top:13px;padding-top:12px}.footer{margin-top:16px}}
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+:root {
+  color-scheme: dark;
+
+  --page: #1c1c1e;
+  --panel: #242426;
+  --card: #2c2c2e;
+  --border: #414145;
+  --text: #f5f5f7;
+  --muted: #a1a1a6;
+  --soft: #d1d1d6;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: 28px 20px;
+
+  background: var(--page);
+  color: var(--text);
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
+  -webkit-font-smoothing: antialiased;
+
+  display: grid;
+  place-items: center;
+}
+
+.page {
+  width: min(100%, 960px);
+  padding: 42px 48px 30px;
+
+  background: var(--panel);
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 24px;
+
+  box-shadow: 0 18px 54px rgba(0,0,0,.28);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+
+  margin-bottom: 30px;
+}
+
+.logo {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+
+  object-fit: cover;
+  border-radius: 15px;
+
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 0 3px 12px rgba(0,0,0,.22);
+}
+
+.heading {
+  min-width: 0;
+  text-align: left;
+}
+
+h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: var(--text);
+  font-size: clamp(25px, 3.5vw, 35px);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -.035em;
+}
+
+.pin-mark {
+  display: inline-block;
+  flex: 0 0 auto;
+
+  font-size: .8em;
+  line-height: 1;
+  filter: saturate(.75);
+}
+
+.guide-card {
+  padding: 26px;
+
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+}
+
+.video-frame {
+  width: 100%;
+  overflow: hidden;
+
+  background: #111113;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 13px;
+
+  line-height: 0;
+}
+
+.guide-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+
+  background: #111113;
+  object-fit: contain;
+}
+
+.video-help {
+  margin-top: 16px;
+
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.video-help a {
+  color: var(--soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.video-help a:hover {
+  color: var(--text);
+}
+
+.footer {
+  margin-top: 22px;
+
+  color: #77777d;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+html[dir="rtl"] .heading {
+  text-align: right;
+}
+
+@media(max-width: 640px) {
+  body {
+    padding: 16px 12px;
+    place-items: start center;
+  }
+
+  .page {
+    padding: 24px 18px 20px;
+    border-radius: 20px;
+  }
+
+  .header {
+    gap: 13px;
+    margin-bottom: 22px;
+  }
+
+  .logo {
+    width: 52px;
+    height: 52px;
+    flex-basis: 52px;
+    border-radius: 13px;
+  }
+
+  h1 {
+    font-size: clamp(21px, 5.5vw, 27px);
+  }
+
+  .guide-card {
+    padding: 17px;
+  }
+
+  .video-help {
+    margin-top: 13px;
+    font-size: 12px;
+  }
+
+  .footer {
+    margin-top: 17px;
+  }
+}
+
+@media(prefers-reduced-motion:reduce) {
+  * {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <main class="page">
+
   <header class="header">
     <img class="logo" src="logo.png" alt="Mira">
+
     <div class="heading">
-      <h1 id="title" dir="auto">Last step: Pin Mira to your toolbar <span class="pin-mark" aria-hidden="true">📌</span></h1>
-      <p class="subtitle" id="subtitle" dir="auto">Keep Mira within easy reach by pinning it to your browser toolbar.</p>
+      <h1 id="title" dir="auto">
+        Last step: Pin Mira to your toolbar
+        <span class="pin-mark" aria-hidden="true">📌</span>
+      </h1>
     </div>
   </header>
-  <section class="guide-card" aria-labelledby="browser-name">
-    <div class="card-top">
-      <div class="browser-name" id="browser-name"><span class="browser-dot" aria-hidden="true"></span><span id="browser-label">Chrome</span></div>
-      <div class="step-label" id="step-label">ONE QUICK STEP</div>
+
+  <section class="guide-card">
+
+    <div class="video-frame">
+      <video
+        class="guide-video"
+        id="guide-video"
+        controls
+        playsinline
+        preload="metadata"
+        aria-label="Mira installation guide"
+      >
+        <source src="guide.mp4" type="video/mp4">
+      </video>
     </div>
-    <div class="guide-layout">
-      <div class="screenshot-frame">
-        <img class="pin-image" id="pin-image" src="pin-chrome.png" alt="Screenshot showing how to pin Mira in Chrome" fetchpriority="high">
-        <div class="image-fallback" id="image-fallback" hidden>
-          <div class="fallback-icon" aria-hidden="true">⌖</div>
-          <span id="fallback-text">The browser screenshot is not available.</span>
-        </div>
-      </div>
-      <div class="instruction">
-        <div class="instruction-heading"><span id="instruction-heading">Pin Mira</span></div>
-        <p class="instruction-text" id="instruction-text">Open the Extensions menu, then click the pin icon next to Mira.</p>
-      </div>
-    </div>
+
+    <p class="video-help">
+      <span id="help-text">Having trouble playing the video?</span>
+      <a
+        id="video-link"
+        href="guide.mp4"
+        target="_blank"
+        rel="noopener"
+      >Open video</a>
+    </p>
+
   </section>
-  <footer class="footer" id="footer">Mira Translator</footer>
+
+  <footer class="footer">
+    Mira Translator
+  </footer>
+
 </main>
+
 <script>
-const language = navigator.language || 'en';
-const ua = navigator.userAgent;
-let browser = 'chrome';
-if (/Firefox/i.test(ua)) browser = 'firefox';
-else if (/EdgA?\/|Edg\/|EdgiOS\//i.test(ua)) browser = 'edge';
-const browserNames = { chrome: 'Chrome', edge: 'Microsoft Edge', firefox: 'Firefox' };
-const imageFiles = { chrome: 'pin-chrome.png', edge: 'pin-edge.png', firefox: 'pin-firefox.png' };
 const i18n = {
+
   'zh-CN': {
-    font: "'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif", pageTitle: 'Mira 入门指南', title: '最后一步：将 Mira 固定到工具栏', subtitle: '将 Mira 固定到工具栏，之后就能随时快速打开。', step: '只需一步', heading: '固定 Mira', instruction: { chrome: '打开扩展程序菜单，然后点击 Mira 旁边的图钉图标。', edge: '打开扩展菜单，然后选择 Mira 旁边的“在工具栏中显示”。', firefox: '打开扩展菜单，然后选择 Mira 的“固定到工具栏”。' }, tip: '完成后，Mira 图标就会显示在浏览器工具栏中，方便随时访问。', alt: '如何在 {browser} 中固定 Mira 的操作截图', fallback: '暂时无法加载操作截图。'
+    font: "'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif",
+    pageTitle: 'Mira 入门指南',
+    title: '最后一步：将 Mira 固定到工具栏',
+    help: '无法播放视频？',
+    open: '直接打开视频'
   },
+
   'zh-TW': {
-    font: "'PingFang TC','Microsoft JhengHei','Noto Sans TC',sans-serif", pageTitle: 'Mira 入門指南', title: '最後一步：將 Mira 釘選到工具列', subtitle: '將 Mira 釘選到工具列，之後就能隨時快速開啟。', step: '只需一步', heading: '釘選 Mira', instruction: { chrome: '開啟擴充功能選單，然後點擊 Mira 旁邊的圖釘圖示。', edge: '開啟擴充功能選單，然後選擇 Mira 旁邊的「在工具列中顯示」。', firefox: '開啟擴充功能選單，然後選擇 Mira 的「釘選到工具列」。' }, tip: '完成後，Mira 圖示就會顯示在瀏覽器工具列中，方便隨時使用。', alt: '如何在 {browser} 中釘選 Mira 的操作截圖', fallback: '暫時無法載入操作截圖。'
+    font: "'PingFang TC','Microsoft JhengHei','Noto Sans TC',sans-serif",
+    pageTitle: 'Mira 入門指南',
+    title: '最後一步：將 Mira 釘選到工具列',
+    help: '無法播放影片？',
+    open: '直接開啟影片'
   },
+
   'zh-HK': {
-    font: "'PingFang HK','PingFang TC','Microsoft JhengHei',sans-serif", pageTitle: 'Mira 使用指南', title: '最後一步：將 Mira 固定到工具列', subtitle: '將 Mira 固定到工具列，之後即可隨時快速開啟。', step: '只需一步', heading: '固定 Mira', instruction: { chrome: '開啟擴充功能選單，然後按一下 Mira 旁邊的圖釘圖示。', edge: '開啟擴充功能選單，然後選擇 Mira 旁邊的「在工具列中顯示」。', firefox: '開啟擴充功能選單，然後選擇 Mira 的「固定到工具列」。' }, tip: '完成後，Mira 圖示便會顯示在瀏覽器工具列，方便隨時使用。', alt: '如何在 {browser} 中固定 Mira 的操作截圖', fallback: '暫時無法載入操作截圖。'
+    font: "'PingFang HK','PingFang TC','Microsoft JhengHei',sans-serif",
+    pageTitle: 'Mira 使用指南',
+    title: '最後一步：將 Mira 固定到工具列',
+    help: '無法播放影片？',
+    open: '直接開啟影片'
   },
+
   'ja': {
-    font: "'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif", pageTitle: 'Mira ガイド', title: '最後のステップ：Mira をツールバーに固定', subtitle: 'Mira をツールバーに固定すると、いつでもすぐに開けます。', step: '簡単 1 ステップ', heading: 'Mira を固定する', instruction: { chrome: '拡張機能メニューを開き、Mira の横にあるピンアイコンをクリックします。', edge: '拡張機能メニューを開き、Mira の横にある「ツールバーに表示」を選択します。', firefox: '拡張機能メニューを開き、Mira の「ツールバーにピン留め」を選択します。' }, tip: '固定すると、ブラウザーのツールバーに Mira が表示され、いつでも簡単にアクセスできます。', alt: '{browser} で Mira をツールバーに固定する手順のスクリーンショット', fallback: '操作画面のスクリーンショットを読み込めませんでした。'
+    font: "'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif",
+    pageTitle: 'Mira ガイド',
+    title: '最後のステップ：Mira をツールバーに固定',
+    help: '動画を再生できませんか？',
+    open: '動画を直接開く'
   },
+
   'ko': {
-    font: "'Apple SD Gothic Neo','Malgun Gothic',sans-serif", pageTitle: 'Mira 시작 가이드', title: '마지막 단계: Mira를 툴바에 고정하세요', subtitle: 'Mira를 툴바에 고정하면 언제든지 빠르게 열 수 있습니다.', step: '간단한 한 단계', heading: 'Mira 고정하기', instruction: { chrome: '확장 프로그램 메뉴를 열고 Mira 옆의 핀 아이콘을 클릭하세요.', edge: '확장 메뉴를 열고 Mira 옆의 ‘도구 모음에 표시’를 선택하세요.', firefox: '확장 기능 메뉴를 열고 Mira의 ‘도구 모음에 고정’을 선택하세요.' }, tip: '고정하면 브라우저 툴바에 Mira 아이콘이 표시되어 언제든지 쉽게 사용할 수 있습니다.', alt: '{browser}에서 Mira를 툴바에 고정하는 방법을 보여 주는 스크린샷', fallback: '안내 스크린샷을 불러올 수 없습니다.'
+    font: "'Apple SD Gothic Neo','Malgun Gothic',sans-serif",
+    pageTitle: 'Mira 시작 가이드',
+    title: '마지막 단계: Mira를 툴바에 고정하세요',
+    help: '동영상이 재생되지 않나요?',
+    open: '동영상 직접 열기'
   },
+
   'en': {
-    font: "system-ui,-apple-system,sans-serif", pageTitle: 'Mira Guide', title: 'Last step: Pin Mira to your toolbar', subtitle: 'Keep Mira within easy reach by pinning it to your browser toolbar.', step: 'ONE QUICK STEP', heading: 'Pin Mira', instruction: { chrome: 'Open the Extensions menu, then click the pin icon next to Mira.', edge: 'Open Extensions, then select Show in toolbar next to Mira.', firefox: 'Open the Extensions menu, then choose Pin to Toolbar for Mira.' }, tip: 'Once pinned, Mira will stay visible in your browser toolbar for quick access.', alt: 'Screenshot showing how to pin Mira in {browser}', fallback: 'The browser screenshot is not available.'
+    font: "system-ui,-apple-system,sans-serif",
+    pageTitle: 'Mira Guide',
+    title: 'Last step: Pin Mira to your toolbar',
+    help: 'Having trouble playing the video?',
+    open: 'Open video'
   },
+
   'es': {
-    font: "system-ui,-apple-system,sans-serif", pageTitle: 'Guía de Mira', title: 'Último paso: fija Mira en la barra de herramientas', subtitle: 'Fija Mira en la barra del navegador para tenerla siempre a mano.', step: 'UN SOLO PASO', heading: 'Fijar Mira', instruction: { chrome: 'Abre el menú de extensiones y haz clic en el icono de chincheta junto a Mira.', edge: 'Abre Extensiones y selecciona «Mostrar en la barra de herramientas» junto a Mira.', firefox: 'Abre el menú de extensiones y selecciona «Fijar en la barra de herramientas» para Mira.' }, tip: 'Una vez fijada, Mira permanecerá visible en la barra de herramientas para que puedas acceder rápidamente.', alt: 'Captura de pantalla que muestra cómo fijar Mira en {browser}', fallback: 'No se ha podido cargar la captura de pantalla.'
+    font: "system-ui,-apple-system,sans-serif",
+    pageTitle: 'Guía de Mira',
+    title: 'Último paso: fija Mira en la barra de herramientas',
+    help: '¿No puedes reproducir el vídeo?',
+    open: 'Abrir vídeo'
   },
+
   'fr': {
-    font: "system-ui,-apple-system,sans-serif", pageTitle: 'Guide Mira', title: 'Dernière étape : épinglez Mira à la barre d’outils', subtitle: 'Épinglez Mira à la barre du navigateur pour y accéder facilement.', step: 'UNE SEULE ÉTAPE', heading: 'Épingler Mira', instruction: { chrome: 'Ouvrez le menu des extensions, puis cliquez sur l’icône en forme d’épingle à côté de Mira.', edge: 'Ouvrez Extensions, puis sélectionnez « Afficher dans la barre d’outils » à côté de Mira.', firefox: 'Ouvrez le menu des extensions, puis choisissez « Épingler à la barre d’outils » pour Mira.' }, tip: 'Une fois épinglée, l’icône Mira restera visible dans la barre d’outils pour un accès rapide.', alt: 'Capture d’écran montrant comment épingler Mira dans {browser}', fallback: 'Impossible de charger la capture d’écran.'
+    font: "system-ui,-apple-system,sans-serif",
+    pageTitle: 'Guide Mira',
+    title: 'Dernière étape : épinglez Mira à la barre d’outils',
+    help: 'La vidéo ne fonctionne pas ?',
+    open: 'Ouvrir la vidéo'
   },
+
   'de': {
-    font: "system-ui,-apple-system,sans-serif", pageTitle: 'Mira Anleitung', title: 'Letzter Schritt: Mira an die Symbolleiste anheften', subtitle: 'Heften Sie Mira an die Symbolleiste an, damit Sie die Erweiterung jederzeit schnell öffnen können.', step: 'NUR EIN SCHRITT', heading: 'Mira anheften', instruction: { chrome: 'Öffnen Sie das Erweiterungsmenü und klicken Sie neben Mira auf das Stecknadelsymbol.', edge: 'Öffnen Sie „Erweiterungen“ und wählen Sie neben Mira „In Symbolleiste anzeigen“ aus.', firefox: 'Öffnen Sie das Erweiterungsmenü und wählen Sie für Mira „An Symbolleiste anheften“.' }, tip: 'Nach dem Anheften bleibt Mira in der Symbolleiste sichtbar und ist jederzeit schnell erreichbar.', alt: 'Screenshot mit einer Anleitung zum Anheften von Mira in {browser}', fallback: 'Der Screenshot ist nicht verfügbar.'
+    font: "system-ui,-apple-system,sans-serif",
+    pageTitle: 'Mira Anleitung',
+    title: 'Letzter Schritt: Mira an die Symbolleiste anheften',
+    help: 'Kann das Video nicht abgespielt werden?',
+    open: 'Video öffnen'
   },
+
   'ru': {
-    font: "system-ui,-apple-system,sans-serif", pageTitle: 'Руководство Mira', title: 'Последний шаг: закрепите Mira на панели инструментов', subtitle: 'Закрепите Mira на панели браузера, чтобы быстро открывать расширение в любой момент.', step: 'ВСЕГО ОДИН ШАГ', heading: 'Закрепить Mira', instruction: { chrome: 'Откройте меню расширений и нажмите значок булавки рядом с Mira.', edge: 'Откройте меню «Расширения» и выберите рядом с Mira пункт «Показывать на панели инструментов».', firefox: 'Откройте меню расширений и выберите для Mira пункт «Закрепить на панели инструментов».' }, tip: 'После закрепления значок Mira будет отображаться на панели инструментов браузера, и расширение всегда будет под рукой.', alt: 'Снимок экрана с инструкцией по закреплению Mira в {browser}', fallback: 'Не удалось загрузить снимок экрана.'
+    font: "system-ui,-apple-system,sans-serif",
+    pageTitle: 'Руководство Mira',
+    title: 'Последний шаг: закрепите Mira на панели инструментов',
+    help: 'Не удаётся воспроизвести видео?',
+    open: 'Открыть видео'
   },
+
   'pt-BR': {
-    font: "system-ui,-apple-system,sans-serif", pageTitle: 'Guia do Mira', title: 'Último passo: fixe o Mira na barra de ferramentas', subtitle: 'Fixe o Mira na barra do navegador para acessá-lo rapidamente sempre que precisar.', step: 'APENAS UM PASSO', heading: 'Fixar o Mira', instruction: { chrome: 'Abra o menu de extensões e clique no ícone de alfinete ao lado do Mira.', edge: 'Abra Extensões e selecione «Mostrar na barra de ferramentas» ao lado do Mira.', firefox: 'Abra o menu de extensões e escolha «Fixar na barra de ferramentas» para o Mira.' }, tip: 'Depois de fixado, o Mira ficará visível na barra de ferramentas do navegador para acesso rápido.', alt: 'Captura de tela mostrando como fixar o Mira no {browser}', fallback: 'Não foi possível carregar a captura de tela.'
+    font: "system-ui,-apple-system,sans-serif",
+    pageTitle: 'Guia do Mira',
+    title: 'Último passo: fixe o Mira na barra de ferramentas',
+    help: 'Não consegue reproduzir o vídeo?',
+    open: 'Abrir vídeo'
   },
+
   'it': {
-    font: "system-ui,-apple-system,sans-serif", pageTitle: 'Guida Mira', title: 'Ultimo passaggio: aggiungi Mira alla barra degli strumenti', subtitle: 'Aggiungi Mira alla barra del browser per aprirlo rapidamente quando ti serve.', step: 'UN SOLO PASSAGGIO', heading: 'Aggiungi Mira', instruction: { chrome: 'Apri il menu delle estensioni e fai clic sull’icona della puntina accanto a Mira.', edge: 'Apri Estensioni e seleziona «Mostra nella barra degli strumenti» accanto a Mira.', firefox: 'Apri il menu delle estensioni e scegli «Aggiungi alla barra degli strumenti» per Mira.' }, tip: 'Una volta aggiunto, Mira resterà visibile nella barra degli strumenti del browser, sempre a portata di mano.', alt: 'Screenshot che mostra come aggiungere Mira alla barra degli strumenti di {browser}', fallback: 'Impossibile caricare lo screenshot.'
+    font: "system-ui,-apple-system,sans-serif",
+    pageTitle: 'Guida Mira',
+    title: 'Ultimo passaggio: aggiungi Mira alla barra degli strumenti',
+    help: 'Il video non viene riprodotto?',
+    open: 'Apri il video'
   },
+
   'tr': {
-    font: "system-ui,-apple-system,sans-serif", pageTitle: 'Mira Rehberi', title: 'Son adım: Mira’yı araç çubuğuna sabitleyin', subtitle: 'Mira’yı tarayıcı araç çubuğuna sabitleyerek istediğiniz zaman kolayca açın.', step: 'TEK BİR ADIM', heading: 'Mira’yı sabitleyin', instruction: { chrome: 'Uzantılar menüsünü açın ve Mira’nın yanındaki raptiye simgesine tıklayın.', edge: 'Uzantılar menüsünü açın ve Mira’nın yanındaki “Araç çubuğunda göster” seçeneğini belirleyin.', firefox: 'Uzantılar menüsünü açın ve Mira için “Araç Çubuğuna Sabitle” seçeneğini belirleyin.' }, tip: 'Sabitledikten sonra Mira, hızlı erişim için tarayıcınızın araç çubuğunda görünür.', alt: '{browser} üzerinde Mira’nın nasıl sabitleneceğini gösteren ekran görüntüsü', fallback: 'Ekran görüntüsü yüklenemedi.'
+    font: "system-ui,-apple-system,sans-serif",
+    pageTitle: 'Mira Rehberi',
+    title: 'Son adım: Mira’yı araç çubuğuna sabitleyin',
+    help: 'Video oynatılamıyor mu?',
+    open: 'Videoyu aç'
   },
+
   'vi': {
-    font: "system-ui,-apple-system,sans-serif", pageTitle: 'Hướng dẫn Mira', title: 'Bước cuối: ghim Mira vào thanh công cụ', subtitle: 'Ghim Mira vào thanh công cụ của trình duyệt để mở nhanh bất cứ khi nào bạn cần.', step: 'CHỈ MỘT BƯỚC', heading: 'Ghim Mira', instruction: { chrome: 'Mở menu Tiện ích mở rộng, sau đó nhấp vào biểu tượng ghim bên cạnh Mira.', edge: 'Mở menu Tiện ích, sau đó chọn Hiển thị trên thanh công cụ bên cạnh Mira.', firefox: 'Mở menu Tiện ích mở rộng, sau đó chọn Ghim lên thanh công cụ cho Mira.' }, tip: 'Sau khi ghim, biểu tượng Mira sẽ luôn hiển thị trên thanh công cụ để bạn truy cập nhanh.', alt: 'Ảnh chụp màn hình hướng dẫn ghim Mira trên {browser}', fallback: 'Không thể tải ảnh hướng dẫn.'
+    font: "system-ui,-apple-system,sans-serif",
+    pageTitle: 'Hướng dẫn Mira',
+    title: 'Bước cuối: ghim Mira vào thanh công cụ',
+    help: 'Không phát được video?',
+    open: 'Mở video'
   },
+
   'th': {
-    font: "system-ui,-apple-system,sans-serif", pageTitle: 'คู่มือ Mira', title: 'ขั้นตอนสุดท้าย: ปักหมุด Mira ไว้ที่แถบเครื่องมือ', subtitle: 'ปักหมุด Mira ไว้ที่แถบเครื่องมือของเบราว์เซอร์ เพื่อเปิดใช้งานได้อย่างรวดเร็วทุกเมื่อ', step: 'เพียงขั้นตอนเดียว', heading: 'ปักหมุด Mira', instruction: { chrome: 'เปิดเมนูส่วนขยาย แล้วคลิกไอคอนหมุดที่อยู่ข้าง Mira', edge: 'เปิดเมนูส่วนขยาย แล้วเลือกแสดงบนแถบเครื่องมือที่อยู่ข้าง Mira', firefox: 'เปิดเมนูส่วนขยาย แล้วเลือกปักหมุดบนแถบเครื่องมือสำหรับ Mira' }, tip: 'เมื่อปักหมุดแล้ว ไอคอน Mira จะแสดงอยู่บนแถบเครื่องมือของเบราว์เซอร์เพื่อให้เปิดใช้งานได้อย่างรวดเร็ว', alt: 'ภาพหน้าจอแสดงวิธีปักหมุด Mira ใน {browser}', fallback: 'ไม่สามารถโหลดภาพหน้าจอได้'
+    font: "system-ui,-apple-system,sans-serif",
+    pageTitle: 'คู่มือ Mira',
+    title: 'ขั้นตอนสุดท้าย: ปักหมุด Mira ไว้ที่แถบเครื่องมือ',
+    help: 'ไม่สามารถเล่นวิดีโอได้?',
+    open: 'เปิดวิดีโอ'
   },
+
   'ar': {
-    font: "system-ui,-apple-system,sans-serif", pageTitle: 'دليل Mira', title: 'الخطوة الأخيرة: ثبّت Mira في شريط الأدوات', subtitle: 'ثبّت Mira في شريط أدوات المتصفح لتتمكن من فتحه بسرعة متى احتجت إليه.', step: 'خطوة واحدة فقط', heading: 'تثبيت Mira', instruction: { chrome: 'افتح قائمة الإضافات، ثم انقر رمز التثبيت بجانب Mira.', edge: 'افتح قائمة الإضافات، ثم اختر «إظهار في شريط الأدوات» بجانب Mira.', firefox: 'افتح قائمة الإضافات، ثم اختر «تثبيت في شريط الأدوات» لـ Mira.' }, tip: 'بعد التثبيت، سيظل رمز Mira ظاهرًا في شريط أدوات المتصفح لتسهيل الوصول إليه.', alt: 'لقطة شاشة توضّح كيفية تثبيت Mira في {browser}', fallback: 'تعذّر تحميل لقطة الشاشة.'
+    font: "system-ui,-apple-system,sans-serif",
+    pageTitle: 'دليل Mira',
+    title: 'الخطوة الأخيرة: ثبّت Mira في شريط الأدوات',
+    help: 'هل تواجه مشكلة في تشغيل الفيديو؟',
+    open: 'فتح الفيديو'
   },
+
   'fa': {
-    font: "system-ui,-apple-system,sans-serif", pageTitle: 'راهنمای Mira', title: 'مرحله آخر: Mira را به نوار ابزار سنجاق کنید', subtitle: 'Mira را به نوار ابزار مرورگر سنجاق کنید تا هر زمان خواستید سریع به آن دسترسی داشته باشید.', step: 'فقط یک مرحله', heading: 'سنجاق کردن Mira', instruction: { chrome: 'منوی افزونه‌ها را باز کنید و روی نماد سنجاق کنار Mira کلیک کنید.', edge: 'منوی افزونه‌ها را باز کنید و گزینه «نمایش در نوار ابزار» را کنار Mira انتخاب کنید.', firefox: 'منوی افزونه‌ها را باز کنید و گزینه «سنجاق به نوار ابزار» را برای Mira انتخاب کنید.' }, tip: 'پس از سنجاق کردن، نماد Mira برای دسترسی سریع در نوار ابزار مرورگر نمایش داده می‌شود.', alt: 'تصویر راهنمای سنجاق کردن Mira در {browser}', fallback: 'بارگیری تصویر راهنما ممکن نشد.'
+    font: "system-ui,-apple-system,sans-serif",
+    pageTitle: 'راهنمای Mira',
+    title: 'مرحله آخر: Mira را به نوار ابزار سنجاق کنید',
+    help: 'در پخش ویدیو مشکلی دارید؟',
+    open: 'باز کردن ویدیو'
   }
+
 };
-const exactLanguage = Object.keys(i18n).find(key => key.toLowerCase() === language.toLowerCase());
+
+const language = navigator.language || 'en';
+
+const exactLanguage = Object.keys(i18n).find(
+  key => key.toLowerCase() === language.toLowerCase()
+);
+
 const languagePrefix = language.split('-')[0].toLowerCase();
-const matchedLanguage = exactLanguage || Object.keys(i18n).find(key => key.toLowerCase().split('-')[0] === languagePrefix) || 'en';
+
+const matchedLanguage = exactLanguage ||
+  Object.keys(i18n).find(
+    key => key.toLowerCase().split('-')[0] === languagePrefix
+  ) ||
+  'en';
+
 const strings = i18n[matchedLanguage];
-const browserName = browserNames[browser];
+
 document.documentElement.lang = matchedLanguage;
-document.documentElement.dir = browserName && (matchedLanguage === 'ar' || matchedLanguage === 'fa') ? 'rtl' : 'ltr';
+
+document.documentElement.dir =
+  matchedLanguage === 'ar' || matchedLanguage === 'fa'
+    ? 'rtl'
+    : 'ltr';
+
 document.body.style.fontFamily = strings.font;
+
 document.title = strings.pageTitle;
-document.getElementById('title').firstChild.textContent = strings.title + ' '; 
-document.getElementById('subtitle').textContent = strings.subtitle;
-document.getElementById('browser-label').textContent = browserName;
-document.getElementById('step-label').textContent = strings.step;
-document.getElementById('instruction-heading').textContent = strings.heading;
-document.getElementById('instruction-text').textContent = strings.instruction[browser];
-const pinImage = document.getElementById('pin-image');
-pinImage.alt = strings.alt.replace('{browser}', browserName);
-pinImage.addEventListener('error', () => {
-  pinImage.hidden = true;
-  document.getElementById('fallback-text').textContent = strings.fallback;
-  document.getElementById('image-fallback').hidden = false;
-}, { once: true });
-pinImage.src = imageFiles[browser];
+
+document.getElementById('title').firstChild.textContent =
+  strings.title + ' ';
+
+document.getElementById('help-text').textContent =
+  strings.help;
+
+document.getElementById('video-link').textContent =
+  strings.open;
+
+document.getElementById('guide-video').setAttribute(
+  'aria-label',
+  strings.title
+);
 </script>
+
 </body>
 </html>
